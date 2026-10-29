@@ -1,0 +1,12 @@
+=== UA: [StardewWikiPT-Android/1.0 (app de leitura pessoal)]
+200
+{"parse":{"title":"Aldeões","pageid":152,"sections":[{"toclevel":1,"level":"2","line":"Candidatos de casamento","number":"1","index":"1","fromtitle":"Aldeões","byteoffset":580,"anchor":"Candidatos_de_casamento","linkAnchor":"Candidatos_de_casamento"},{"toclevel":2,"level":"3","line":"Homens","numb
+=== UA: [Dalvik/2.1.0 (Linux; U; Android 14; Pixel 7 Build/UP1A)]
+200
+{"parse":{"title":"Aldeões","pageid":152,"sections":[{"toclevel":1,"level":"2","line":"Candidatos de casamento","number":"1","index":"1","fromtitle":"Aldeões","byteoffset":580,"anchor":"Candidatos_de_casamento","linkAnchor":"Candidatos_de_casamento"},{"toclevel":2,"level":"3","line":"Homens","numb
+=== UA: [Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36]
+200
+{"parse":{"title":"Aldeões","pageid":152,"sections":[{"toclevel":1,"level":"2","line":"Candidatos de casamento","number":"1","index":"1","fromtitle":"Aldeões","byteoffset":580,"anchor":"Candidatos_de_casamento","linkAnchor":"Candidatos_de_casamento"},{"toclevel":2,"level":"3","line":"Homens","numb
+=== UA: []
+200
+{"parse":{"title":"Aldeões","pageid":152,"sections":[{"toclevel":1,"level":"2","line":"Candidatos de casamento","number":"1","index":"1","fromtitle":"Aldeões","byteoffset":580,"anchor":"Candidatos_de_casamento","linkAnchor":"Candidatos_de_casamento"},{"toclevel":2,"level":"3","line":"Homens","numb
