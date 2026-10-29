@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger
  * anti-robô da wiki que às vezes bloqueia conexões diretas do app.
  */
 object WebBridge {
-    private const val HOME = "${WikiApi.BASE}/mediawiki/api.php?action=query&meta=siteinfo&format=json"
+    private val HOME: String get() = "${WikiApi.BASE}/mediawiki/api.php?action=query&meta=siteinfo&format=json"
 
     private val main = Handler(Looper.getMainLooper())
     private var web: WebView? = null
@@ -31,8 +31,7 @@ object WebBridge {
     private lateinit var app: Context
 
     fun init(ctx: Context) {
-        app = ctx.applicationContext
-        main.post { ensure() }
+        app = ctx.applicationContext // o WebView só é criado quando for preciso
     }
 
     private class Js {
@@ -62,6 +61,12 @@ object WebBridge {
         w.loadUrl(HOME)
     }
 
+    /** Idioma trocado: a página-base passa a ser a da nova wiki. */
+    fun reset() {
+        if (!::app.isInitialized || web == null) return
+        reload()
+    }
+
     private fun reload() {
         ready = CountDownLatch(1)
         main.post { ensure(); web?.loadUrl(HOME) }
@@ -69,6 +74,7 @@ object WebBridge {
 
     /** Busca [url] (mesma origem da wiki) e devolve o texto. Chamar fora da thread principal. */
     fun fetch(url: String, attempt: Int = 0): String {
+        main.post { ensure() }
         ready.await(25, TimeUnit.SECONDS)
         val id = seq.incrementAndGet()
         val latch = CountDownLatch(1)

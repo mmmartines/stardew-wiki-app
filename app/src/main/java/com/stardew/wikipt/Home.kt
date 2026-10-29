@@ -1,10 +1,13 @@
 package com.stardew.wikipt
 
+import android.content.Context
 import android.text.TextUtils
 
 /** HTML da tela inicial, com tema de fazenda: céu, grama, madeira e pergaminho. */
 object Home {
-    fun html(fontCss: String, dark: Boolean, recent: List<String>): String {
+    private fun e(s: String) = TextUtils.htmlEncode(s)
+
+    fun html(ctx: Context, fontCss: String, dark: Boolean, recent: List<String>): String {
         val sb = StringBuilder()
         sb.append("<!DOCTYPE html><html><head><meta charset='utf-8'>")
         sb.append("<meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>")
@@ -16,34 +19,39 @@ object Home {
         sb.append("<div class='sun'></div><div class='cloud c1'></div><div class='cloud c2'></div><div class='cloud c3'></div>")
         sb.append("<div class='star s1'></div><div class='star s2'></div><div class='star s3'></div><div class='star s4'></div>")
         sb.append("<div class='sign'><div class='post p1'></div><div class='post p2'></div>")
-        sb.append("<div class='board'><div class='t1'>Stardew Wiki</div><div class='t2'>guia rápido do vale</div></div></div>")
+        sb.append("<div class='board'><div class='t1'>").append(e(ctx.getString(R.string.home_title)))
+            .append("</div><div class='t2'>").append(e(ctx.getString(R.string.home_tagline))).append("</div></div></div>")
         sb.append("<div class='grass'></div></div>")
 
         sb.append("<div class='search' onclick='Android.search()'><span class='lupa'></span>")
-        sb.append("Pesquisar item, aldeão, peixe…</div>")
+        sb.append(e(ctx.getString(R.string.home_search))).append("</div>")
 
         if (recent.isNotEmpty()) {
-            sb.append("<div class='plank'>Vistos recentemente</div><div class='chips'>")
+            sb.append("<div class='plank'>").append(e(ctx.getString(R.string.home_recent))).append("</div><div class='chips'>")
             recent.forEachIndexed { i, t ->
-                sb.append("<span class='chip' onclick='Android.recent($i)'>").append(TextUtils.htmlEncode(t)).append("</span>")
+                sb.append("<span class='chip' onclick='Android.recent($i)'>").append(e(t)).append("</span>")
             }
             sb.append("</div>")
         }
 
         var idx = 0
         for (g in Categories.groups) {
-            sb.append("<div class='plank'>").append(TextUtils.htmlEncode(g.name)).append("</div><div class='box'><div class='grid'>")
+            sb.append("<div class='plank'>").append(e(ctx.getString(g.nameRes))).append("</div><div class='box'><div class='grid'>")
             for (c in g.items) {
                 sb.append("<div class='cell' onclick='Android.open(").append(idx).append(")'>")
-                sb.append("<div class='slot'><img src='").append(c.icon)
-                    .append("' loading='lazy' onerror=\"this.style.visibility='hidden'\"></div>")
-                sb.append("<div class='label'>").append(TextUtils.htmlEncode(c.label)).append("</div></div>")
+                if (BuildConfig.GAME_ICONS) {
+                    sb.append("<div class='slot'><img src='").append(c.icon)
+                        .append("' loading='lazy' onerror=\"this.style.visibility='hidden'\"></div>")
+                } else {
+                    sb.append("<div class='slot'><span class='emo'>").append(c.emoji).append("</span></div>")
+                }
+                sb.append("<div class='label'>").append(e(c.label(ctx))).append("</div></div>")
                 idx++
             }
             sb.append("</div></div>")
         }
-        sb.append("<p class='foot'>Conteúdo e imagens: Stardew Valley Wiki (comunidade), CC BY-NC-SA 3.0.<br>")
-        sb.append("Stardew Valley © ConcernedApe. App não oficial.</p>")
+        sb.append("<p class='foot' onclick='Android.credits()'>").append(e(ctx.getString(R.string.home_footer)))
+            .append("<br><u>").append(e(ctx.getString(R.string.about))).append("</u></p>")
         sb.append("</body></html>")
         return sb.toString()
     }
@@ -111,6 +119,7 @@ body.dark .star{display:block}
  box-shadow:inset 3px 3px 0 rgba(0,0,0,.12),inset -2px -2px 0 rgba(255,255,255,.25)}
 .cell:active .slot{border-color:#e05a2a}
 .slot img{width:36px;height:36px;object-fit:contain}
+.emo{font-size:28px;line-height:1}
 .label{font-size:13px;line-height:1.15;min-height:30px;display:flex;align-items:flex-start;justify-content:center}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:var(--paper);border:3px solid var(--woodD);border-radius:3px;padding:4px 10px;font-size:14px;

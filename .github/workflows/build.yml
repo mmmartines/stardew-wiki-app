@@ -18,25 +18,53 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Compilar
+
+      - name: Compilar APK de teste
         run: |
-          chmod +x gradlew
           set -o pipefail
+          chmod +x gradlew
           ./gradlew assembleDebug --no-daemon 2>&1 | tee build.log
+
+      # Versão para a loja: só roda quando a chave de assinatura estiver nos Secrets do repositório
+      - name: Preparar chave de assinatura
+        id: key
+        env:
+          KEYSTORE_B64: ${{ secrets.SIGNING_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Compilar pacote da loja (.aab)
+        if: steps.key.outputs.ok == 'true'
+        env:
+          SIGNING_STORE_FILE: ${{ runner.temp }}/upload.jks
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        run: |
+          set -o pipefail
+          ./gradlew bundleRelease --no-daemon -PgameIcons=${{ vars.GAME_ICONS || 'false' }} 2>&1 | tee -a build.log
+
       - uses: actions/upload-artifact@v4
         with:
-          name: StardewWikiPT-apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: GuiaDoVale
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/bundle/release/*.aab
+
       - name: Publicar APK no branch "apk"
         run: |
-          mkdir -p /tmp/out && cp app/build/outputs/apk/debug/app-debug.apk /tmp/out/StardewWikiPT.apk
+          mkdir -p /tmp/out && cp app/build/outputs/apk/debug/app-debug.apk /tmp/out/GuiaDoVale-teste.apk
+          if ls app/build/outputs/bundle/release/*.aab >/dev/null 2>&1; then cp app/build/outputs/bundle/release/*.aab /tmp/out/GuiaDoVale-loja.aab; fi
           cd /tmp/out
           git init -q -b apk
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git add StardewWikiPT.apk
-          git commit -qm "APK de ${GITHUB_SHA::7}"
+          git add .
+          git commit -qm "Build de ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" apk
+
       - name: Publicar log de erro
         if: failure()
         run: |

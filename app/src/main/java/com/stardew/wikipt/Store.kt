@@ -13,6 +13,16 @@ class Store(ctx: Context) {
 
     data class Cached(val page: Page, val time: Long)
 
+    init {
+        // versões antigas guardavam favoritos/histórico sem idioma (eram só em português)
+        if (prefs.contains("fav") || prefs.contains("hist")) {
+            val e = prefs.edit()
+            prefs.getString("fav", null)?.let { e.putString("fav_pt", it) }
+            prefs.getString("hist", null)?.let { e.putString("hist_pt", it) }
+            e.remove("fav").remove("hist").apply()
+        }
+    }
+
     private fun list(key: String): MutableList<String> {
         val a = JSONArray(prefs.getString(key, "[]"))
         return MutableList(a.length()) { a.getString(it) }
@@ -22,41 +32,41 @@ class Store(ctx: Context) {
         prefs.edit().putString(key, JSONArray(l).toString()).apply()
     }
 
-    fun favorites(): MutableList<String> = list("fav")
+    fun favorites(): MutableList<String> = list("fav_" + Lang.code)
     fun isFavorite(t: String) = favorites().contains(t)
 
     fun toggleFavorite(t: String): Boolean {
         val l = favorites()
         val nowFav = if (l.remove(t)) false else { l.add(0, t); true }
-        save("fav", l)
+        save("fav_" + Lang.code, l)
         return nowFav
     }
 
     fun removeFavorite(t: String) {
-        val l = favorites(); l.remove(t); save("fav", l)
+        val l = favorites(); l.remove(t); save("fav_" + Lang.code, l)
     }
 
-    fun history(): MutableList<String> = list("hist")
+    fun history(): MutableList<String> = list("hist_" + Lang.code)
 
     fun addHistory(t: String) {
         val l = history()
         l.remove(t)
         l.add(0, t)
         while (l.size > 100) l.removeAt(l.size - 1)
-        save("hist", l)
+        save("hist_" + Lang.code, l)
     }
 
     fun removeHistory(t: String) {
-        val l = history(); l.remove(t); save("hist", l)
+        val l = history(); l.remove(t); save("hist_" + Lang.code, l)
     }
 
-    fun clearHistory() = save("hist", emptyList())
+    fun clearHistory() = save("hist_" + Lang.code, emptyList())
 
     var textZoom: Int
         get() = prefs.getInt("zoom", 100)
         set(v) = prefs.edit().putInt("zoom", v).apply()
 
-    private fun key(title: String) = title.replace('_', ' ').trim().lowercase()
+    private fun key(title: String) = Lang.code + ":" + title.replace('_', ' ').trim().lowercase()
 
     private fun file(title: String): File {
         val md = MessageDigest.getInstance("MD5").digest(key(title).toByteArray())

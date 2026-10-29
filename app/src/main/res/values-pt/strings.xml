@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Guia do Vale</string>
+    <string name="unofficial_tag">Leitor não oficial da Stardew Valley Wiki</string>
+
+    <string name="tab_home">Início</string>
+    <string name="tab_favorites">Favoritos</string>
+    <string name="tab_history">Histórico</string>
+
+    <string name="search_hint">Pesquisar na wiki…</string>
+    <string name="type_to_search">Digite um item, aldeão, peixe, receita…</string>
+    <string name="search_all_fmt">🔎  Pesquisar \"%s\" em todo o conteúdo</string>
+    <string name="offline_title">⚠️  Sem conexão</string>
+    <string name="offline_sub">Favoritos e páginas já abertas continuam disponíveis offline</string>
+    <string name="saved_on_device">Salva no aparelho</string>
+    <string name="nothing_found_fmt">Nada encontrado para \"%s\".</string>
+
+    <string name="empty_favorites">Nenhum favorito ainda.\nToque na ☆ dentro de uma página para salvá-la aqui.\nFavoritos ficam disponíveis offline.</string>
+    <string name="empty_history">Nenhuma página vista ainda.</string>
+    <string name="no_connection">Sem conexão com a internet.</string>
+    <string name="no_connection_retry">Sem conexão. Toque para tentar de novo.</string>
+    <string name="load_error">Não foi possível carregar a página.\nVerifique sua conexão.</string>
+    <string name="details_fmt">Detalhe: %s</string>
+    <string name="retry">Tentar novamente</string>
+
+    <string name="remove_fav_q">Remover dos favoritos?</string>
+    <string name="remove_hist_q">Remover do histórico?</string>
+    <string name="remove">Remover</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Apagar</string>
+    <string name="ok">OK</string>
+    <string name="clear_history">Limpar histórico</string>
+    <string name="clear_history_q">Apagar todo o histórico?</string>
+    <string name="offline_pages">Páginas salvas offline</string>
+    <string name="offline_pages_fmt">%1$d páginas (%2$.1f MB). Apagar?</string>
+    <string name="cache_cleared">Páginas salvas apagadas</string>
+    <string name="language">Idioma da wiki</string>
+    <string name="about">Sobre e créditos</string>
+
+    <string name="page_updated">Página atualizada</string>
+    <string name="offline_showing_saved">Sem conexão — mostrando versão salva</string>
+    <string name="page_not_found_fmt">A página \"%s\" não foi encontrada.</string>
+    <string name="page_missing_on_wiki">Esta página ainda não existe na wiki</string>
+    <string name="read_only">Este app é só de leitura: a edição é feita no site da wiki.</string>
+    <string name="no_browser">Nenhum navegador encontrado</string>
+    <string name="fav_add">Favoritar</string>
+    <string name="fav_remove">Remover dos favoritos</string>
+    <string name="fav_added">Adicionada aos favoritos ⭐</string>
+    <string name="fav_removed">Removida dos favoritos</string>
+    <string name="sections">Seções</string>
+    <string name="find_in_page">Buscar nesta página</string>
+    <string name="find_hint">Texto para procurar</string>
+    <string name="find_go">Buscar</string>
+    <string name="searching">Procurando…</string>
+    <string name="next">Próximo ›</string>
+    <string name="nothing_found">Nada encontrado</string>
+    <string name="find_count_fmt">%1$d de %2$d</string>
+    <string name="refresh">Atualizar</string>
+    <string name="text_size">Tamanho do texto</string>
+    <string name="size_small">Pequeno</string>
+    <string name="size_normal">Normal</string>
+    <string name="size_large">Grande</string>
+    <string name="size_xlarge">Muito grande</string>
+    <string name="share">Compartilhar</string>
+    <string name="view_original">Ver original na wiki</string>
+    <string name="page_authors">Autores da página (histórico)</string>
+
+    <string name="cat_home_page">Página inicial da wiki</string>
+    <string name="cat_all_pages">Todas as páginas</string>
+    <string name="cat_categories">Categorias</string>
+    <string name="cat_random">Página aleatória</string>
+    <string name="category">Categoria</string>
+    <string name="filter_category">Filtrar nesta categoria…</string>
+    <string name="filter_prefix">Começa com…</string>
+    <string name="nothing_here">Nada por aqui.</string>
+
+    <string name="group_community">Comunidade</string>
+    <string name="group_farm">Fazenda</string>
+    <string name="group_nature">Natureza e comida</string>
+    <string name="group_adventure">Aventura</string>
+    <string name="group_explore">Explorar a wiki</string>
+    <string name="home_title">Guia do Vale</string>
+    <string name="home_tagline">A Stardew Valley Wiki no seu celular</string>
+    <string name="home_search">Pesquisar item, aldeão, peixe…</string>
+    <string name="home_recent">Vistos recentemente</string>
+    <string name="home_footer">Stardew Valley foi criado por Eric Barone (ConcernedApe). Conteúdo dos contribuidores da Stardew Valley Wiki, CC BY-NC-SA 3.0. App não oficial e sem fins lucrativos.</string>
+
+    <string name="choose_language">Escolha o idioma da wiki</string>
+    <string name="welcome_title">Boas-vindas!</string>
+    <string name="welcome_text">Stardew Valley foi criado por Eric Barone (ConcernedApe).\n\nTodo o conteúdo deste app vem da Stardew Valley Wiki, escrita pela comunidade de contribuidores.\n\nEste é um app não oficial, gratuito e sem fins lucrativos: ele só consulta a wiki, nunca a edita, e não tem ligação com a ConcernedApe.</string>
+    <string name="welcome_continue">Continuar</string>
+    <string name="welcome_credits">Ver créditos</string>
+
+    <string name="article_footer">Conteúdo da Stardew Valley Wiki, por seus contribuidores, sob CC BY-NC-SA 3.0. Adaptado para leitura no celular.</string>
+    <string name="article_footer_art">Stardew Valley, suas imagens, arte e lore © ConcernedApe.</string>
+
+    <string name="js_more_details">Mais detalhes (%d)</string>
+    <string name="js_show_all">Mostrar todos (%d)</string>
+    <string name="js_filter">Filtrar %d itens…</string>
+    <string name="js_on_this_page">Nesta página</string>
+    <string name="js_read_intro">Ler introdução completa</string>
+    <string name="js_see_also">Ver também</string>
+    <string name="js_show_table">Mostrar tabela inteira (%d linhas)</string>
+    <string name="js_show">Mostrar</string>
+
+    <string name="credits_title">Sobre e créditos</string>
+    <string name="credits_game_h">O jogo</string>
+    <string name="credits_game">Stardew Valley foi criado por Eric Barone (ConcernedApe). O conteúdo e os materiais de Stardew Valley, incluindo imagens, arte e lore, são marcas e direitos autorais da ConcernedApe.</string>
+    <string name="credits_wiki_h">O conteúdo</string>
+    <string name="credits_wiki">Tudo o que você lê neste app vem da Stardew Valley Wiki, hospedada pela ConcernedApe e escrita por milhares de contribuidores da comunidade e pelos moderadores e administradores da wiki. Obrigado!</string>
+    <string name="credits_wiki_link">Abrir a Stardew Valley Wiki</string>
+    <string name="credits_contrib_link">Ver os contribuidores da wiki</string>
+    <string name="credits_license_h">Licença</string>
+    <string name="credits_license">Os textos da wiki estão sob a licença Atribuição-NãoComercial-CompartilhaIgual 3.0 Não Adaptada (CC BY-NC-SA 3.0), exceto imagens, arte e lore do desenvolvedor. Este app adapta a apresentação para celular e compartilha essa adaptação sob a mesma licença.</string>
+    <string name="credits_license_link">Ler a licença CC BY-NC-SA 3.0</string>
+    <string name="credits_app_h">Este app</string>
+    <string name="credits_app">Um projeto de fã não oficial, gratuito e sem fins lucrativos: sem anúncios, compras, doações ou coleta de dados. Ele só consulta a wiki e nunca a edita. Não tem ligação nem endosso da ConcernedApe.</string>
+    <string name="credits_source_link">Código-fonte deste app</string>
+    <string name="credits_font">Fonte Pixelify Sans, dos autores do Pixelify Sans Project, sob a SIL Open Font License 1.1.</string>
+    <string name="credits_version_fmt">Versão %s</string>
+</resources>

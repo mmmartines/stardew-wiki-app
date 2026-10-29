@@ -1,0 +1,12 @@
+Guia do Vale / Valley Guide — unofficial reader for the Stardew Valley Wiki
+
+The source code of this app and its adaptation of wiki content are shared under the
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported license (CC BY-NC-SA 3.0),
+the same license as the Stardew Valley Wiki text:
+https://creativecommons.org/licenses/by-nc-sa/3.0/
+
+Stardew Valley content and materials, including images, art and lore, are trademarks and
+copyrights of ConcernedApe and are NOT covered by this license.
+
+The Pixelify Sans font (app/src/main/assets/fonts, app/src/main/res/font) is licensed under the
+SIL Open Font License 1.1 — see app/src/main/assets/fonts/OFL.txt.

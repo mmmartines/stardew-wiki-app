@@ -1,17 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Stardew Wiki PT</string>
-    <string name="tab_home">Início</string>
-    <string name="tab_favorites">Favoritos</string>
-    <string name="tab_history">Histórico</string>
-    <string name="home_subtitle">Escolha uma seção ou pesquise</string>
-    <string name="search_hint">Pesquisar na wiki…</string>
-    <string name="type_to_search">Digite o nome de um item, aldeão, peixe, receita…</string>
-    <string name="empty_favorites">Nenhum favorito ainda.\nToque na ☆ dentro de uma página para salvá-la aqui.\nFavoritos ficam disponíveis offline.</string>
-    <string name="empty_history">Nenhuma página vista ainda.</string>
-    <string name="no_connection">Sem conexão com a internet.</string>
-    <string name="no_connection_retry">Sem conexão. Toque para tentar de novo.</string>
-    <string name="load_error">Não foi possível carregar a página.\nVerifique sua conexão.</string>
-    <string name="retry">Tentar novamente</string>
-    <string name="about_text">App não oficial para consultar a Stardew Valley Wiki em português pelo celular.\n\nTodo o conteúdo vem de pt.stardewvalleywiki.com, mantido pela comunidade e licenciado sob CC BY-NC-SA 3.0.\n\nPáginas abertas ficam salvas no aparelho por 7 dias e podem ser lidas offline.\n\nDica: toque longo em um favorito ou item do histórico para removê-lo.</string>
+    <string name="app_name">Valley Guide</string>
+    <string name="unofficial_tag">Unofficial Stardew Valley Wiki reader</string>
+
+    <string name="tab_home">Home</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_history">History</string>
+
+    <string name="search_hint">Search the wiki…</string>
+    <string name="type_to_search">Type an item, villager, fish, recipe…</string>
+    <string name="search_all_fmt">🔎  Search \"%s\" in all pages</string>
+    <string name="offline_title">⚠️  No connection</string>
+    <string name="offline_sub">Favorites and pages you already opened still work offline</string>
+    <string name="saved_on_device">Saved on this device</string>
+    <string name="nothing_found_fmt">Nothing found for \"%s\".</string>
+
+    <string name="empty_favorites">No favorites yet.\nTap ☆ on a page to save it here.\nFavorites also work offline.</string>
+    <string name="empty_history">No pages viewed yet.</string>
+    <string name="no_connection">No internet connection.</string>
+    <string name="no_connection_retry">No connection. Tap to try again.</string>
+    <string name="load_error">Couldn\'t load the page.\nCheck your connection.</string>
+    <string name="details_fmt">Details: %s</string>
+    <string name="retry">Try again</string>
+
+    <string name="remove_fav_q">Remove from favorites?</string>
+    <string name="remove_hist_q">Remove from history?</string>
+    <string name="remove">Remove</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="clear_history">Clear history</string>
+    <string name="clear_history_q">Delete all history?</string>
+    <string name="offline_pages">Pages saved offline</string>
+    <string name="offline_pages_fmt">%1$d pages (%2$.1f MB). Delete?</string>
+    <string name="cache_cleared">Saved pages deleted</string>
+    <string name="language">Wiki language</string>
+    <string name="about">About and credits</string>
+
+    <string name="page_updated">Page updated</string>
+    <string name="offline_showing_saved">No connection — showing saved version</string>
+    <string name="page_not_found_fmt">The page \"%s\" was not found.</string>
+    <string name="page_missing_on_wiki">This page doesn\'t exist on the wiki yet</string>
+    <string name="read_only">This app is read-only: editing happens on the wiki website.</string>
+    <string name="no_browser">No browser found</string>
+    <string name="fav_add">Add to favorites</string>
+    <string name="fav_remove">Remove from favorites</string>
+    <string name="fav_added">Added to favorites ⭐</string>
+    <string name="fav_removed">Removed from favorites</string>
+    <string name="sections">Sections</string>
+    <string name="find_in_page">Find in page</string>
+    <string name="find_hint">Text to find</string>
+    <string name="find_go">Find</string>
+    <string name="searching">Searching…</string>
+    <string name="next">Next ›</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="find_count_fmt">%1$d of %2$d</string>
+    <string name="refresh">Refresh</string>
+    <string name="text_size">Text size</string>
+    <string name="size_small">Small</string>
+    <string name="size_normal">Normal</string>
+    <string name="size_large">Large</string>
+    <string name="size_xlarge">Extra large</string>
+    <string name="share">Share</string>
+    <string name="view_original">View original on the wiki</string>
+    <string name="page_authors">Page authors (history)</string>
+
+    <string name="cat_home_page">Wiki home page</string>
+    <string name="cat_all_pages">All pages</string>
+    <string name="cat_categories">Categories</string>
+    <string name="cat_random">Random page</string>
+    <string name="category">Category</string>
+    <string name="filter_category">Filter this category…</string>
+    <string name="filter_prefix">Starts with…</string>
+    <string name="nothing_here">Nothing here.</string>
+
+    <string name="group_community">Community</string>
+    <string name="group_farm">Farm</string>
+    <string name="group_nature">Nature and food</string>
+    <string name="group_adventure">Adventure</string>
+    <string name="group_explore">Explore the wiki</string>
+    <string name="home_title">Valley Guide</string>
+    <string name="home_tagline">Stardew Valley Wiki, on your phone</string>
+    <string name="home_search">Search item, villager, fish…</string>
+    <string name="home_recent">Recently viewed</string>
+    <string name="home_footer">Stardew Valley was created by Eric Barone (ConcernedApe). Content by the contributors of the Stardew Valley Wiki, CC BY-NC-SA 3.0. Unofficial, non-profit app.</string>
+
+    <string name="choose_language">Choose the wiki language</string>
+    <string name="welcome_title">Welcome!</string>
+    <string name="welcome_text">Stardew Valley was created by Eric Barone (ConcernedApe).\n\nAll content in this app comes from the Stardew Valley Wiki, written by its community of contributors.\n\nThis is an unofficial, free and non-profit app: it only reads the wiki, never edits it, and is not affiliated with ConcernedApe.</string>
+    <string name="welcome_continue">Continue</string>
+    <string name="welcome_credits">See credits</string>
+
+    <string name="article_footer">Content from the Stardew Valley Wiki, by its contributors, under CC BY-NC-SA 3.0. Adapted for mobile reading.</string>
+    <string name="article_footer_art">Stardew Valley, its images, art and lore © ConcernedApe.</string>
+
+    <!-- Textos usados pelo formatador das páginas -->
+    <string name="js_more_details">More details (%d)</string>
+    <string name="js_show_all">Show all (%d)</string>
+    <string name="js_filter">Filter %d items…</string>
+    <string name="js_on_this_page">On this page</string>
+    <string name="js_read_intro">Read full introduction</string>
+    <string name="js_see_also">See also</string>
+    <string name="js_show_table">Show full table (%d rows)</string>
+    <string name="js_show">Show</string>
+
+    <!-- Créditos -->
+    <string name="credits_title">About and credits</string>
+    <string name="credits_game_h">The game</string>
+    <string name="credits_game">Stardew Valley was created by Eric Barone (ConcernedApe). Stardew Valley content and materials, including images, art and lore, are trademarks and copyrights of ConcernedApe.</string>
+    <string name="credits_wiki_h">The content</string>
+    <string name="credits_wiki">Everything you read in this app comes from the Stardew Valley Wiki, hosted by ConcernedApe and written by thousands of community contributors and the wiki\'s moderators and administrators. Thank you!</string>
+    <string name="credits_wiki_link">Open the Stardew Valley Wiki</string>
+    <string name="credits_contrib_link">See the wiki contributors</string>
+    <string name="credits_license_h">License</string>
+    <string name="credits_license">Wiki text is licensed under Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0), except developer-owned images, art and lore. This app adapts the layout for phones and shares that adaptation under the same license.</string>
+    <string name="credits_license_link">Read the CC BY-NC-SA 3.0 license</string>
+    <string name="credits_app_h">This app</string>
+    <string name="credits_app">An unofficial, free, non-profit fan project: no ads, no purchases, no donations and no data collection. It only reads the wiki and never edits it. It is not affiliated with or endorsed by ConcernedApe.</string>
+    <string name="credits_source_link">Source code of this app</string>
+    <string name="credits_font">Pixelify Sans font by the Pixelify Sans Project Authors, SIL Open Font License 1.1.</string>
+    <string name="credits_version_fmt">Version %s</string>
 </resources>

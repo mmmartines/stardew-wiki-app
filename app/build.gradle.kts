@@ -1,24 +1,63 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
+// Assinatura de release: lida de keystore.properties (local) ou de variáveis de ambiente (GitHub Actions).
+val signing = Properties().apply {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun secret(key: String, env: String): String? = signing.getProperty(key) ?: System.getenv(env)
+
+// Ícones do jogo no menu inicial: ligados por padrão; a versão da loja pode desligar com -PgameIcons=false
+val gameIcons = (project.findProperty("gameIcons") as String?)?.toBoolean() ?: true
+
 android {
     namespace = "com.stardew.wikipt"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.stardew.wikipt"
+        // ID definitivo na loja: não pode mudar depois de publicado
+        applicationId = "io.github.mmmartines.guiadovale"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 4
-        versionName = "1.3"
+        targetSdk = 36
+        versionCode = 5
+        versionName = "1.4.0"
+        buildConfigField("boolean", "GAME_ICONS", gameIcons.toString())
+    }
+
+    signingConfigs {
+        create("release") {
+            val store = secret("storeFile", "SIGNING_STORE_FILE")
+            if (store != null) {
+                storeFile = file(store)
+                storePassword = secret("storePassword", "SIGNING_STORE_PASSWORD")
+                keyAlias = secret("keyAlias", "SIGNING_KEY_ALIAS")
+                keyPassword = secret("keyPassword", "SIGNING_KEY_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-teste"
         }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (secret("storeFile", "SIGNING_STORE_FILE") != null) signingConfig = signingConfigs.getByName("release")
+        }
+    }
+    buildFeatures {
+        buildConfig = true
+    }
+    androidResources {
+        generateLocaleConfig = false
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

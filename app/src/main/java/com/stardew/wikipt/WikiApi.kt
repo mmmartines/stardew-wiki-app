@@ -11,13 +11,28 @@ data class Page(val title: String, val html: String, val sections: List<Section>
 data class Hit(val title: String, val snippet: String = "", val ns: Int = 0)
 data class Chunk(val items: List<Hit>, val next: String?)
 
-class MissingPageException : Exception("Página não encontrada")
+class MissingPageException : Exception("missing page")
 
-/** Acesso à API MediaWiki da Stardew Valley Wiki em português. */
+/** Acesso somente leitura à API MediaWiki da Stardew Valley Wiki, no idioma escolhido. */
 object WikiApi {
-    const val BASE = "https://pt.stardewvalleywiki.com"
-    private const val API = "$BASE/mediawiki/api.php"
-    private const val UA = "Mozilla/5.0 (Linux; Android 14) StardewWikiPT/1.1 (app de leitura pessoal)"
+    val BASE: String get() = Lang.base()
+    private val API: String get() = "$BASE/mediawiki/api.php"
+    private val UA = "Mozilla/5.0 (Linux; Android) GuiaDoVale/" + BuildConfig.VERSION_NAME +
+        " (unofficial read-only reader; https://github.com/mmmartines/stardew-wiki-app)"
+
+    /** Intervalo mínimo entre requisições, para não sobrecarregar o servidor da wiki. */
+    private const val MIN_GAP_MS = 250L
+    private var lastRequest = 0L
+
+    @Synchronized
+    private fun throttle() {
+        val wait = lastRequest + MIN_GAP_MS - System.currentTimeMillis()
+        if (wait > 0) Thread.sleep(wait)
+        lastRequest = System.currentTimeMillis()
+    }
+
+    fun historyUrl(title: String): String =
+        "$BASE/mediawiki/index.php?title=" + enc(title.replace(' ', '_')) + "&action=history"
 
     private fun enc(s: String) = URLEncoder.encode(s, "UTF-8")
 
@@ -29,6 +44,7 @@ object WikiApi {
     private fun get(params: Map<String, String>): JSONObject {
         val all = params + mapOf("format" to "json", "formatversion" to "2", "utf8" to "1")
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
+        throttle()
         if (!useBridge) {
             try {
                 return JSONObject(direct("$API?$query"))
@@ -40,7 +56,7 @@ object WikiApi {
         try {
             return JSONObject(WebBridge.fetch("/mediawiki/api.php?$query"))
         } catch (e: Exception) {
-            throw IOException((e.message ?: e.toString()) + "\n(direto: " + lastDirectError + ")")
+            throw IOException((e.message ?: e.toString()) + "\n(direct: " + lastDirectError + ")")
         }
     }
 
@@ -57,7 +73,7 @@ object WikiApi {
             val code = conn.responseCode
             if (code !in 200..299) throw IOException("HTTP $code")
             val text = conn.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
-            if (!text.trimStart().startsWith("{")) throw IOException("resposta não é JSON")
+            if (!text.trimStart().startsWith("{")) throw IOException("not JSON")
             return text
         } finally {
             conn.disconnect()

@@ -53,7 +53,9 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-        setSupportActionBar(findViewById<MaterialToolbar>(R.id.toolbar))
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        applyInsets(toolbar, findViewById(R.id.content))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         WebBridge.init(this)
@@ -61,10 +63,10 @@ class ListActivity : AppCompatActivity() {
         category = intent.getStringExtra(EXTRA_CAT) ?: ""
         supportActionBar?.title = when (mode) {
             MODE_CATEGORY -> category.substringAfter(':')
-            MODE_CATS -> "Categorias"
-            else -> "Todas as páginas"
+            MODE_CATS -> getString(R.string.cat_categories)
+            else -> getString(R.string.cat_all_pages)
         }
-        if (mode == MODE_CATEGORY) supportActionBar?.subtitle = "Categoria"
+        if (mode == MODE_CATEGORY) supportActionBar?.subtitle = getString(R.string.category)
 
         list = findViewById(R.id.list)
         progress = findViewById(R.id.progress)
@@ -78,7 +80,7 @@ class ListActivity : AppCompatActivity() {
         })
 
         val input = findViewById<EditText>(R.id.filter)
-        input.hint = if (mode == MODE_CATEGORY) "Filtrar nesta categoria…" else "Começa com…"
+        input.hint = getString(if (mode == MODE_CATEGORY) R.string.filter_category else R.string.filter_prefix)
         input.doAfterTextChanged { e ->
             filter = e?.toString()?.trim() ?: ""
             if (mode == MODE_CATEGORY) {
@@ -147,13 +149,13 @@ class ListActivity : AppCompatActivity() {
         } else hits
         adapter.items = shown.map { h ->
             if (h.ns == 14) {
-                Row("📁  " + h.title.substringAfter(':'), "Categoria", { start(this, MODE_CATEGORY, h.title) })
+                Row("📁  " + h.title.substringAfter(':'), getString(R.string.category), { start(this, MODE_CATEGORY, h.title) })
             } else {
                 Row(h.title, null, { ArticleActivity.start(this, h.title) })
             }
         }
         if (shown.isEmpty() && done) {
-            empty.text = "Nada por aqui."
+            empty.text = getString(R.string.nothing_here)
             empty.setOnClickListener(null)
             empty.isVisible = true
         }

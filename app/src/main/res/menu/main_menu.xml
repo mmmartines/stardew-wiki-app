@@ -4,10 +4,11 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
-        android:title="Pesquisar"
+        android:title="@string/search_hint"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
-    <item android:id="@+id/action_clear_history" android:title="Limpar histórico" app:showAsAction="never" />
-    <item android:id="@+id/action_clear_cache" android:title="Páginas salvas offline" app:showAsAction="never" />
-    <item android:id="@+id/action_about" android:title="Sobre" app:showAsAction="never" />
+    <item android:id="@+id/action_language" android:title="@string/language" app:showAsAction="never" />
+    <item android:id="@+id/action_clear_history" android:title="@string/clear_history" app:showAsAction="never" />
+    <item android:id="@+id/action_clear_cache" android:title="@string/offline_pages" app:showAsAction="never" />
+    <item android:id="@+id/action_about" android:title="@string/about" app:showAsAction="never" />
 </menu>

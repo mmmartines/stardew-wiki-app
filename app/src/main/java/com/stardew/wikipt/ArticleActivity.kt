@@ -52,8 +52,20 @@ class ArticleActivity : AppCompatActivity() {
             return raw.replace('_', ' ')
         }
 
-        private fun hasNs(t: String, vararg ns: String) =
+        private fun hasNs(t: String, ns: List<String>) =
             ns.any { t.startsWith("$it:", ignoreCase = true) }
+
+        // nomes dos espaços de nomes nas 12 wikis
+        private val NS_CATEGORY = listOf("Category", "Categoria", "Kategorie", "Catégorie", "Categoría",
+            "Kategória", "Kategori", "Категория", "カテゴリ", "분류", "分类")
+        private val NS_FILE = listOf("File", "Image", "Arquivo", "Ficheiro", "Imagem", "Datei", "Bild", "Fichier",
+            "Archivo", "Fájl", "Dosya", "Файл", "ファイル", "画像", "파일", "文件")
+        private val NS_EXTERNAL = listOf("Special", "Especial", "Spezial", "Spécial", "Speciale", "Speciális", "Özel",
+            "Служебная", "特別", "특수", "特殊", "User", "Usuário", "Utilizador", "Benutzer", "Benutzerin", "Utilisateur",
+            "Usuario", "Utente", "Szerkesztő", "Kullanıcı", "Участник", "利用者", "사용자", "用户", "Template",
+            "Predefinição", "Vorlage", "Modèle", "Plantilla", "Sablon", "Şablon", "Шаблон", "テンプレート", "틀", "模板",
+            "Talk", "Discussão", "Diskussion", "Discussion", "Discusión", "Discussione", "Vita", "Tartışma", "Обсуждение",
+            "ノート", "토론", "讨论", "MediaWiki", "Module", "Módulo", "Modul", "Модуль")
     }
 
     private lateinit var store: Store
@@ -72,7 +84,9 @@ class ArticleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article)
-        setSupportActionBar(findViewById<MaterialToolbar>(R.id.toolbar))
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        applyInsets(toolbar, findViewById(R.id.content))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_home)
 
@@ -111,7 +125,7 @@ class ArticleActivity : AppCompatActivity() {
             }
         }
         web.setFindListener { active, count, done ->
-            if (done) findSnack?.setText(if (count == 0) "Nada encontrado" else "${active + 1} de $count")
+            if (done) findSnack?.setText(if (count == 0) getString(R.string.nothing_found) else getString(R.string.find_count_fmt, active + 1, count))
         }
     }
 
@@ -130,16 +144,16 @@ class ArticleActivity : AppCompatActivity() {
             r.onSuccess { p ->
                 store.putPage(requested, p)
                 show(p)
-                if (force) toast("Página atualizada")
+                if (force) toast(getString(R.string.page_updated))
             }.onFailure { e ->
                 when {
                     e is MissingPageException && !triedFallback -> fallback()
                     cached != null -> {
                         show(cached.page)
-                        toast("Sem conexão — mostrando versão salva")
+                        toast(getString(R.string.offline_showing_saved))
                     }
-                    e is MissingPageException -> showError("A página \"$title\" não foi encontrada.")
-                    else -> showError(getString(R.string.load_error) + "\n\nDetalhe: " + (e.message ?: e.toString()))
+                    e is MissingPageException -> showError(getString(R.string.page_not_found_fmt, title))
+                    else -> showError(getString(R.string.load_error) + "\n\n" + getString(R.string.details_fmt, e.message ?: e.toString()))
                 }
             }
         }
@@ -152,7 +166,7 @@ class ArticleActivity : AppCompatActivity() {
         runAsync({ WikiApi.search(q) }) { r ->
             val first = r.getOrNull()?.firstOrNull()
             if (first == null) {
-                showError("A página \"$q\" não foi encontrada.")
+                showError(getString(R.string.page_not_found_fmt, q))
             } else {
                 current = first.title
                 supportActionBar?.title = current
@@ -194,20 +208,51 @@ class ArticleActivity : AppCompatActivity() {
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
             "<style>" + Fonts.css(this) + Assets.text(this, "article.css") + "</style></head><body class=\"" + bodyClass + "\">" +
             "<h1 class=\"page-title\">" + TextUtils.htmlEncode(p.title) + "</h1>" +
-            p.html +
+            p.html + footer(p) +
+            "<script>window.__t=" + jsStrings() + ";</script>" +
             "<script>" + Assets.text(this, "article.js") + "</script></body></html>"
     }
+
+    /** Crédito em toda página: contribuidores, licença, link para o original e para o histórico de autores. */
+    private fun footer(p: Page): String {
+        fun e(id: Int) = TextUtils.htmlEncode(getString(id))
+        val orig = TextUtils.htmlEncode(WikiApi.pageUrl(p.title) + "?app_ext=1")
+        val hist = TextUtils.htmlEncode(WikiApi.historyUrl(p.title))
+        return "<div class='credit'><p>" + e(R.string.article_footer) + "</p><p>" + e(R.string.article_footer_art) +
+            "</p><p><a class='ext' href='" + orig + "'>" + e(R.string.view_original) + " ›</a> · " +
+            "<a class='ext' href='" + hist + "'>" + e(R.string.page_authors) + " ›</a> · " +
+            "<a class='ext' href='https://creativecommons.org/licenses/by-nc-sa/3.0/'>CC BY-NC-SA 3.0 ›</a></p></div>"
+    }
+
+    private fun jsStrings(): String = JSONObject()
+        .put("more", getString(R.string.js_more_details))
+        .put("showAll", getString(R.string.js_show_all))
+        .put("filter", getString(R.string.js_filter))
+        .put("onPage", getString(R.string.js_on_this_page))
+        .put("readIntro", getString(R.string.js_read_intro))
+        .put("seeAlso", getString(R.string.js_see_also))
+        .put("showTable", getString(R.string.js_show_table))
+        .put("show", getString(R.string.js_show))
+        .toString()
 
     // ---------- Links ----------
 
     private fun handleLink(uri: Uri): Boolean {
         val scheme = uri.scheme ?: return true
         if (scheme != "http" && scheme != "https") return true
-        if (uri.host != "pt.stardewvalleywiki.com") {
+        val host = uri.host?.removePrefix("www.")
+        if (uri.getQueryParameter("app_ext") != null) {
+            openExternal(Uri.parse(uri.toString().replace("?app_ext=1", ""))); return true
+        }
+        if (host != Lang.host() || uri.getQueryParameter("action") == "history") {
             openExternal(uri); return true
         }
         if (uri.getQueryParameter("redlink") != null) {
-            toast("Esta página ainda não existe na wiki"); return true
+            toast(getString(R.string.page_missing_on_wiki)); return true
+        }
+        val action = uri.getQueryParameter("action")
+        if (action == "edit" || action == "submit" || uri.getQueryParameter("veaction") != null) {
+            toast(getString(R.string.read_only)); return true // o app nunca edita a wiki
         }
         val t = titleFromUri(uri)
         val frag = uri.fragment
@@ -216,10 +261,9 @@ class ArticleActivity : AppCompatActivity() {
             return true
         }
         when {
-            hasNs(t, "Categoria", "Category") -> ListActivity.start(this, ListActivity.MODE_CATEGORY, t)
-            hasNs(t, "Arquivo", "File", "Ficheiro", "Imagem", "Image") -> { /* imagem: ignora */ }
-            hasNs(t, "Especial", "Special", "Usuário", "User", "Predefinição", "Template", "Discussão", "Talk") ->
-                openExternal(uri)
+            hasNs(t, NS_CATEGORY) -> ListActivity.start(this, ListActivity.MODE_CATEGORY, t)
+            hasNs(t, NS_FILE) -> { /* imagem: ignora */ }
+            hasNs(t, NS_EXTERNAL) -> openExternal(uri)
             else -> start(this, t, frag)
         }
         return true
@@ -234,7 +278,7 @@ class ArticleActivity : AppCompatActivity() {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         } catch (_: ActivityNotFoundException) {
-            toast("Nenhum navegador encontrado")
+            toast(getString(R.string.no_browser))
         }
     }
 
@@ -251,7 +295,7 @@ class ArticleActivity : AppCompatActivity() {
             isEnabled = loaded
             val fav = loaded && store.isFavorite(current)
             setIcon(if (fav) R.drawable.ic_star else R.drawable.ic_star_border)
-            title = if (fav) "Remover dos favoritos" else "Favoritar"
+            title = getString(if (fav) R.string.fav_remove else R.string.fav_add)
         }
         menu.findItem(R.id.action_sections)?.isEnabled = !page?.sections.isNullOrEmpty()
         return super.onPrepareOptionsMenu(menu)
@@ -270,7 +314,7 @@ class ArticleActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_fav -> if (p != null) {
                 val now = store.toggleFavorite(p.title)
-                toast(if (now) "Adicionada aos favoritos ⭐" else "Removida dos favoritos")
+                toast(getString(if (now) R.string.fav_added else R.string.fav_removed))
                 invalidateOptionsMenu()
             }
             R.id.action_sections -> showSections()
@@ -280,9 +324,10 @@ class ArticleActivity : AppCompatActivity() {
             R.id.action_share -> if (p != null) {
                 val send = Intent(Intent.ACTION_SEND).setType("text/plain")
                     .putExtra(Intent.EXTRA_TEXT, p.title + " — " + WikiApi.pageUrl(p.title))
-                startActivity(Intent.createChooser(send, "Compartilhar"))
+                startActivity(Intent.createChooser(send, getString(R.string.share)))
             }
             R.id.action_browser -> openExternal(Uri.parse(WikiApi.pageUrl(current)))
+            R.id.action_authors -> openExternal(Uri.parse(WikiApi.historyUrl(current)))
             else -> return super.onOptionsItemSelected(item)
         }
         return true
@@ -293,14 +338,14 @@ class ArticleActivity : AppCompatActivity() {
         if (secs.isEmpty()) return
         val labels = secs.map { "    ".repeat((it.level - 1).coerceAtLeast(0)) + it.line }.toTypedArray()
         MaterialAlertDialogBuilder(this)
-            .setTitle("Seções")
+            .setTitle(R.string.sections)
             .setItems(labels) { _, i -> scrollToAnchor(secs[i].anchor) }
             .show()
     }
 
     private fun askFind() {
         val input = EditText(this).apply {
-            hint = "Texto para procurar"
+            hint = getString(R.string.find_hint)
             isSingleLine = true
         }
         val pad = (20 * resources.displayMetrics.density).toInt()
@@ -309,23 +354,23 @@ class ArticleActivity : AppCompatActivity() {
             addView(input)
         }
         MaterialAlertDialogBuilder(this)
-            .setTitle("Buscar nesta página")
+            .setTitle(R.string.find_in_page)
             .setView(box)
-            .setPositiveButton("Buscar") { _, _ ->
+            .setPositiveButton(R.string.find_go) { _, _ ->
                 val q = input.text.toString().trim()
                 if (q.isNotEmpty()) {
                     web.findAllAsync(q)
-                    showFindSnack("Procurando…")
+                    showFindSnack(getString(R.string.searching))
                 }
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
         input.requestFocus()
     }
 
     private fun showFindSnack(text: String) {
         val s = Snackbar.make(web, text, Snackbar.LENGTH_INDEFINITE)
-            .setAction("Próximo ›") {
+            .setAction(getString(R.string.next)) {
                 web.findNext(true)
                 showFindSnack("…")
             }
@@ -335,10 +380,11 @@ class ArticleActivity : AppCompatActivity() {
 
     private fun chooseTextSize() {
         val values = intArrayOf(85, 100, 115, 135)
-        val labels = arrayOf("Pequeno", "Normal", "Grande", "Muito grande")
+        val labels = arrayOf(getString(R.string.size_small), getString(R.string.size_normal),
+            getString(R.string.size_large), getString(R.string.size_xlarge))
         val cur = values.indexOf(store.textZoom).coerceAtLeast(0)
         MaterialAlertDialogBuilder(this)
-            .setTitle("Tamanho do texto")
+            .setTitle(R.string.text_size)
             .setSingleChoiceItems(labels, cur) { d, i ->
                 store.textZoom = values[i]
                 web.settings.textZoom = values[i]

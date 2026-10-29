@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Guía del Valle</string>
+    <string name="unofficial_tag">Lector no oficial de la Stardew Valley Wiki</string>
+
+    <string name="tab_home">Inicio</string>
+    <string name="tab_favorites">Favoritos</string>
+    <string name="tab_history">Historial</string>
+
+    <string name="search_hint">Buscar en la wiki…</string>
+    <string name="type_to_search">Escribe un objeto, aldeano, pez, receta…</string>
+    <string name="search_all_fmt">🔎  Buscar \"%s\" en todas las páginas</string>
+    <string name="offline_title">⚠️  Sin conexión</string>
+    <string name="offline_sub">Los favoritos y las páginas ya abiertas siguen disponibles sin conexión</string>
+    <string name="saved_on_device">Guardada en el dispositivo</string>
+    <string name="nothing_found_fmt">No se encontró nada para \"%s\".</string>
+
+    <string name="empty_favorites">Aún no hay favoritos.\nToca ☆ en una página para guardarla aquí.\nLos favoritos funcionan sin conexión.</string>
+    <string name="empty_history">Aún no has visto ninguna página.</string>
+    <string name="no_connection">Sin conexión a internet.</string>
+    <string name="no_connection_retry">Sin conexión. Toca para reintentar.</string>
+    <string name="load_error">No se pudo cargar la página.\nRevisa tu conexión.</string>
+    <string name="details_fmt">Detalle: %s</string>
+    <string name="retry">Reintentar</string>
+
+    <string name="remove_fav_q">¿Quitar de favoritos?</string>
+    <string name="remove_hist_q">¿Quitar del historial?</string>
+    <string name="remove">Quitar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Borrar</string>
+    <string name="ok">OK</string>
+    <string name="clear_history">Borrar historial</string>
+    <string name="clear_history_q">¿Borrar todo el historial?</string>
+    <string name="offline_pages">Páginas guardadas sin conexión</string>
+    <string name="offline_pages_fmt">%1$d páginas (%2$.1f MB). ¿Borrar?</string>
+    <string name="cache_cleared">Páginas guardadas borradas</string>
+    <string name="language">Idioma de la wiki</string>
+    <string name="about">Acerca de y créditos</string>
+
+    <string name="page_updated">Página actualizada</string>
+    <string name="offline_showing_saved">Sin conexión — mostrando la versión guardada</string>
+    <string name="page_not_found_fmt">No se encontró la página \"%s\".</string>
+    <string name="page_missing_on_wiki">Esta página todavía no existe en la wiki</string>
+    <string name="read_only">Esta app es solo de lectura: la edición se hace en el sitio de la wiki.</string>
+    <string name="no_browser">No se encontró un navegador</string>
+    <string name="fav_add">Añadir a favoritos</string>
+    <string name="fav_remove">Quitar de favoritos</string>
+    <string name="fav_added">Añadida a favoritos ⭐</string>
+    <string name="fav_removed">Quitada de favoritos</string>
+    <string name="sections">Secciones</string>
+    <string name="find_in_page">Buscar en esta página</string>
+    <string name="find_hint">Texto a buscar</string>
+    <string name="find_go">Buscar</string>
+    <string name="searching">Buscando…</string>
+    <string name="next">Siguiente ›</string>
+    <string name="nothing_found">No se encontró nada</string>
+    <string name="find_count_fmt">%1$d de %2$d</string>
+    <string name="refresh">Actualizar</string>
+    <string name="text_size">Tamaño del texto</string>
+    <string name="size_small">Pequeño</string>
+    <string name="size_normal">Normal</string>
+    <string name="size_large">Grande</string>
+    <string name="size_xlarge">Muy grande</string>
+    <string name="share">Compartir</string>
+    <string name="view_original">Ver original en la wiki</string>
+    <string name="page_authors">Autores de la página (historial)</string>
+
+    <string name="cat_home_page">Portada de la wiki</string>
+    <string name="cat_all_pages">Todas las páginas</string>
+    <string name="cat_categories">Categorías</string>
+    <string name="cat_random">Página aleatoria</string>
+    <string name="category">Categoría</string>
+    <string name="filter_category">Filtrar en esta categoría…</string>
+    <string name="filter_prefix">Empieza por…</string>
+    <string name="nothing_here">No hay nada aquí.</string>
+
+    <string name="group_community">Comunidad</string>
+    <string name="group_farm">Granja</string>
+    <string name="group_nature">Naturaleza y comida</string>
+    <string name="group_adventure">Aventura</string>
+    <string name="group_explore">Explorar la wiki</string>
+    <string name="home_title">Guía del Valle</string>
+    <string name="home_tagline">La Stardew Valley Wiki en tu móvil</string>
+    <string name="home_search">Buscar objeto, aldeano, pez…</string>
+    <string name="home_recent">Vistos recientemente</string>
+    <string name="home_footer">Stardew Valley fue creado por Eric Barone (ConcernedApe). Contenido de los colaboradores de la Stardew Valley Wiki, CC BY-NC-SA 3.0. App no oficial y sin ánimo de lucro.</string>
+
+    <string name="choose_language">Elige el idioma de la wiki</string>
+    <string name="welcome_title">¡Bienvenido!</string>
+    <string name="welcome_text">Stardew Valley fue creado por Eric Barone (ConcernedApe).\n\nTodo el contenido de esta app proviene de la Stardew Valley Wiki, escrita por su comunidad de colaboradores.\n\nEsta es una app no oficial, gratuita y sin ánimo de lucro: solo consulta la wiki, nunca la edita, y no está afiliada a ConcernedApe.</string>
+    <string name="welcome_continue">Continuar</string>
+    <string name="welcome_credits">Ver créditos</string>
+
+    <string name="article_footer">Contenido de la Stardew Valley Wiki, por sus colaboradores, bajo CC BY-NC-SA 3.0. Adaptado para leer en el móvil.</string>
+    <string name="article_footer_art">Stardew Valley, sus imágenes, arte y lore © ConcernedApe.</string>
+
+    <string name="js_more_details">Más detalles (%d)</string>
+    <string name="js_show_all">Mostrar todos (%d)</string>
+    <string name="js_filter">Filtrar %d elementos…</string>
+    <string name="js_on_this_page">En esta página</string>
+    <string name="js_read_intro">Leer la introducción completa</string>
+    <string name="js_see_also">Ver también</string>
+    <string name="js_show_table">Mostrar la tabla completa (%d filas)</string>
+    <string name="js_show">Mostrar</string>
+
+    <string name="credits_title">Acerca de y créditos</string>
+    <string name="credits_game_h">El juego</string>
+    <string name="credits_game">Stardew Valley fue creado por Eric Barone (ConcernedApe). El contenido y los materiales de Stardew Valley, incluidas imágenes, arte y lore, son marcas y derechos de autor de ConcernedApe.</string>
+    <string name="credits_wiki_h">El contenido</string>
+    <string name="credits_wiki">Todo lo que lees en esta app proviene de la Stardew Valley Wiki, alojada por ConcernedApe y escrita por miles de colaboradores de la comunidad y por los moderadores y administradores de la wiki. ¡Gracias!</string>
+    <string name="credits_wiki_link">Abrir la Stardew Valley Wiki</string>
+    <string name="credits_contrib_link">Ver los colaboradores de la wiki</string>
+    <string name="credits_license_h">Licencia</string>
+    <string name="credits_license">Los textos de la wiki están bajo la licencia Atribución-NoComercial-CompartirIgual 3.0 No Portada (CC BY-NC-SA 3.0), excepto imágenes, arte y lore del desarrollador. Esta app adapta la presentación para móviles y comparte esa adaptación bajo la misma licencia.</string>
+    <string name="credits_license_link">Leer la licencia CC BY-NC-SA 3.0</string>
+    <string name="credits_app_h">Esta app</string>
+    <string name="credits_app">Un proyecto de fans no oficial, gratuito y sin ánimo de lucro: sin anuncios, compras, donaciones ni recogida de datos. Solo consulta la wiki y nunca la edita. No está afiliada ni respaldada por ConcernedApe.</string>
+    <string name="credits_source_link">Código fuente de esta app</string>
+    <string name="credits_font">Fuente Pixelify Sans, de los autores del Pixelify Sans Project, bajo la SIL Open Font License 1.1.</string>
+    <string name="credits_version_fmt">Versión %s</string>
+</resources>

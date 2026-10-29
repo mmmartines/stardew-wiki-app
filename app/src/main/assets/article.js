@@ -3,6 +3,8 @@
   var root = document.querySelector('.mw-parser-output') || document.body;
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var txt = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  var T = window.__t || {};
+  var tr = function (k, def, n) { var v = T[k] || def; return n == null ? v : v.replace('%d', n); };
   var mk = function (tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
   // ---------- limpeza ----------
@@ -230,7 +232,7 @@
         card.appendChild(fl);
         if (fields.length > MAX) {
           var more = mk('details', 'more');
-          more.appendChild(mk('summary', '', 'Mais detalhes (' + (fields.length - MAX) + ')'));
+          more.appendChild(mk('summary', '', tr('more', 'More details (%d)', fields.length - MAX)));
           var fl2 = mk('div', 'fields');
           fields.slice(MAX).forEach(function (f) { fl2.appendChild(f); });
           more.appendChild(fl2);
@@ -248,7 +250,7 @@
   function addFilter(box, list) {
     var inp = mk('input', 'filter');
     inp.type = 'search';
-    inp.placeholder = 'Filtrar ' + list.children.length + ' itens…';
+    inp.placeholder = tr('filter', 'Filter %d items…', list.children.length);
     inp.addEventListener('input', function () {
       var q = inp.value.trim().toLowerCase();
       list.classList.toggle('filtering', !!q);
@@ -265,7 +267,7 @@
     if (items.length <= n + 2) return;
     list.classList.add('clipped');
     items.forEach(function (it, i) { if (i >= n) it.classList.add('extra'); });
-    var b = mk('button', 'showmore', 'Mostrar todos (' + items.length + ')');
+    var b = mk('button', 'showmore', tr('showAll', 'Show all (%d)', items.length));
     b.addEventListener('click', function () { list.classList.remove('clipped'); b.remove(); });
     list.parentNode.insertBefore(b, list.nextSibling);
   }
@@ -288,13 +290,13 @@
   // navbox / tabelas recolhíveis
   $$('table#navbox, table.navbox').forEach(function (t) {
     if (t.closest('details')) return;
-    var d = mk('details', 'navbox'); d.appendChild(mk('summary', '', 'Ver também'));
+    var d = mk('details', 'navbox'); d.appendChild(mk('summary', '', tr('seeAlso', 'See also')));
     t.parentNode.insertBefore(d, t); d.appendChild(t);
   });
   $$('table.mw-collapsible').forEach(function (t) {
     if (t.parentElement.closest('table') || t.closest('details')) return;
     var th = t.querySelector('th');
-    var d = mk('details', 'coll'); d.appendChild(mk('summary', '', th ? txt(th).substring(0, 60) : 'Mostrar'));
+    var d = mk('details', 'coll'); d.appendChild(mk('summary', '', th ? txt(th).substring(0, 60) : tr('show', 'Show')));
     if (th && th.parentElement && $$(':scope > th, :scope > td', th.parentElement).length === 1) th.parentElement.remove();
     t.parentNode.insertBefore(d, t); d.appendChild(t);
   });
@@ -306,7 +308,7 @@
     if (trs.length > 16 && !t.closest('details.navbox')) {
       t.classList.add('clipped');
       trs.forEach(function (tr, i) { if (i > 11) tr.classList.add('extra'); });
-      var b = mk('button', 'showmore', 'Mostrar tabela inteira (' + trs.length + ' linhas)');
+      var b = mk('button', 'showmore', tr('showTable', 'Show full table (%d rows)', trs.length));
       b.addEventListener('click', function () { t.classList.remove('clipped'); b.remove(); });
       t.parentNode.insertBefore(b, t.nextSibling);
     }
@@ -356,14 +358,14 @@
     while (node && node !== firstSec) { if (node.tagName === 'P') paras.push(node); node = node.nextSibling; }
     if (paras.length > 2) {
       var extra = paras.slice(2);
-      var d2 = mk('details', 'leadmore'); d2.appendChild(mk('summary', '', 'Ler introdução completa'));
+      var d2 = mk('details', 'leadmore'); d2.appendChild(mk('summary', '', tr('readIntro', 'Read full introduction')));
       paras[1].parentNode.insertBefore(d2, paras[1].nextSibling);
       extra.forEach(function (p) { d2.appendChild(p); });
     }
     if (heads.length > 2 && firstSec) {
       // abre a primeira seção se for curta
       if (txt(firstSec).length < 900) firstSec.open = true;
-      var box = mk('div', 'jumpbox'); box.appendChild(mk('div', 'jump-t', 'Nesta página'));
+      var box = mk('div', 'jumpbox'); box.appendChild(mk('div', 'jump-t', tr('onPage', 'On this page')));
       box.appendChild(nav);
       root.insertBefore(box, firstSec);
     }
