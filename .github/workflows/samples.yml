@@ -1,0 +1,17 @@
+name: samples
+on:
+  push:
+    paths: ['.github/workflows/samples.yml']
+permissions:
+  contents: write
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir o && cd o
+          for t in Aldeões Abigail Peixes Lavouras Pastinaga Culinária Conjuntos Ferramentas Armas Festivais Sardinha Coleta Animais Habilidades; do
+            curl -s "https://pt.stardewvalleywiki.com/mediawiki/api.php?action=parse&page=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$t")&redirects=1&prop=text|sections&disableeditsection=1&disabletoc=1&disablelimitreport=1&format=json&formatversion=2&utf8=1" -o "$t.json"
+            ls -la "$t.json"
+          done
+          git init -q -b samples && git config user.name a && git config user.email a@b.c && git add . && git commit -qm s && git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" samples
