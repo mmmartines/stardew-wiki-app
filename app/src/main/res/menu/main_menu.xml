@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="Pesquisar"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+    <item android:id="@+id/action_clear_history" android:title="Limpar histórico" app:showAsAction="never" />
+    <item android:id="@+id/action_clear_cache" android:title="Páginas salvas offline" app:showAsAction="never" />
+    <item android:id="@+id/action_about" android:title="Sobre" app:showAsAction="never" />
+</menu>

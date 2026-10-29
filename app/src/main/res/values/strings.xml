@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stardew Wiki PT</string>
+    <string name="tab_home">Início</string>
+    <string name="tab_favorites">Favoritos</string>
+    <string name="tab_history">Histórico</string>
+    <string name="home_subtitle">Escolha uma seção ou pesquise</string>
+    <string name="search_hint">Pesquisar na wiki…</string>
+    <string name="type_to_search">Digite o nome de um item, aldeão, peixe, receita…</string>
+    <string name="empty_favorites">Nenhum favorito ainda.\nToque na ☆ dentro de uma página para salvá-la aqui.\nFavoritos ficam disponíveis offline.</string>
+    <string name="empty_history">Nenhuma página vista ainda.</string>
+    <string name="no_connection">Sem conexão com a internet.</string>
+    <string name="no_connection_retry">Sem conexão. Toque para tentar de novo.</string>
+    <string name="load_error">Não foi possível carregar a página.\nVerifique sua conexão.</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="about_text">App não oficial para consultar a Stardew Valley Wiki em português pelo celular.\n\nTodo o conteúdo vem de pt.stardewvalleywiki.com, mantido pela comunidade e licenciado sob CC BY-NC-SA 3.0.\n\nPáginas abertas ficam salvas no aparelho por 7 dias e podem ser lidas offline.\n\nDica: toque longo em um favorito ou item do histórico para removê-lo.</string>
+</resources>
