@@ -21,4 +21,8 @@
     <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/parchment_dark</item>
     </style>
+    <style name="ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/pixel</item>
+        <item name="android:fontFamily">@font/pixel</item>
+    </style>
 </resources>

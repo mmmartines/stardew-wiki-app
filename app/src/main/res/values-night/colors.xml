@@ -8,4 +8,6 @@
     <color name="bg">#1E1812</color>
     <color name="nav_bg">#2A1F15</color>
     <color name="nav_item">#E7C27F</color>
+    <color name="row_fill">#2A2017</color>
+    <color name="row_edge">#5A4127</color>
 </resources>
