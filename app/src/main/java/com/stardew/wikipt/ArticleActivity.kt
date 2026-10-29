@@ -77,6 +77,7 @@ class ArticleActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_home)
 
         store = Store(this)
+        WebBridge.init(this)
         web = findViewById(R.id.web)
         progress = findViewById(R.id.progress)
         errorBox = findViewById(R.id.error_box)
@@ -138,7 +139,7 @@ class ArticleActivity : AppCompatActivity() {
                         toast("Sem conexão — mostrando versão salva")
                     }
                     e is MissingPageException -> showError("A página \"$title\" não foi encontrada.")
-                    else -> showError(getString(R.string.load_error))
+                    else -> showError(getString(R.string.load_error) + "\n\nDetalhe: " + (e.message ?: e.toString()))
                 }
             }
         }

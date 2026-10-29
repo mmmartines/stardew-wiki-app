@@ -17,7 +17,7 @@ class MissingPageException : Exception("Página não encontrada")
 object WikiApi {
     const val BASE = "https://pt.stardewvalleywiki.com"
     private const val API = "$BASE/mediawiki/api.php"
-    private const val UA = "StardewWikiPT-Android/1.0 (app de leitura pessoal)"
+    private const val UA = "Mozilla/5.0 (Linux; Android 14) StardewWikiPT/1.1 (app de leitura pessoal)"
 
     private fun enc(s: String) = URLEncoder.encode(s, "UTF-8")
 
@@ -29,15 +29,36 @@ object WikiApi {
     private fun get(params: Map<String, String>): JSONObject {
         val all = params + mapOf("format" to "json", "formatversion" to "2", "utf8" to "1")
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
-        val conn = URL("$API?$query").openConnection() as HttpURLConnection
+        if (!useBridge) {
+            try {
+                return JSONObject(direct("$API?$query"))
+            } catch (e: Exception) {
+                lastDirectError = e.toString()
+                useBridge = true // a partir daqui usa o navegador interno
+            }
+        }
         try {
-            conn.connectTimeout = 15000
-            conn.readTimeout = 25000
+            return JSONObject(WebBridge.fetch("/mediawiki/api.php?$query"))
+        } catch (e: Exception) {
+            throw IOException((e.message ?: e.toString()) + "\n(direto: " + lastDirectError + ")")
+        }
+    }
+
+    @Volatile private var useBridge = false
+    @Volatile private var lastDirectError = "-"
+
+    private fun direct(url: String): String {
+        val conn = URL(url).openConnection() as HttpURLConnection
+        try {
+            conn.connectTimeout = 10000
+            conn.readTimeout = 20000
             conn.setRequestProperty("User-Agent", UA)
+            conn.setRequestProperty("Accept", "application/json")
             val code = conn.responseCode
-            if (code !in 200..299) throw IOException("Erro HTTP $code")
+            if (code !in 200..299) throw IOException("HTTP $code")
             val text = conn.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
-            return JSONObject(text)
+            if (!text.trimStart().startsWith("{")) throw IOException("resposta não é JSON")
+            return text
         } finally {
             conn.disconnect()
         }

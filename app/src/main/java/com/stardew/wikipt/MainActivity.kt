@@ -1,6 +1,10 @@
 package com.stardew.wikipt
 
+import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
 import android.os.Handler
 import android.os.Looper
 import android.view.Menu
@@ -10,7 +14,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
@@ -26,7 +29,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
 
     private val rows = RowAdapter()
-    private val cats = CatAdapter { open(it.target) }
+    private lateinit var homeWeb: WebView
+    private var searchItem: MenuItem? = null
+    private var recent: List<String> = emptyList()
     private val handler = Handler(Looper.getMainLooper())
     private var pending: Runnable? = null
     private var requestId = 0
@@ -41,15 +46,16 @@ class MainActivity : AppCompatActivity() {
         empty = findViewById(R.id.empty)
         progress = findViewById(R.id.progress)
         bottomNav = findViewById(R.id.bottom_nav)
-
-        cats.items = Categories.home
+        homeWeb = findViewById(R.id.home_web)
+        WebBridge.init(this)
+        setupHome()
         bottomNav.setOnItemSelectedListener { showTab(it.itemId); true }
         showTab(R.id.nav_home)
     }
 
     override fun onResume() {
         super.onResume()
-        if (!searching && bottomNav.selectedItemId != R.id.nav_home) showTab(bottomNav.selectedItemId)
+        if (!searching) showTab(bottomNav.selectedItemId)
     }
 
     // ---------- Abas ----------
@@ -57,6 +63,8 @@ class MainActivity : AppCompatActivity() {
     private fun showTab(id: Int) {
         progress.isVisible = false
         empty.isVisible = false
+        homeWeb.isVisible = id == R.id.nav_home
+        list.isVisible = id != R.id.nav_home
         when (id) {
             R.id.nav_fav -> {
                 supportActionBar?.subtitle = getString(R.string.tab_favorites)
@@ -67,9 +75,8 @@ class MainActivity : AppCompatActivity() {
                 showTitles(store.history(), getString(R.string.empty_history), fav = false)
             }
             else -> {
-                supportActionBar?.subtitle = getString(R.string.home_subtitle)
-                list.layoutManager = GridLayoutManager(this, 3)
-                list.adapter = cats
+                supportActionBar?.subtitle = null
+                renderHome()
             }
         }
     }
@@ -100,6 +107,31 @@ class MainActivity : AppCompatActivity() {
         empty.isVisible = true
     }
 
+    // ---------- Tela inicial ----------
+
+    @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
+    private fun setupHome() {
+        homeWeb.settings.javaScriptEnabled = true
+        homeWeb.addJavascriptInterface(object {
+            @JavascriptInterface
+            fun open(i: Int) = runOnUiThread { Categories.all.getOrNull(i)?.let { this@MainActivity.open(it.target) } }
+
+            @JavascriptInterface
+            fun recent(i: Int) = runOnUiThread { recent.getOrNull(i)?.let { ArticleActivity.start(this@MainActivity, it) } }
+
+            @JavascriptInterface
+            fun search() = runOnUiThread { searchItem?.expandActionView() }
+        }, "Android")
+    }
+
+    private fun renderHome() {
+        val r = store.history().take(6)
+        if (r == recent && homeWeb.url != null) return
+        recent = r
+        val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", Home.html(dark, r), "text/html", "utf-8", null)
+    }
+
     // ---------- Navegação ----------
 
     private fun open(target: Target) {
@@ -123,6 +155,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         val item = menu.findItem(R.id.action_search)
+        searchItem = item
         val sv = item.actionView as SearchView
         sv.queryHint = getString(R.string.search_hint)
         sv.maxWidth = Int.MAX_VALUE
@@ -155,6 +188,8 @@ class MainActivity : AppCompatActivity() {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
                 searching = true
                 bottomNav.isVisible = false
+                homeWeb.isVisible = false
+                list.isVisible = true
                 supportActionBar?.subtitle = null
                 list.layoutManager = LinearLayoutManager(this@MainActivity)
                 rows.items = emptyList()

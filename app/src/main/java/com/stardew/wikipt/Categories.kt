@@ -7,48 +7,73 @@ sealed class Target {
     object Random : Target()
 }
 
-data class Cat(val emoji: String, val label: String, val target: Target)
+/** [icon] é o caminho do ícone hospedado na própria wiki (carregado ao vivo). */
+data class Cat(val label: String, val icon: String, val target: Target)
+data class Group(val name: String, val items: List<Cat>)
 
-/**
- * Menu principal. Se algum título não existir exatamente com esse nome na wiki,
- * o app abre automaticamente o melhor resultado da busca.
- */
+private const val IMG = "https://stardewvalleywiki.com/mediawiki/images/en/"
+
+private fun a(label: String, icon: String, title: String = label) = Cat(label, IMG + icon, Target.Article(title))
+
 object Categories {
-    val home = listOf(
-        Cat("🏡", "Página inicial", Target.Article("Stardew Valley Wiki")),
-        Cat("👥", "Aldeões", Target.Article("Aldeões")),
-        Cat("🎁", "Amizade e presentes", Target.Article("Amizade")),
-        Cat("💍", "Casamento", Target.Article("Casamento")),
-        Cat("🌱", "Culturas", Target.Article("Culturas")),
-        Cat("🌳", "Árvores frutíferas", Target.Article("Árvores Frutíferas")),
-        Cat("🍄", "Coleta", Target.Article("Forrageamento")),
-        Cat("🐟", "Peixes", Target.Article("Peixes")),
-        Cat("🎣", "Pesca", Target.Article("Pesca")),
-        Cat("💎", "Minerais", Target.Article("Minerais")),
-        Cat("🏺", "Artefatos", Target.Article("Artefatos")),
-        Cat("🐄", "Animais", Target.Article("Animais")),
-        Cat("🔨", "Fabricação", Target.Article("Fabricação")),
-        Cat("🍳", "Culinária", Target.Article("Culinária")),
-        Cat("🧺", "Produtos artesanais", Target.Article("Produtos Artesanais")),
-        Cat("⛏️", "Ferramentas", Target.Article("Ferramentas")),
-        Cat("⚔️", "Armas", Target.Article("Armas")),
-        Cat("💠", "Anéis", Target.Article("Anéis")),
-        Cat("🪨", "As Minas", Target.Article("As Minas")),
-        Cat("💀", "Caverna da Caveira", Target.Article("Caverna da Caveira")),
-        Cat("👾", "Monstros", Target.Article("Monstros")),
-        Cat("📦", "Pacotes", Target.Article("Pacotes")),
-        Cat("📜", "Missões", Target.Article("Missões")),
-        Cat("⭐", "Habilidades", Target.Article("Habilidades")),
-        Cat("🏠", "Construções", Target.Article("Construções")),
-        Cat("🛒", "Lojas", Target.Article("Lojas")),
-        Cat("🎉", "Festivais", Target.Article("Festivais")),
-        Cat("📅", "Calendário", Target.Article("Calendário")),
-        Cat("🍂", "Estações", Target.Article("Estações")),
-        Cat("🗺️", "Mapa", Target.Article("Mapa")),
-        Cat("🏝️", "Ilha Gengibre", Target.Article("Ilha Gengibre")),
-        Cat("🏆", "Conquistas", Target.Article("Conquistas")),
-        Cat("📚", "Todas as páginas", Target.AllPages),
-        Cat("🗂️", "Categorias", Target.AllCategories),
-        Cat("🎲", "Página aleatória", Target.Random),
+    val groups = listOf(
+        Group(
+            "Comunidade", listOf(
+                a("Aldeões", "b/b6/Lewis_Icon.png"),
+                a("Amizade", "8/83/Bouquet.png"),
+                a("Casamento", "e/e0/Mermaid%27s_Pendant.png"),
+                a("Pacotes", "3/3f/Bundle_Red.png", "Conjuntos"),
+                a("Centro Comunitário", "a/a1/Bundle_Purple.png"),
+                a("Missões", "c/c0/Quest.png"),
+                a("Festivais", "4/46/Golden_Pumpkin.png"),
+                a("Vila Pelicanos", "1/10/Gold.png"),
+            )
+        ),
+        Group(
+            "Fazenda", listOf(
+                a("Lavouras", "d/db/Parsnip.png"),
+                a("Árvores frutíferas", "7/7d/Apple.png"),
+                a("Animais", "2/22/White_Chicken.png"),
+                a("Artesanato", "0/08/Sprinkler.png"),
+                a("Mercadorias Artesanais", "6/69/Wine.png"),
+                a("Construções", "4/48/Coop.png", "Construções na Fazenda"),
+                a("Ferramentas", "c/ca/Iridium_Pickaxe.png"),
+                a("Cultivo", "7/75/Scarecrow.png"),
+            )
+        ),
+        Group(
+            "Natureza e comida", listOf(
+                a("Peixes", "0/04/Sardine.png"),
+                a("Pesca", "d/da/Bamboo_Pole.png"),
+                a("Coleta", "2/2e/Common_Mushroom.png"),
+                a("Culinária", "1/18/Fried_Egg.png"),
+                a("Estações", "9/9c/Spring.png"),
+            )
+        ),
+        Group(
+            "Aventura", listOf(
+                a("As Minas", "7/78/Copper_Ore.png"),
+                a("Caverna da Caveira", "e/e9/Iridium_Ore.png"),
+                a("Monstros", "7/7b/Green_Slime.png"),
+                a("Armas", "4/44/Galaxy_Sword.png"),
+                a("Anéis", "d/d3/Ruby_Ring.png"),
+                a("Minerais", "e/ea/Diamond.png"),
+                a("Artefatos", "b/b9/Dwarf_Scroll_I.png"),
+                a("Ilha Gengibre", "5/54/Golden_Walnut.png"),
+            )
+        ),
+        Group(
+            "Explorar a wiki", listOf(
+                a("Página inicial", "a/a5/Stardrop.png", "Stardew Valley Wiki"),
+                a("Habilidades", "8/82/Farming_Skill_Icon.png"),
+                a("Conquistas", "5/56/Prismatic_Shard.png"),
+                a("Mapa", "f/f3/Return_Scepter.png", "Mapa Múndi"),
+                Cat("Todas as páginas", IMG + "f/f3/Lost_Book.png", Target.AllPages),
+                Cat("Categorias", IMG + "b/b3/Chest.png", Target.AllCategories),
+                Cat("Página aleatória", IMG + "8/87/Mystery_Box.png", Target.Random),
+            )
+        ),
     )
+
+    val all: List<Cat> = groups.flatMap { it.items }
 }

@@ -56,6 +56,7 @@ class ListActivity : AppCompatActivity() {
         setSupportActionBar(findViewById<MaterialToolbar>(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        WebBridge.init(this)
         mode = intent.getIntExtra(EXTRA_MODE, MODE_ALL)
         category = intent.getStringExtra(EXTRA_CAT) ?: ""
         supportActionBar?.title = when (mode) {
