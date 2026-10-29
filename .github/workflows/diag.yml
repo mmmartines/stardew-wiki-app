@@ -1,0 +1,14 @@
+name: diag
+on:
+  push:
+    paths: ['.github/workflows/diag.yml']
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          U='https://pt.stardewvalleywiki.com/mediawiki/api.php?action=parse&page=Alde%C3%B5es&prop=sections&format=json&formatversion=2'
+          for ua in "StardewWikiPT-Android/1.0 (app de leitura pessoal)" "Dalvik/2.1.0 (Linux; U; Android 14; Pixel 7 Build/UP1A)" "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36" ""; do
+            echo "=== UA: [$ua]"
+            curl -s -o body.txt -w "%{http_code}\n" -A "$ua" "$U"; head -c 300 body.txt; echo
+          done
