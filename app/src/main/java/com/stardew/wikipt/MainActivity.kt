@@ -67,15 +67,18 @@ class MainActivity : AppCompatActivity() {
         list.isVisible = id != R.id.nav_home
         when (id) {
             R.id.nav_fav -> {
-                supportActionBar?.subtitle = getString(R.string.tab_favorites)
+                supportActionBar?.title = getString(R.string.tab_favorites)
+                supportActionBar?.subtitle = null
                 showTitles(store.favorites(), getString(R.string.empty_favorites), fav = true)
             }
             R.id.nav_history -> {
-                supportActionBar?.subtitle = getString(R.string.tab_history)
+                supportActionBar?.title = getString(R.string.tab_history)
+                supportActionBar?.subtitle = null
                 showTitles(store.history(), getString(R.string.empty_history), fav = false)
             }
             else -> {
                 supportActionBar?.subtitle = null
+                supportActionBar?.title = getString(R.string.tab_home)
                 renderHome()
             }
         }
@@ -129,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         if (r == recent && homeWeb.url != null) return
         recent = r
         val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-        homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", Home.html(dark, r), "text/html", "utf-8", null)
+        homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", Home.html(Fonts.css(this), dark, r), "text/html", "utf-8", null)
     }
 
     // ---------- Navegação ----------

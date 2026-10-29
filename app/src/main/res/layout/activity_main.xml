@@ -54,5 +54,9 @@
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/nav_bg"
+        app:itemIconTint="@color/nav_item_tint"
+        app:itemTextColor="@color/nav_item_tint"
+        app:itemActiveIndicatorStyle="@style/NavIndicator"
         app:menu="@menu/bottom_nav" />
 </LinearLayout>

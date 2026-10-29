@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.StardewWiki" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorPrimaryContainer">@color/green_light</item>
-        <item name="colorSecondary">@color/brown</item>
-        <item name="colorSecondaryContainer">@color/green_light</item>
+        <item name="colorPrimary">@color/wood</item>
+        <item name="colorOnPrimary">#FFF3D6</item>
+        <item name="colorPrimaryContainer">@color/parchment_dark</item>
+        <item name="colorOnPrimaryContainer">@color/ink</item>
+        <item name="colorSecondary">@color/grass</item>
+        <item name="colorSecondaryContainer">@color/parchment_dark</item>
+        <item name="colorOnSecondaryContainer">@color/ink</item>
+        <item name="colorSurface">@color/parchment</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorSurfaceContainer">@color/nav_bg</item>
         <item name="android:windowBackground">@color/bg</item>
         <item name="android:colorBackground">@color/bg</item>
-        <item name="android:statusBarColor">@color/green_dark</item>
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:statusBarColor">@color/wood_dark</item>
+        <item name="android:navigationBarColor">@color/nav_bg</item>
         <item name="android:windowLightStatusBar">false</item>
+    </style>
+    <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/parchment_dark</item>
     </style>
 </resources>

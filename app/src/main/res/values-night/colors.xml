@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green">#3E7323</color>
-    <color name="green_dark">#24420F</color>
-    <color name="green_light">#2F4A1F</color>
-    <color name="brown">#C08A55</color>
-    <color name="bg">#17130E</color>
+    <color name="wood">#5C3414</color>
+    <color name="wood_dark">#3A1F0A</color>
+    <color name="parchment">#2A2017</color>
+    <color name="parchment_dark">#3A2C1E</color>
+    <color name="ink">#F2E2C2</color>
+    <color name="bg">#1E1812</color>
+    <color name="nav_bg">#2A1F15</color>
+    <color name="nav_item">#E7C27F</color>
 </resources>
