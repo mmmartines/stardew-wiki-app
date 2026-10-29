@@ -21,7 +21,8 @@ jobs:
       - name: Compilar
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          set -o pipefail
+          ./gradlew assembleDebug --no-daemon 2>&1 | tee build.log
       - uses: actions/upload-artifact@v4
         with:
           name: StardewWikiPT-apk
@@ -36,3 +37,10 @@ jobs:
           git add StardewWikiPT.apk
           git commit -qm "APK de ${GITHUB_SHA::7}"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" apk
+      - name: Publicar log de erro
+        if: failure()
+        run: |
+          mkdir -p /tmp/l && grep -E "^e: |error:|FAILURE|What went wrong" -A3 build.log > /tmp/l/erro.txt || true
+          tail -60 build.log >> /tmp/l/erro.txt
+          cd /tmp/l && git init -q -b log && git config user.name a && git config user.email a@b.c && git add . && git commit -qm log
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" log
