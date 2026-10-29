@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.StardewWiki" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.StardewWiki" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/wood</item>
         <item name="colorOnPrimary">#FFF3D6</item>
         <item name="colorPrimaryContainer">@color/parchment_dark</item>
@@ -16,8 +16,9 @@
         <item name="android:textColorPrimary">@color/ink</item>
         <item name="android:statusBarColor">@color/wood_dark</item>
         <item name="android:navigationBarColor">@color/nav_bg</item>
-        <item name="android:windowLightStatusBar">false</item>
     </style>
+    <style name="Theme.StardewWiki" parent="Base.StardewWiki" />
+
     <style name="NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/parchment_dark</item>
     </style>

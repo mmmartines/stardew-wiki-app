@@ -110,7 +110,8 @@ body.dark .star{display:block}
  box-shadow:inset 0 0 0 2px var(--woodL),0 3px 0 rgba(0,0,0,.2);text-shadow:1px 1px 0 var(--woodD)}
 .box{background:var(--paper);border:4px solid var(--woodD);border-radius:6px;padding:8px;
  box-shadow:inset 0 0 0 3px var(--woodL),inset 0 0 0 6px var(--paper2),0 4px 0 rgba(0,0,0,.2)}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px}
+.grid{display:flex;flex-wrap:wrap;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px}
+@supports not (display:grid){.cell{width:25%}}
 @media (max-width:330px){.grid{grid-template-columns:repeat(3,1fr)}}
 .cell{text-align:center;padding:4px 2px 2px;border-radius:4px}
 .cell:active{background:rgba(0,0,0,.08)}

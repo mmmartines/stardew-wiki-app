@@ -46,6 +46,13 @@ jobs:
           set -o pipefail
           ./gradlew bundleRelease --no-daemon -PgameIcons=${{ vars.GAME_ICONS || 'false' }} 2>&1 | tee -a build.log
 
+      - name: Validar build de release (sem chave, não publica)
+        if: steps.key.outputs.ok != 'true'
+        run: |
+          set -o pipefail
+          ./gradlew bundleRelease --no-daemon -PgameIcons=false 2>&1 | tee -a build.log
+          rm -rf app/build/outputs/bundle
+
       - uses: actions/upload-artifact@v4
         with:
           name: GuiaDoVale

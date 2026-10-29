@@ -124,3 +124,8 @@ th,td{overflow-wrap:normal;word-break:normal}
 .credit{margin:22px 0 0;padding:10px 12px;font-size:12.5px;line-height:1.45;color:var(--muted);background:var(--card2);border:2px dashed var(--border);border-radius:6px}
 .credit p{margin:4px 0}
 .credit a{font-weight:700}
+@supports not (display:grid){
+.fields,.tiles,ul.compact,ul.gallery{display:flex;flex-wrap:wrap}
+.fields>.f,ul.compact>li{width:48%;margin-right:2%}
+.tiles>.tile,ul.gallery>li{width:31%;margin:0 2% 6px 0}
+}

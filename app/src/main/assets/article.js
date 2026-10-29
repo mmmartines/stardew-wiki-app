@@ -1,5 +1,11 @@
 /* Reorganiza o HTML da wiki para leitura no celular. */
 (function () {
+  // compatibilidade com WebViews antigos (Android 5/6 sem atualização)
+  if (!Element.prototype.matches) Element.prototype.matches = Element.prototype.webkitMatchesSelector;
+  if (!Element.prototype.closest) Element.prototype.closest = function (sel) {
+    var el = this; while (el && el.nodeType === 1) { if (el.matches(sel)) return el; el = el.parentElement; } return null;
+  };
+  if (!Element.prototype.remove) Element.prototype.remove = function () { if (this.parentNode) this.parentNode.removeChild(this); };
   var root = document.querySelector('.mw-parser-output') || document.body;
   var $$ = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
   var txt = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };

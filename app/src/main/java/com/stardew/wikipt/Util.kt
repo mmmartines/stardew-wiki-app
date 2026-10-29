@@ -1,6 +1,5 @@
 package com.stardew.wikipt
 
-import android.text.Html
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.util.concurrent.ExecutorService
@@ -29,7 +28,7 @@ fun AppCompatActivity.toast(msg: String) {
 }
 
 fun stripHtml(s: String): String =
-    Html.fromHtml(s, Html.FROM_HTML_MODE_LEGACY).toString().trim()
+    androidx.core.text.HtmlCompat.fromHtml(s, androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY).toString().trim()
 
 /**
  * Android 15+ desenha o app atrás das barras do sistema (obrigatório a partir do Android 16).
