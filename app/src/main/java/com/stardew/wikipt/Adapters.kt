@@ -47,28 +47,3 @@ class RowAdapter : RecyclerView.Adapter<RowAdapter.VH>() {
         }
     }
 }
-
-class CatAdapter(private val onClick: (Cat) -> Unit) : RecyclerView.Adapter<CatAdapter.VH>() {
-    var items: List<Cat> = emptyList()
-        @SuppressLint("NotifyDataSetChanged")
-        set(v) {
-            field = v; notifyDataSetChanged()
-        }
-
-    class VH(v: View) : RecyclerView.ViewHolder(v) {
-        val emoji: TextView = v.findViewById(R.id.emoji)
-        val label: TextView = v.findViewById(R.id.label)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        VH(LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false))
-
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(h: VH, position: Int) {
-        val c = items[position]
-        h.emoji.text = c.emoji
-        h.label.text = c.label
-        h.itemView.setOnClickListener { onClick(c) }
-    }
-}
