@@ -41,20 +41,23 @@ object WikiApi {
             .replace("%2F", "/")
             .replace("%3A", ":")
 
-    private fun get(params: Map<String, String>): JSONObject {
-        val all = params + mapOf("format" to "json", "formatversion" to "2", "utf8" to "1")
+    private fun get(params: Map<String, String>, base: String = BASE): JSONObject {
+        val other = base != BASE
+        val all = params + mapOf("format" to "json", "formatversion" to "2", "utf8" to "1") +
+            (if (other) mapOf("origin" to "*") else emptyMap())
+        val api = "$base/mediawiki/api.php"
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
         throttle()
         if (!useBridge) {
             try {
-                return JSONObject(direct("$API?$query"))
+                return JSONObject(direct("$api?$query"))
             } catch (e: Exception) {
                 lastDirectError = e.toString()
                 useBridge = true // a partir daqui usa o navegador interno
             }
         }
         try {
-            return JSONObject(WebBridge.fetch("/mediawiki/api.php?$query"))
+            return JSONObject(WebBridge.fetch(if (other) "$api?$query" else "/mediawiki/api.php?$query"))
         } catch (e: Exception) {
             throw IOException((e.message ?: e.toString()) + "\n(direct: " + lastDirectError + ")")
         }
@@ -173,6 +176,18 @@ object WikiApi {
             Hit("Category:$name", "", 14)
         }
         return Chunk(items, cont(j, "accontinue"))
+    }
+
+    /** Título equivalente de [title] (da wiki em [from]) na wiki em [to], via links entre idiomas; null se não houver. */
+    fun translate(title: String, from: String, to: String): String? {
+        if (from == to) return title
+        val j = get(
+            mapOf("action" to "query", "titles" to title, "redirects" to "1", "prop" to "langlinks", "lllang" to to),
+            Lang.base(from)
+        )
+        val page = queryList(j, "pages").firstOrNull() ?: return null
+        val ll = page.optJSONArray("langlinks") ?: return null
+        return if (ll.length() > 0) ll.getJSONObject(0).optString("title").takeIf { it.isNotBlank() } else null
     }
 
     fun random(): String {

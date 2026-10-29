@@ -118,4 +118,6 @@
     <string name="credits_source_link">Código fuente de esta app</string>
     <string name="credits_font">Fuente Pixelify Sans, de los autores del Pixelify Sans Project, bajo la SIL Open Font License 1.1.</string>
     <string name="credits_version_fmt">Versión %s</string>
+    <string name="not_in_lang_fmt">Esta página no está disponible en %1$s. ¿Abrirla en %2$s?</string>
+    <string name="open_in_fmt">Abrir en %s</string>
 </resources>

@@ -13,54 +13,96 @@ class Store(ctx: Context) {
 
     data class Cached(val page: Page, val time: Long)
 
+    private companion object {
+        const val FAV = "favs_all"
+        const val HIST = "hist_all"
+    }
+
+    /** Uma página salva: idioma da wiki + título. */
+    data class Entry(val lang: String, val title: String)
+
     init {
-        // versões antigas guardavam favoritos/histórico sem idioma (eram só em português)
-        if (prefs.contains("fav") || prefs.contains("hist")) {
-            val e = prefs.edit()
-            prefs.getString("fav", null)?.let { e.putString("fav_pt", it) }
-            prefs.getString("hist", null)?.let { e.putString("hist_pt", it) }
-            e.remove("fav").remove("hist").apply()
+        migrate()
+    }
+
+    /**
+     * Favoritos e histórico valem para todos os idiomas (cada item lembra em que idioma foi salvo).
+     * Versões anteriores guardavam uma lista por idioma ("fav_pt", "fav_en"…) ou só em português ("fav").
+     */
+    private fun migrate() {
+        if (prefs.getBoolean("migrated_v2", false)) return
+        val favs = mutableListOf<Entry>()
+        val hist = mutableListOf<Entry>()
+        fun old(key: String): List<String> {
+            val raw = prefs.getString(key, null) ?: return emptyList()
+            return try { JSONArray(raw).let { a -> List(a.length()) { a.getString(it) } } } catch (_: Exception) { emptyList() }
         }
+        old("fav").forEach { favs.add(Entry("pt", it)) }
+        old("hist").forEach { hist.add(Entry("pt", it)) }
+        val e = prefs.edit().remove("fav").remove("hist")
+        Lang.all.forEach { w ->
+            old("fav_" + w.code).forEach { t -> if (favs.none { it.lang == w.code && it.title == t }) favs.add(Entry(w.code, t)) }
+            old("hist_" + w.code).forEach { t -> if (hist.none { it.lang == w.code && it.title == t }) hist.add(Entry(w.code, t)) }
+            e.remove("fav_" + w.code).remove("hist_" + w.code)
+        }
+        e.putString(FAV, toJson(favs)).putString(HIST, toJson(hist)).putBoolean("migrated_v2", true).apply()
     }
 
-    private fun list(key: String): MutableList<String> {
+    private fun toJson(l: List<Entry>): String {
+        val a = JSONArray()
+        l.forEach { a.put(JSONObject().put("l", it.lang).put("t", it.title)) }
+        return a.toString()
+    }
+
+    private fun entries(key: String): MutableList<Entry> = try {
         val a = JSONArray(prefs.getString(key, "[]"))
-        return MutableList(a.length()) { a.getString(it) }
+        MutableList(a.length()) { a.getJSONObject(it).let { o -> Entry(o.getString("l"), o.getString("t")) } }
+    } catch (_: Exception) {
+        mutableListOf()
     }
 
-    private fun save(key: String, l: List<String>) {
-        prefs.edit().putString(key, JSONArray(l).toString()).apply()
+    private fun save(key: String, l: List<Entry>) {
+        prefs.edit().putString(key, toJson(l)).apply()
     }
 
-    fun favorites(): MutableList<String> = list("fav_" + Lang.code)
-    fun isFavorite(t: String) = favorites().contains(t)
+    private fun here(t: String) = Entry(Lang.code, t)
+
+    /** Favoritos de todos os idiomas, do mais recente para o mais antigo. */
+    fun favorites(): MutableList<Entry> = entries(FAV)
+    fun isFavorite(t: String) = favorites().contains(here(t))
 
     fun toggleFavorite(t: String): Boolean {
         val l = favorites()
-        val nowFav = if (l.remove(t)) false else { l.add(0, t); true }
-        save("fav_" + Lang.code, l)
+        val e = here(t)
+        val nowFav = if (l.remove(e)) false else { l.add(0, e); true }
+        save(FAV, l)
         return nowFav
     }
 
-    fun removeFavorite(t: String) {
-        val l = favorites(); l.remove(t); save("fav_" + Lang.code, l)
+    fun removeFavorite(e: Entry) {
+        val l = favorites(); l.remove(e); save(FAV, l)
     }
 
-    fun history(): MutableList<String> = list("hist_" + Lang.code)
+    /** Histórico de todos os idiomas. */
+    fun history(): MutableList<Entry> = entries(HIST)
+
+    /** Histórico só do idioma atual (atalhos da tela inicial). */
+    fun historyHere(): List<String> = history().filter { it.lang == Lang.code }.map { it.title }
 
     fun addHistory(t: String) {
         val l = history()
-        l.remove(t)
-        l.add(0, t)
-        while (l.size > 100) l.removeAt(l.size - 1)
-        save("hist_" + Lang.code, l)
+        val e = here(t)
+        l.remove(e)
+        l.add(0, e)
+        while (l.size > 150) l.removeAt(l.size - 1)
+        save(HIST, l)
     }
 
-    fun removeHistory(t: String) {
-        val l = history(); l.remove(t); save("hist_" + Lang.code, l)
+    fun removeHistory(e: Entry) {
+        val l = history(); l.remove(e); save(HIST, l)
     }
 
-    fun clearHistory() = save("hist_" + Lang.code, emptyList())
+    fun clearHistory() = save(HIST, emptyList())
 
     var textZoom: Int
         get() = prefs.getInt("zoom", 100)

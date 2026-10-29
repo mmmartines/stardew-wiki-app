@@ -151,21 +151,50 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showTitles(titles: List<String>, emptyMsg: String, fav: Boolean) {
+    private fun showTitles(items: List<Store.Entry>, emptyMsg: String, fav: Boolean) {
         list.layoutManager = LinearLayoutManager(this)
-        rows.items = titles.map { t ->
-            Row(t, null, { ArticleActivity.start(this, t) }, { confirmRemove(t, fav) })
+        rows.items = items.map { e ->
+            val w = Lang.all.firstOrNull { it.code == e.lang }
+            val sub = if (e.lang == Lang.code || w == null) null else w.flag + "  " + w.name
+            Row(e.title, sub, { openEntry(e) }, { confirmRemove(e, fav) })
         }
         list.adapter = rows
-        if (titles.isEmpty()) showEmpty(emptyMsg)
+        if (items.isEmpty()) showEmpty(emptyMsg)
     }
 
-    private fun confirmRemove(t: String, fav: Boolean) {
+    /** Abre um favorito/histórico; se for de outro idioma, procura a mesma página no idioma atual. */
+    private fun openEntry(e: Store.Entry) {
+        if (e.lang == Lang.code) {
+            ArticleActivity.start(this, e.title); return
+        }
+        progress.isVisible = true
+        val to = Lang.code
+        runAsync({ WikiApi.translate(e.title, e.lang, to) }) { r ->
+            progress.isVisible = false
+            val t = r.getOrNull()
+            if (t != null) {
+                ArticleActivity.start(this, t)
+            } else {
+                val from = Lang.all.first { it.code == e.lang }
+                wikiDialog()
+                    .setTitle(e.title)
+                    .setMessage(getString(R.string.not_in_lang_fmt, Lang.current().name, from.name))
+                    .setPositiveButton(getString(R.string.open_in_fmt, from.flag + " " + from.name)) { _, _ ->
+                        Lang.set(this, e.lang)
+                        ArticleActivity.start(this, e.title)
+                    }
+                    .setNegativeButton(R.string.cancel, null)
+                    .show()
+            }
+        }
+    }
+
+    private fun confirmRemove(e: Store.Entry, fav: Boolean) {
         wikiDialog()
-            .setTitle(t)
+            .setTitle(e.title)
             .setMessage(if (fav) R.string.remove_fav_q else R.string.remove_hist_q)
             .setPositiveButton(R.string.remove) { _, _ ->
-                if (fav) store.removeFavorite(t) else store.removeHistory(t)
+                if (fav) store.removeFavorite(e) else store.removeHistory(e)
                 showTab(bottomNav.selectedItemId)
             }
             .setNegativeButton(R.string.cancel, null)
@@ -198,7 +227,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun renderHome() {
-        val r = store.history().take(6)
+        val r = store.historyHere().take(6)
         val key = Lang.code + "|" + r.joinToString("|")
         if (key == homeKey && homeWeb.url != null) return
         homeKey = key
@@ -292,7 +321,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun localMatches(q: String): List<String> =
-        (store.favorites() + store.history()).distinct().filter { it.contains(q, ignoreCase = true) }
+        (store.favorites() + store.history()).filter { it.lang == Lang.code }.map { it.title }.distinct()
+            .filter { it.contains(q, ignoreCase = true) }
 
     private fun suggest(q: String) {
         val id = ++requestId

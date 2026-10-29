@@ -120,4 +120,6 @@
     <string name="credits_source_link">Source code of this app</string>
     <string name="credits_font">Pixelify Sans font by the Pixelify Sans Project Authors, SIL Open Font License 1.1.</string>
     <string name="credits_version_fmt">Version %s</string>
+    <string name="not_in_lang_fmt">This page isn\'t available in %1$s. Open it in %2$s?</string>
+    <string name="open_in_fmt">Open in %s</string>
 </resources>
