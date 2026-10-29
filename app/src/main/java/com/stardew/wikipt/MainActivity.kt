@@ -69,12 +69,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun chooseLanguage(cancelable: Boolean, then: (() -> Unit)? = null) {
-        val names = Lang.all.map { it.name }.toTypedArray()
-        MaterialAlertDialogBuilder(this)
+        val selected = Lang.code
+        val adapter = object : android.widget.BaseAdapter() {
+            override fun getCount() = Lang.all.size
+            override fun getItem(i: Int) = Lang.all[i]
+            override fun getItemId(i: Int) = i.toLong()
+            override fun getView(i: Int, convert: View?, parent: android.view.ViewGroup): View {
+                val v = convert ?: layoutInflater.inflate(R.layout.item_lang, parent, false)
+                val w = Lang.all[i]
+                v.findViewById<TextView>(R.id.flag).text = w.flag
+                v.findViewById<TextView>(R.id.name).text = w.name
+                v.findViewById<View>(R.id.check).visibility = if (w.code == selected) View.VISIBLE else View.INVISIBLE
+                return v
+            }
+        }
+        wikiDialog()
             .setTitle(R.string.choose_language)
             .setCancelable(cancelable)
-            .setSingleChoiceItems(names, Lang.index()) { d, i ->
+            .setAdapter(adapter) { d, i ->
                 d.dismiss()
+                if (Lang.all[i].code == selected && then == null) return@setAdapter
                 val chosen = Lang.all[i].code
                 if (then != null) getSharedPreferences("wiki", MODE_PRIVATE).edit().putBoolean("pending_welcome", true).apply()
                 Lang.set(this, chosen) // pode recriar a tela no novo idioma
@@ -82,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                 handler.postDelayed({
                     if (isFinishing || isDestroyed) return@postDelayed
                     homeKey = ""
+                    invalidateOptionsMenu()
                     if (!searching) showTab(bottomNav.selectedItemId)
                     if (getSharedPreferences("wiki", MODE_PRIVATE).getBoolean("pending_welcome", false)) welcome()
                 }, 500)
@@ -100,7 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun welcome() {
         getSharedPreferences("wiki", MODE_PRIVATE).edit().putBoolean("pending_welcome", false).apply()
-        MaterialAlertDialogBuilder(this)
+        wikiDialog()
             .setTitle(R.string.welcome_title)
             .setMessage(R.string.welcome_text)
             .setCancelable(false)
@@ -130,7 +145,7 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 supportActionBar?.title = getString(R.string.app_name)
-                supportActionBar?.subtitle = Lang.all[Lang.index()].name
+                supportActionBar?.subtitle = getString(R.string.unofficial_tag)
                 renderHome()
             }
         }
@@ -146,7 +161,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun confirmRemove(t: String, fav: Boolean) {
-        MaterialAlertDialogBuilder(this)
+        wikiDialog()
             .setTitle(t)
             .setMessage(if (fav) R.string.remove_fav_q else R.string.remove_hist_q)
             .setPositiveButton(R.string.remove) { _, _ ->
@@ -214,6 +229,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menu.findItem(R.id.action_language)?.actionView?.findViewById<TextView>(R.id.flag_button)?.apply {
+            text = Lang.current().flag
+            contentDescription = getString(R.string.language) + ": " + Lang.current().name
+            androidx.appcompat.widget.TooltipCompat.setTooltipText(this, contentDescription)
+            setOnClickListener { chooseLanguage(cancelable = true) }
+        }
         val item = menu.findItem(R.id.action_search)
         searchItem = item
         val sv = item.actionView as SearchView
@@ -316,7 +337,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_language -> chooseLanguage(cancelable = true)
 
-            R.id.action_clear_history -> MaterialAlertDialogBuilder(this)
+            R.id.action_clear_history -> wikiDialog()
                 .setMessage(R.string.clear_history_q)
                 .setPositiveButton(R.string.delete) { _, _ ->
                     store.clearHistory()
@@ -327,7 +348,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_clear_cache -> {
                 val mb = store.cacheBytes() / 1048576.0
-                MaterialAlertDialogBuilder(this)
+                wikiDialog()
                     .setTitle(R.string.offline_pages)
                     .setMessage(getString(R.string.offline_pages_fmt, store.cacheCount(), mb))
                     .setPositiveButton(R.string.delete) { _, _ -> store.clearCache(); toast(getString(R.string.cache_cleared)) }

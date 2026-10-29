@@ -7,22 +7,22 @@ import java.util.Locale
 
 /** Idiomas da Stardew Valley Wiki e o idioma escolhido no app. */
 object Lang {
-    data class Wiki(val code: String, val name: String)
+    data class Wiki(val code: String, val name: String, val flag: String)
 
     /** Mesmos idiomas oferecidos pela wiki na web. */
     val all = listOf(
-        Wiki("pt", "Português"),
-        Wiki("en", "English"),
-        Wiki("es", "Español"),
-        Wiki("fr", "Français"),
-        Wiki("de", "Deutsch"),
-        Wiki("it", "Italiano"),
-        Wiki("hu", "Magyar"),
-        Wiki("ru", "Русский"),
-        Wiki("tr", "Türkçe"),
-        Wiki("ja", "日本語"),
-        Wiki("ko", "한국어"),
-        Wiki("zh", "中文"),
+        Wiki("pt", "Português", "🇧🇷"),
+        Wiki("en", "English", "🇺🇸"),
+        Wiki("es", "Español", "🇪🇸"),
+        Wiki("fr", "Français", "🇫🇷"),
+        Wiki("de", "Deutsch", "🇩🇪"),
+        Wiki("it", "Italiano", "🇮🇹"),
+        Wiki("hu", "Magyar", "🇭🇺"),
+        Wiki("ru", "Русский", "🇷🇺"),
+        Wiki("tr", "Türkçe", "🇹🇷"),
+        Wiki("ja", "日本語", "🇯🇵"),
+        Wiki("ko", "한국어", "🇰🇷"),
+        Wiki("zh", "中文", "🇨🇳"),
     )
 
     private const val PREFS = "wiki"
@@ -55,6 +55,8 @@ object Lang {
         // a interface acompanha o idioma da wiki (textos que não existirem caem no inglês)
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(c))
     }
+
+    fun current() = all[index()]
 
     fun index(c: String = code) = all.indexOfFirst { it.code == c }.coerceAtLeast(0)
 }

@@ -337,7 +337,7 @@ class ArticleActivity : AppCompatActivity() {
         val secs = page?.sections.orEmpty()
         if (secs.isEmpty()) return
         val labels = secs.map { "    ".repeat((it.level - 1).coerceAtLeast(0)) + it.line }.toTypedArray()
-        MaterialAlertDialogBuilder(this)
+        wikiDialog()
             .setTitle(R.string.sections)
             .setItems(labels) { _, i -> scrollToAnchor(secs[i].anchor) }
             .show()
@@ -353,7 +353,7 @@ class ArticleActivity : AppCompatActivity() {
             setPadding(pad, pad / 2, pad, 0)
             addView(input)
         }
-        MaterialAlertDialogBuilder(this)
+        wikiDialog()
             .setTitle(R.string.find_in_page)
             .setView(box)
             .setPositiveButton(R.string.find_go) { _, _ ->
@@ -383,7 +383,7 @@ class ArticleActivity : AppCompatActivity() {
         val labels = arrayOf(getString(R.string.size_small), getString(R.string.size_normal),
             getString(R.string.size_large), getString(R.string.size_xlarge))
         val cur = values.indexOf(store.textZoom).coerceAtLeast(0)
-        MaterialAlertDialogBuilder(this)
+        wikiDialog()
             .setTitle(R.string.text_size)
             .setSingleChoiceItems(labels, cur) { d, i ->
                 store.textZoom = values[i]

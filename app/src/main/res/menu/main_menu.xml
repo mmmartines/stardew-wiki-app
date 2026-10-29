@@ -7,7 +7,11 @@
         android:title="@string/search_hint"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
-    <item android:id="@+id/action_language" android:title="@string/language" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_language"
+        android:title="@string/language"
+        app:actionLayout="@layout/menu_flag"
+        app:showAsAction="always" />
     <item android:id="@+id/action_clear_history" android:title="@string/clear_history" app:showAsAction="never" />
     <item android:id="@+id/action_clear_cache" android:title="@string/offline_pages" app:showAsAction="never" />
     <item android:id="@+id/action_about" android:title="@string/about" app:showAsAction="never" />

@@ -16,6 +16,7 @@
         <item name="android:textColorPrimary">@color/ink</item>
         <item name="android:statusBarColor">@color/wood_dark</item>
         <item name="android:navigationBarColor">@color/nav_bg</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Wiki.Dialog</item>
     </style>
     <style name="Theme.StardewWiki" parent="Base.StardewWiki" />
 
@@ -25,5 +26,40 @@
     <style name="ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
         <item name="fontFamily">@font/pixel</item>
         <item name="android:fontFamily">@font/pixel</item>
+    </style>
+
+    <!-- Janelas de diálogo: pergaminho com moldura de madeira, títulos e botões na fonte pixelada -->
+    <style name="ThemeOverlay.Wiki.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/parchment</item>
+        <item name="colorSurfaceContainerHigh">@color/parchment</item>
+        <item name="colorOnSurface">@color/ink</item>
+        <item name="colorOnSurfaceVariant">@color/ink</item>
+        <item name="colorPrimary">@color/wood_text</item>
+        <item name="colorControlActivated">@color/wood_text</item>
+        <item name="android:textColorPrimary">@color/ink</item>
+        <item name="android:textColorSecondary">@color/ink</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/Wiki.Dialog.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/Wiki.Dialog.Body</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Wiki.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Wiki.Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Wiki.Dialog.Button</item>
+    </style>
+    <style name="Wiki.Dialog.Title" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="fontFamily">@font/pixel</item>
+        <item name="android:fontFamily">@font/pixel</item>
+        <item name="android:textColor">@color/wood_text</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+    <style name="Wiki.Dialog.Body" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+    </style>
+    <style name="Wiki.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="fontFamily">@font/pixel</item>
+        <item name="android:fontFamily">@font/pixel</item>
+        <item name="android:textColor">@color/wood_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 </resources>

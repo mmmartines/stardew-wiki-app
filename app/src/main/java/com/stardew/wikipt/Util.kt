@@ -48,3 +48,8 @@ fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.V
         insets
     }
 }
+
+/** Janela de diálogo no tema do app (pergaminho com moldura de madeira). */
+fun android.content.Context.wikiDialog(): com.google.android.material.dialog.MaterialAlertDialogBuilder =
+    com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+        .setBackground(androidx.core.content.ContextCompat.getDrawable(this, R.drawable.dialog_bg))
