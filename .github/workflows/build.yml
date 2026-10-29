@@ -19,6 +19,9 @@ jobs:
           java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Aplicar ícone oficial (se branding/app-icon.png existir)
+        run: bash branding/apply_icon.sh
+
       - name: Compilar APK de teste
         run: |
           set -o pipefail
