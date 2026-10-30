@@ -1,0 +1,23 @@
+name: Imagens da loja
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/store/make_graphics.py', '.github/workflows/store.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  graphics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pillow
+      - run: python3 docs/store/make_graphics.py
+      - name: Publicar no branch "store"
+        run: |
+          mkdir -p /tmp/out && cp docs/store/feature-*.png /tmp/out/
+          cd /tmp/out && git init -q -b store && git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add . && git commit -qm "Imagens da loja" && git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" store

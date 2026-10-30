@@ -1,0 +1,27 @@
+TITLE: Guía del Valle – Stardew Wiki
+SHORT: Lector gratuito y no oficial de la Stardew Valley Wiki, hecho por un fan.
+FULL:
+Consulta la Stardew Valley Wiki desde el móvil de forma rápida y cómoda.
+
+Guía del Valle es una app no oficial, gratuita y sin ánimo de lucro, hecha por un fan para ayudar a la comunidad. Muestra el contenido de la Stardew Valley Wiki adaptado a pantallas pequeñas: sin tablas cortadas ni páginas difíciles de recorrer.
+
+QUÉ ENCONTRARÁS
+• Menú por secciones: aldeanos, regalos, cultivos, peces, lotes, recetas, minas, armas, festivales y mucho más
+• Búsqueda instantánea por nombre y búsqueda en el texto de todas las páginas
+• Tablas convertidas en tarjetas, con un filtro para encontrar un objeto en listas largas
+• Secciones que se abren y se cierran, para ir directo a lo que te interesa
+• Favoritos e historial, con lectura sin conexión de las páginas que ya abriste
+• Los 12 idiomas de la wiki: español, inglés, portugués, francés, alemán, italiano, húngaro, ruso, turco, japonés, coreano y chino
+• Modo oscuro y tamaño de texto ajustable
+• Funciona desde Android 5 hasta Android 16
+
+SIEMPRE GRATIS
+Sin anuncios, sin compras y sin donaciones. La app no recoge ningún dato: los favoritos y el historial se quedan en tu dispositivo.
+
+SOLO LECTURA
+La app solo consulta la wiki y nunca la edita. Cada página enlaza al artículo original y al historial de quién lo escribió.
+
+CRÉDITOS
+Stardew Valley fue creado por Eric Barone (ConcernedApe). Todo el contenido proviene de la Stardew Valley Wiki, escrita por sus colaboradores y publicada bajo la licencia CC BY-NC-SA 3.0. Las imágenes, el arte y el lore de Stardew Valley pertenecen a ConcernedApe y se usan con su permiso.
+
+Este es un proyecto de fans, no oficial y sin relación con ConcernedApe.

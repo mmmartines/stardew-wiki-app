@@ -1,0 +1,27 @@
+TITLE: Valley Guide – Stardew Wiki
+SHORT: Free, unofficial reader for the Stardew Valley Wiki, made by a fan.
+FULL:
+Look things up in the Stardew Valley Wiki on your phone, quickly and comfortably.
+
+Valley Guide is an unofficial, free and non-profit app made by a fan to help the community. It shows the content of the Stardew Valley Wiki adapted for small screens: no more cut-off tables or pages that are hard to navigate.
+
+WHAT YOU GET
+• Sections menu: villagers, gifts, crops, fish, bundles, recipes, mines, weapons, festivals and much more
+• Instant search by name and full-text search across every page
+• Tables turned into cards, with a filter to find an item in long lists
+• Collapsible sections, so you can jump straight to what you need
+• Favorites and history, with offline reading of pages you already opened
+• All 12 wiki languages: English, Portuguese, Spanish, French, German, Italian, Hungarian, Russian, Turkish, Japanese, Korean and Chinese
+• Dark mode and adjustable text size
+• Works from Android 5 to Android 16
+
+ALWAYS FREE
+No ads, no purchases and no donations. The app collects no data: favorites and history stay on your device.
+
+READ-ONLY
+The app only reads the wiki and never edits it. Every page links to the original article and to the history of who wrote it.
+
+CREDITS
+Stardew Valley was created by Eric Barone (ConcernedApe). All content comes from the Stardew Valley Wiki, written by its contributors and published under the CC BY-NC-SA 3.0 license. Stardew Valley images, art and lore belong to ConcernedApe and are used with permission.
+
+This is an unofficial fan project, not affiliated with ConcernedApe.
