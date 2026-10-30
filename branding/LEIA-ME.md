@@ -1,4 +1,8 @@
-# Ícone oficial (somente com autorização da ConcernedApe)
+# Ícone do app
+
+Desde 30/10/2026 o ícone é a galinha da Stardew Valley Wiki (`White_Chicken.png`), arte da ConcernedApe, usada com a autorização recebida por e-mail: o app nunca pode ser monetizado e deve ser claramente não oficial.
+
+## Como trocar
 
 O ícone atual do app é uma arte própria (broto saindo de um livro).
 
