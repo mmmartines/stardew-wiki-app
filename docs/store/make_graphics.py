@@ -39,9 +39,19 @@ def icon(name, local):
     if local:
         im = Image.open(os.path.join(local, name + ".png"))
     else:
-        url = "https://stardewvalleywiki.com/mediawiki/images/" + ICONS[name]
-        req = urllib.request.Request(url, headers={"User-Agent": "GuiaDoVale-store-graphics/1.0"})
-        im = Image.open(io.BytesIO(urllib.request.urlopen(req, timeout=30).read()))
+        last = None
+        for base in ("https://stardewvalleywiki.com/mediawiki/images/", "https://stardewvalleywiki.com/mediawiki/images/en/"):
+            req = urllib.request.Request(base + ICONS[name], headers={
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) GuiaDoVale-store-graphics/1.0",
+                "Accept": "image/png,image/*"})
+            try:
+                im = Image.open(io.BytesIO(urllib.request.urlopen(req, timeout=30).read()))
+                break
+            except Exception as e:  # tenta o próximo endereço
+                last = e
+                print("falhou", base + ICONS[name], e)
+        else:
+            raise last
     return im.convert("RGBA")
 
 
