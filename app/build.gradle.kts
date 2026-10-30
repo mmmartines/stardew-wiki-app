@@ -22,10 +22,10 @@ android {
     defaultConfig {
         // ID definitivo na loja: não pode mudar depois de publicado
         applicationId = "io.github.mmmartines.guiadovale"
-        minSdk = 21 // Android 5.0+: inclui aparelhos antigos ainda muito usados
+        minSdk = 24 // Android 7.0+: mínimo exigido pela Proteção Automática do Google Play
         targetSdk = 36
-        versionCode = 9
-        versionName = "1.5.1"
+        versionCode = 10
+        versionName = "1.5.2"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("boolean", "GAME_ICONS", gameIcons.toString())
     }

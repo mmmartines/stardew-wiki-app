@@ -13,7 +13,7 @@ lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação ne
 - Páginas adaptadas para celular: tabelas em cartões, seções recolhíveis, filtro em listas longas
 - Favoritos, histórico e leitura offline por idioma
 - Créditos completos: primeira abertura, tela "Sobre e créditos" e rodapé em cada página com link para o original e o histórico de autores
-- Android 5.0 (API 21) ou mais novo; mira o Android 16 (API 36), como exige o Google Play
+- Android 7.0 (API 24) ou mais novo; mira o Android 16 (API 36), como exige o Google Play
 
 ## Builds
 Cada envio para `main` compila no GitHub Actions e publica no branch `apk`:

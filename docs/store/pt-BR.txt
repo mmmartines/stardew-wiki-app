@@ -13,7 +13,7 @@ O QUE VOCÊ ENCONTRA
 • Favoritos e histórico, com leitura offline das páginas que você já abriu
 • Os 12 idiomas da wiki: português, inglês, espanhol, francês, alemão, italiano, húngaro, russo, turco, japonês, coreano e chinês
 • Modo escuro e tamanho de texto ajustável
-• Funciona do Android 5 ao Android 16
+• Funciona do Android 7 ao Android 16
 
 SEMPRE GRATUITO
 Sem anúncios, sem compras e sem doações. O app não coleta nenhum dado: favoritos e histórico ficam só no seu aparelho.
