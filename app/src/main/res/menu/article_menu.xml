@@ -4,6 +4,7 @@
     <item android:id="@+id/action_fav" android:icon="@drawable/ic_star_border" android:title="@string/fav_add" app:showAsAction="always" />
     <item android:id="@+id/action_sections" android:icon="@drawable/ic_toc" android:title="@string/sections" app:showAsAction="always" />
     <item android:id="@+id/action_find" android:icon="@drawable/ic_search" android:title="@string/find_in_page" app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_home" android:icon="@drawable/ic_home" android:title="@string/tab_home" app:showAsAction="never" />
     <item android:id="@+id/action_refresh" android:title="@string/refresh" app:showAsAction="never" />
     <item android:id="@+id/action_text" android:title="@string/text_size" app:showAsAction="never" />
     <item android:id="@+id/action_share" android:title="@string/share" app:showAsAction="never" />

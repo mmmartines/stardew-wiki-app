@@ -8,7 +8,7 @@ seus contribuidores, sob [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/
 lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação nem endosso da ConcernedApe.
 
 ## Recursos
-- 12 idiomas, os mesmos da wiki: pt, en, es, fr, de, it, hu, ru, tr, ja, ko, zh (interface em pt, en e es; os demais usam inglês na interface)
+- 12 idiomas, os mesmos da wiki: pt, en, es, fr, de, it, hu, ru, tr, ja, ko, zh (interface completa em pt, en e es; tela de boas-vindas nos 12)
 - Menu por seções, busca instantânea e no texto completo, todas as páginas e categorias
 - Páginas adaptadas para celular: tabelas em cartões, seções recolhíveis, filtro em listas longas
 - Favoritos, histórico e leitura offline por idioma
@@ -28,7 +28,7 @@ Cada envio para `main` compila no GitHub Actions e publica no branch `apk`:
 2. Converta para texto: `base64 -w0 upload.jks > upload.txt` (no Windows: `certutil -encode upload.jks upload.txt` e apague as linhas BEGIN/END).
 3. No GitHub: **Settings → Secrets and variables → Actions → New repository secret**, crie:
    `SIGNING_KEYSTORE_BASE64` (conteúdo do upload.txt), `SIGNING_STORE_PASSWORD`, `SIGNING_KEY_ALIAS` (`upload`), `SIGNING_KEY_PASSWORD`.
-4. Opcional: em **Variables**, `GAME_ICONS` = `true` só se a ConcernedApe autorizar os ícones do jogo no menu (padrão da loja: `false`, usa ícones próprios).
+4. Os ícones de itens do jogo no menu vêm ligados (uso autorizado pela ConcernedApe em 30/10/2026, desde que o app nunca seja monetizado e seja claramente não oficial). Para desligar, crie em **Variables** `GAME_ICONS` = `false`.
 
 No Google Play Console, ative a **Assinatura de apps do Google Play** e envie o `.aab`.
 

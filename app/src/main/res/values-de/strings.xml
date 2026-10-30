@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Demais textos da interface usam o inglês (values/strings.xml) -->
+<resources>
+    <string name="fan_menu">Über das Projekt</string>
+    <string name="fan_title">Von einem Fan für die Community</string>
+    <string name="fan_p1">Hallo! Diese App wurde von einem Stardew-Valley-Fan entwickelt, der im Wiki auf dem Handy schneller nachschlagen wollte.</string>
+    <string name="fan_p2">Es ist ein gemeinnütziges Projekt: Die App ist kostenlos und bleibt es für immer – ohne Werbung, ohne Käufe und ohne Spenden. Niemand verdient etwas daran. Das einzige Ziel ist, Spielern zu helfen und der Community etwas zurückzugeben.</string>
+    <string name="fan_p3">Stardew Valley wurde von Eric Barone (ConcernedApe) entwickelt. Alles, was du hier liest, stammt aus dem Stardew Valley Wiki und von seinen Mitwirkenden, denen der ganze Verdienst gebührt.</string>
+    <string name="fan_p4">Diese App ist inoffiziell und steht in keiner Verbindung zu ConcernedApe. Sie liest das Wiki nur und bearbeitet es nie.</string>
+    <string name="fan_signoff">Viel Spaß im Tal! 🌱</string>
+    <string name="welcome_continue">Weiter</string>
+    <string name="welcome_credits">Danksagungen ansehen</string>
+    <string name="choose_language">Wähle die Sprache des Wikis</string>
+</resources>

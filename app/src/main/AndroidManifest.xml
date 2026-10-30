@@ -26,6 +26,7 @@
         <activity android:name=".ArticleActivity" android:exported="false" />
         <activity android:name=".ListActivity" android:exported="false" />
         <activity android:name=".CreditsActivity" android:exported="false" />
+        <activity android:name=".FanActivity" android:exported="false" />
 
         <!-- guarda o idioma escolhido no app em Androids anteriores ao 13 -->
         <service

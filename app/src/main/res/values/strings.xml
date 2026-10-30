@@ -122,4 +122,11 @@
     <string name="credits_version_fmt">Version %s</string>
     <string name="not_in_lang_fmt">This page isn\'t available in %1$s. Open it in %2$s?</string>
     <string name="open_in_fmt">Open in %s</string>
+    <string name="fan_menu">About this project</string>
+    <string name="fan_title">Made by a fan, for the community</string>
+    <string name="fan_p1">Hi! This app was made by a Stardew Valley fan who wanted a quicker way to look things up in the wiki on a phone.</string>
+    <string name="fan_p2">It is a non-profit project: it is free and will always be free, with no ads, no purchases and no donations. Nobody earns anything from it. The only goal is to help players and give something back to the community.</string>
+    <string name="fan_p3">Stardew Valley was created by Eric Barone (ConcernedApe). Everything you read here comes from the Stardew Valley Wiki and its contributors, who deserve all the credit.</string>
+    <string name="fan_p4">This app is unofficial and not affiliated with ConcernedApe. It only reads the wiki and never edits it.</string>
+    <string name="fan_signoff">Have fun in the valley! 🌱</string>
 </resources>

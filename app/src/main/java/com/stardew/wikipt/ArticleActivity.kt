@@ -88,7 +88,6 @@ class ArticleActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         applyInsets(toolbar, findViewById(R.id.content))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_home)
 
         store = Store(this)
         WebBridge.init(this)
@@ -301,12 +300,17 @@ class ArticleActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    /** Seta de voltar no topo: volta para a tela anterior, como o botão do aparelho. */
     override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
+    private fun goHome() {
         startActivity(
             Intent(this, MainActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         )
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -317,6 +321,7 @@ class ArticleActivity : AppCompatActivity() {
                 toast(getString(if (now) R.string.fav_added else R.string.fav_removed))
                 invalidateOptionsMenu()
             }
+            R.id.action_home -> goHome()
             R.id.action_sections -> showSections()
             R.id.action_find -> askFind()
             R.id.action_refresh -> load(force = true)

@@ -113,15 +113,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Tela "feito por um fã" — aparece depois de escolher o idioma pela primeira vez. */
     private fun welcome() {
         getSharedPreferences("wiki", MODE_PRIVATE).edit().putBoolean("pending_welcome", false).apply()
-        wikiDialog()
-            .setTitle(R.string.welcome_title)
-            .setMessage(R.string.welcome_text)
-            .setCancelable(false)
-            .setPositiveButton(R.string.welcome_continue, null)
-            .setNeutralButton(R.string.welcome_credits) { _, _ -> openCredits() }
-            .show()
+        startActivity(Intent(this, FanActivity::class.java))
     }
 
     private fun openCredits() = startActivity(Intent(this, CreditsActivity::class.java))
@@ -387,6 +382,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_about -> openCredits()
+            R.id.action_fan -> startActivity(Intent(this, FanActivity::class.java))
 
             else -> return super.onOptionsItemSelected(item)
         }

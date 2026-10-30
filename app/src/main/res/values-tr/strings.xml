@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Demais textos da interface usam o inglês (values/strings.xml) -->
+<resources>
+    <string name="fan_menu">Proje hakkında</string>
+    <string name="fan_title">Bir hayran tarafından, topluluk için</string>
+    <string name="fan_p1">Merhaba! Bu uygulama, telefonda vikide daha hızlı arama yapmak isteyen bir Stardew Valley hayranı tarafından yapıldı.</string>
+    <string name="fan_p2">Kâr amacı gütmeyen bir projedir: ücretsizdir ve her zaman öyle kalacak; reklam, satın alma veya bağış yoktur. Kimse bundan para kazanmıyor. Tek amaç oyunculara yardım etmek ve topluluğa katkıda bulunmaktır.</string>
+    <string name="fan_p3">Stardew Valley, Eric Barone (ConcernedApe) tarafından yaratıldı. Burada okuduğunuz her şey Stardew Valley Wiki\'den ve tüm övgüyü hak eden katkıda bulunanlarından gelir.</string>
+    <string name="fan_p4">Bu uygulama resmî değildir ve ConcernedApe ile bağlantılı değildir. Yalnızca vikiyi okur, asla düzenlemez.</string>
+    <string name="fan_signoff">Vadide iyi eğlenceler! 🌱</string>
+    <string name="welcome_continue">Devam</string>
+    <string name="welcome_credits">Emeği geçenler</string>
+    <string name="choose_language">Viki dilini seçin</string>
+</resources>

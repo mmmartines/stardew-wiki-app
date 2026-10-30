@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Demais textos da interface usam o inglês (values/strings.xml) -->
+<resources>
+    <string name="fan_menu">A projektről</string>
+    <string name="fan_title">Egy rajongótól, a közösségnek</string>
+    <string name="fan_p1">Szia! Ezt az alkalmazást egy Stardew Valley-rajongó készítette, aki gyorsabban szeretett volna keresni a wikiben a telefonján.</string>
+    <string name="fan_p2">Ez egy nonprofit projekt: az alkalmazás ingyenes, és mindig az is marad, hirdetések, vásárlások és adományok nélkül. Senki sem keres rajta semmit. Az egyetlen cél a játékosok segítése és a közösség támogatása.</string>
+    <string name="fan_p3">A Stardew Valleyt Eric Barone (ConcernedApe) készítette. Minden, amit itt olvasol, a Stardew Valley Wikiből és annak közreműködőitől származik, akiket minden elismerés megillet.</string>
+    <string name="fan_p4">Ez az alkalmazás nem hivatalos, és nem áll kapcsolatban a ConcernedApe-pel. Csak olvassa a wikit, soha nem szerkeszti.</string>
+    <string name="fan_signoff">Jó szórakozást a völgyben! 🌱</string>
+    <string name="welcome_continue">Tovább</string>
+    <string name="welcome_credits">Közreműködők</string>
+    <string name="choose_language">Válaszd ki a wiki nyelvét</string>
+</resources>

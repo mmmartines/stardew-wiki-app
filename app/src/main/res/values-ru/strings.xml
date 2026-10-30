@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Demais textos da interface usam o inglês (values/strings.xml) -->
+<resources>
+    <string name="fan_menu">О проекте</string>
+    <string name="fan_title">Создано фанатом для сообщества</string>
+    <string name="fan_p1">Привет! Это приложение создал фанат Stardew Valley, которому хотелось быстрее находить информацию в вики на телефоне.</string>
+    <string name="fan_p2">Это некоммерческий проект: приложение бесплатное и всегда останется таким — без рекламы, покупок и пожертвований. Никто на нём не зарабатывает. Единственная цель — помогать игрокам и поддерживать сообщество.</string>
+    <string name="fan_p3">Stardew Valley создал Эрик Бароне (ConcernedApe). Всё, что вы здесь читаете, взято из Stardew Valley Wiki, и вся заслуга принадлежит её авторам.</string>
+    <string name="fan_p4">Это неофициальное приложение, не связанное с ConcernedApe. Оно только читает вики и никогда её не редактирует.</string>
+    <string name="fan_signoff">Приятного времени в долине! 🌱</string>
+    <string name="welcome_continue">Продолжить</string>
+    <string name="welcome_credits">Авторы</string>
+    <string name="choose_language">Выберите язык вики</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Demais textos da interface usam o inglês (values/strings.xml) -->
+<resources>
+    <string name="fan_menu">关于本项目</string>
+    <string name="fan_title">由粉丝为社区制作</string>
+    <string name="fan_p1">你好！这个应用由一位 Stardew Valley 粉丝制作，他希望在手机上更快地查阅维基。</string>
+    <string name="fan_p2">这是一个非营利项目：应用免费，并将永远免费，没有广告、内购或捐赠。没有任何人从中获利。唯一的目的是帮助玩家、回馈社区。</string>
+    <string name="fan_p3">Stardew Valley 由 Eric Barone（ConcernedApe）创作。你在这里读到的所有内容都来自 Stardew Valley 维基及其贡献者，所有功劳都属于他们。</string>
+    <string name="fan_p4">这是一个非官方应用，与 ConcernedApe 无关。它只读取维基，从不进行编辑。</string>
+    <string name="fan_signoff">祝你在山谷里玩得开心！🌱</string>
+    <string name="welcome_continue">继续</string>
+    <string name="welcome_credits">查看致谢</string>
+    <string name="choose_language">选择维基语言</string>
+</resources>
