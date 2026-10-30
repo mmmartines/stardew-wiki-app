@@ -24,8 +24,8 @@ android {
         applicationId = "io.github.mmmartines.guiadovale"
         minSdk = 21 // Android 5.0+: inclui aparelhos antigos ainda muito usados
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.5.0"
+        versionCode = 9
+        versionName = "1.5.1"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("boolean", "GAME_ICONS", gameIcons.toString())
     }
