@@ -11,4 +11,5 @@
     <string name="welcome_continue">Continua</string>
     <string name="welcome_credits">Vedi i crediti</string>
     <string name="choose_language">Scegli la lingua della wiki</string>
+    <string name="toolbar_subtitle">Lettore non ufficiale</string>
 </resources>

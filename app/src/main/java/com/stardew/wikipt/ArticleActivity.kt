@@ -345,7 +345,7 @@ class ArticleActivity : AppCompatActivity() {
         wikiDialog()
             .setTitle(R.string.sections)
             .setItems(labels) { _, i -> scrollToAnchor(secs[i].anchor) }
-            .show()
+            .show().framed()
     }
 
     private fun askFind() {
@@ -395,7 +395,7 @@ class ArticleActivity : AppCompatActivity() {
                 web.settings.textZoom = values[i]
                 d.dismiss()
             }
-            .show()
+            .show().framed()
     }
 
     override fun onDestroy() {

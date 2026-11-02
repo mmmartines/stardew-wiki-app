@@ -82,12 +82,12 @@ img{image-rendering:pixelated}
  box-shadow:inset 0 0 0 3px var(--woodL),0 4px 0 rgba(0,0,0,.25)}
 .name{font-family:'Pixel',sans-serif;font-weight:700;font-size:28px;text-shadow:2px 2px 0 var(--woodD)}
 .title{font-family:'Pixel',sans-serif;font-size:17px;margin-top:6px;color:#ffd98a}
-.icons{display:flex;justify-content:center;gap:10px;margin:16px 0 4px;font-size:26px}
+.icons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:16px 0 4px;font-size:26px}
 .icons img{width:36px;height:36px;padding:4px;background:var(--slot);border:2px solid var(--woodL);border-radius:4px}
 .box{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;
  background:var(--card);border:4px solid var(--woodD);border-radius:6px;padding:6px 16px 10px;margin:12px 0 16px;
  box-shadow:inset 0 0 0 3px var(--woodL),inset 0 0 0 6px var(--card2),0 4px 0 rgba(0,0,0,.2)}
-p{margin:12px 0}
+p{margin:12px 0;overflow-wrap:anywhere}
 .strong{font-weight:700}
 .small{font-size:14px;color:var(--muted)}
 .sign{font-family:'Pixel',sans-serif;font-size:18px;text-align:center;margin-top:16px}
@@ -97,6 +97,7 @@ button{display:block;width:100%;font-family:'Pixel',sans-serif;cursor:pointer}
 .go:active{transform:translateY(2px);box-shadow:inset 0 0 0 2px var(--woodL),0 2px 0 rgba(0,0,0,.25)}
 .inner{margin:auto 0}
 .board,.icons,.actions{flex:0 0 auto}
+@media (max-width:340px){.name{font-size:22px}.title{font-size:15px}.icons img{width:30px;height:30px}body{padding:12px 10px}}
 @media (max-height:700px){.icons{margin:10px 0 0}.board{padding:10px}.name{font-size:24px}p{margin:9px 0}}
 .link{margin-top:12px;padding:10px;font-size:16px;background:none;border:0;color:var(--link);text-decoration:underline}
 """

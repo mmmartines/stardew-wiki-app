@@ -11,4 +11,5 @@
     <string name="welcome_continue">Tovább</string>
     <string name="welcome_credits">Közreműködők</string>
     <string name="choose_language">Válaszd ki a wiki nyelvét</string>
+    <string name="toolbar_subtitle">Nem hivatalos olvasó</string>
 </resources>

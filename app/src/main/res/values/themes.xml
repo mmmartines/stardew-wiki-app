@@ -26,6 +26,11 @@
     <style name="ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
         <item name="fontFamily">@font/pixel</item>
         <item name="android:fontFamily">@font/pixel</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="ToolbarSubtitle" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#E8D3A8</item>
     </style>
 
     <!-- Janelas de diálogo: pergaminho com moldura de madeira, títulos e botões na fonte pixelada -->

@@ -3,7 +3,7 @@
 body.dark{--bg:#1e1812;--fg:#f0e1c2;--muted:#b49a72;--link:#f0a560;--border:#5a4127;--th:#4a3420;--card:#2a2017;--card2:#34281c;
  --wood:#6b3d17;--woodD:#3a1f0a;--woodL:#8a5428;--slot:#4a3624}
 *{box-sizing:border-box}
-html,body{background:var(--bg);color:var(--fg)}
+html,body{background:var(--bg);color:var(--fg);overflow-x:hidden;max-width:100%}
 body{font-family:sans-serif;font-size:15px;line-height:1.5;margin:0;padding:10px 12px 90px;overflow-wrap:anywhere;
  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 2px,transparent 2px 6px)}
 a{color:var(--link);text-decoration:none;font-weight:600}

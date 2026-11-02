@@ -11,4 +11,5 @@
     <string name="welcome_continue">Weiter</string>
     <string name="welcome_credits">Danksagungen ansehen</string>
     <string name="choose_language">Wähle die Sprache des Wikis</string>
+    <string name="toolbar_subtitle">Inoffizieller Reader</string>
 </resources>

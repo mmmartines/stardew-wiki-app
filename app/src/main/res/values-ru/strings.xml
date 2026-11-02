@@ -11,4 +11,5 @@
     <string name="welcome_continue">Продолжить</string>
     <string name="welcome_credits">Авторы</string>
     <string name="choose_language">Выберите язык вики</string>
+    <string name="toolbar_subtitle">Неофициальное приложение</string>
 </resources>

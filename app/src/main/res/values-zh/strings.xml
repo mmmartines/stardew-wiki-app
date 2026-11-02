@@ -11,4 +11,5 @@
     <string name="welcome_continue">继续</string>
     <string name="welcome_credits">查看致谢</string>
     <string name="choose_language">选择维基语言</string>
+    <string name="toolbar_subtitle">非官方阅读器</string>
 </resources>

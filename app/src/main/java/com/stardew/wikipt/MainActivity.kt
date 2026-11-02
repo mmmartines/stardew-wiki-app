@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     if (getSharedPreferences("wiki", MODE_PRIVATE).getBoolean("pending_welcome", false)) welcome()
                 }, 500)
             }
-            .show()
+            .show().framed()
     }
 
     override fun onPostResume() {
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 supportActionBar?.title = getString(R.string.app_name)
-                supportActionBar?.subtitle = getString(R.string.unofficial_tag)
+                supportActionBar?.subtitle = getString(R.string.toolbar_subtitle)
                 renderHome()
             }
         }

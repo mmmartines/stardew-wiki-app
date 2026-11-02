@@ -11,4 +11,5 @@
     <string name="welcome_continue">Devam</string>
     <string name="welcome_credits">Emeği geçenler</string>
     <string name="choose_language">Viki dilini seçin</string>
+    <string name="toolbar_subtitle">Resmî olmayan okuyucu</string>
 </resources>

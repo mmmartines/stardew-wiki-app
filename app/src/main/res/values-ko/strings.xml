@@ -11,4 +11,5 @@
     <string name="welcome_continue">계속</string>
     <string name="welcome_credits">크레딧 보기</string>
     <string name="choose_language">위키 언어를 선택하세요</string>
+    <string name="toolbar_subtitle">비공식 리더</string>
 </resources>

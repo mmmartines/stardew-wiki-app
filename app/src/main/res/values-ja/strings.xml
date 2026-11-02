@@ -11,4 +11,5 @@
     <string name="welcome_continue">続ける</string>
     <string name="welcome_credits">クレジットを見る</string>
     <string name="choose_language">Wikiの言語を選んでください</string>
+    <string name="toolbar_subtitle">非公式リーダー</string>
 </resources>

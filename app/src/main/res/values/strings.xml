@@ -129,4 +129,5 @@
     <string name="fan_p3">Stardew Valley was created by Eric Barone (ConcernedApe). Everything you read here comes from the Stardew Valley Wiki and its contributors, who deserve all the credit.</string>
     <string name="fan_p4">This app is unofficial and not affiliated with ConcernedApe. It only reads the wiki and never edits it.</string>
     <string name="fan_signoff">Have fun in the valley! 🌱</string>
+    <string name="toolbar_subtitle">Unofficial reader</string>
 </resources>

@@ -53,3 +53,15 @@ fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.V
 fun android.content.Context.wikiDialog(): com.google.android.material.dialog.MaterialAlertDialogBuilder =
     com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
         .setBackground(androidx.core.content.ContextCompat.getDrawable(this, R.drawable.dialog_bg))
+
+/** Listas em diálogos não encostam na moldura de madeira (telas baixas cortavam o último item). */
+fun androidx.appcompat.app.AlertDialog.framed(): androidx.appcompat.app.AlertDialog {
+    val pad = (10 * context.resources.displayMetrics.density).toInt()
+    listView?.apply {
+        setPadding(paddingLeft, paddingTop, paddingRight, pad)
+        clipToPadding = true
+        isVerticalScrollBarEnabled = true
+        isScrollbarFadingEnabled = false
+    }
+    return this
+}

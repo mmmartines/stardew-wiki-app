@@ -71,8 +71,9 @@ class CreditsActivity : AppCompatActivity() {
         const val CSS = """
 :root{--bg:#f7e2b0;--fg:#3b2412;--muted:#7a5a35;--link:#a8410f;--card:#fff1cc;--wood:#9a5a24;--woodD:#5a2f0e;--woodL:#c27a3a}
 body.dark{--bg:#1e1812;--fg:#f0e1c2;--muted:#b49a72;--link:#f0a560;--card:#2a2017;--wood:#6b3d17;--woodD:#3a1f0a;--woodL:#8a5428}
-html,body{background:var(--bg);color:var(--fg);margin:0}
-body{font-family:sans-serif;font-size:15px;line-height:1.55;padding:14px 14px 40px}
+html,body{background:var(--bg);color:var(--fg);margin:0;overflow-x:hidden}
+body{font-family:sans-serif;font-size:15px;line-height:1.55;padding:14px 14px 40px;overflow-wrap:anywhere}
+@media (max-width:340px){body{padding:10px 10px 30px}.name{font-size:22px}.box{padding:4px 10px 8px}}
 .head{text-align:center;padding:16px 10px;margin-bottom:14px;background:var(--wood);color:#ffe9b8;border:4px solid var(--woodD);border-radius:6px;box-shadow:inset 0 0 0 3px var(--woodL)}
 .name{font-family:'Pixel',sans-serif;font-weight:700;font-size:26px;text-shadow:2px 2px 0 var(--woodD)}
 .tag{font-size:14px;margin-top:2px}.ver{font-size:12px;opacity:.85;margin-top:6px}

@@ -66,7 +66,7 @@ body.dark{
  --wood:#6b3d17;--woodL:#8a5428;--woodD:#3a1f0a;--ink:#f3e3c3;
  --paper:#3a2c1e;--paper2:#2d2116;--slot:#4a3624;--slotD:#2a1d12;--bg:#1e1812;--muted:#b49a72}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink)}
+html,body{margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden;max-width:100%}
 body{font-family:'Pixel',sans-serif;padding:0 10px 30px;
  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 2px,transparent 2px 6px)}
 img{image-rendering:pixelated}
@@ -88,14 +88,14 @@ body.dark .star{display:block}
  box-shadow:inset 0 -12px 0 var(--grass2)}
 .grass:before{content:'';position:absolute;left:0;right:0;top:-12px;height:8px;
  background:repeating-linear-gradient(90deg,var(--grassTop) 0 6px,transparent 6px 14px)}
-.sign{position:absolute;left:50%;transform:translateX(-50%);bottom:22px;width:230px;height:110px}
+.sign{position:absolute;left:50%;transform:translateX(-50%);bottom:22px;width:230px;max-width:calc(100% - 24px);height:110px}
 .post{position:absolute;bottom:0;width:10px;height:60px;background:var(--woodD)}
 .p1{left:40px}.p2{right:40px}
 .board{position:absolute;left:0;right:0;top:0;padding:12px 8px 10px;text-align:center;
  background:var(--wood);border:4px solid var(--woodD);border-radius:4px;
  box-shadow:inset 0 0 0 3px var(--woodL), 0 4px 0 rgba(0,0,0,.25);
  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 2px,transparent 2px 14px)}
-.t1{font-size:28px;font-weight:700;color:#ffe9b8;text-shadow:2px 2px 0 var(--woodD),-1px -1px 0 #3a1a05}
+.t1{font-size:28px;white-space:nowrap;font-weight:700;color:#ffe9b8;text-shadow:2px 2px 0 var(--woodD),-1px -1px 0 #3a1a05}
 .t2{font-size:14px;color:#ffd98a;margin-top:2px;text-shadow:1px 1px 0 var(--woodD)}
 
 .search{margin:14px 2px 6px;padding:11px 12px;font-size:16px;color:var(--muted);
@@ -110,19 +110,23 @@ body.dark .star{display:block}
  box-shadow:inset 0 0 0 2px var(--woodL),0 3px 0 rgba(0,0,0,.2);text-shadow:1px 1px 0 var(--woodD)}
 .box{background:var(--paper);border:4px solid var(--woodD);border-radius:6px;padding:8px;
  box-shadow:inset 0 0 0 3px var(--woodL),inset 0 0 0 6px var(--paper2),0 4px 0 rgba(0,0,0,.2)}
-.grid{display:flex;flex-wrap:wrap;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:4px}
+/* colunas pela largura do texto: com fonte do sistema grande, cabem menos por linha em vez de quebrar palavras */
+.grid{display:flex;flex-wrap:wrap;display:grid;grid-template-columns:repeat(auto-fill,minmax(6.1em,1fr));gap:4px;padding:2px;font-size:12.5px}
 @supports not (display:grid){.cell{width:25%}}
-@media (max-width:330px){.grid{grid-template-columns:repeat(3,1fr)}}
-.cell{text-align:center;padding:4px 2px 2px;border-radius:4px}
+.cell{text-align:center;padding:4px 1px 2px;border-radius:4px;min-width:0}
 .cell:active{background:rgba(0,0,0,.08)}
-.slot{width:54px;height:54px;margin:0 auto 4px;background:var(--slot);
+.slot{width:54px;height:54px;max-width:100%;margin:0 auto 4px;background:var(--slot);
  border:3px solid var(--slotD);border-radius:3px;display:flex;align-items:center;justify-content:center;
  box-shadow:inset 3px 3px 0 rgba(0,0,0,.12),inset -2px -2px 0 rgba(255,255,255,.25)}
 .cell:active .slot{border-color:#e05a2a}
 .slot img{width:36px;height:36px;object-fit:contain}
 .emo{font-size:28px;line-height:1}
-.label{font-size:13px;line-height:1.15;min-height:30px;display:flex;align-items:flex-start;justify-content:center}
+.label{font-size:1em;line-height:1.15;min-height:30px;display:flex;align-items:flex-start;justify-content:center;
+ overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
+/* telas estreitas ou fonte do sistema grande */
+@media (max-width:380px){.box{padding:6px}.slot{width:48px;height:48px}.slot img{width:32px;height:32px}.t1{font-size:24px}.grid{font-size:12px}}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip{background:var(--paper);border:3px solid var(--woodD);border-radius:3px;padding:4px 10px;font-size:14px;
  box-shadow:0 2px 0 var(--woodD)}
 .foot{font-family:sans-serif;font-size:11px;color:var(--muted);text-align:center;margin-top:26px}
