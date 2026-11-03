@@ -48,12 +48,15 @@ object WikiApi {
         val api = "$base/mediawiki/api.php"
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
         throttle()
+        // de tempos em tempos tenta de novo a conexão direta (o bloqueio anti-robô costuma ser passageiro)
+        if (useBridge && android.os.SystemClock.elapsedRealtime() - bridgeSince > 180_000) useBridge = false
         if (!useBridge) {
             try {
                 return JSONObject(direct("$api?$query"))
             } catch (e: Exception) {
                 lastDirectError = e.toString()
                 useBridge = true // a partir daqui usa o navegador interno
+                bridgeSince = android.os.SystemClock.elapsedRealtime()
             }
         }
         try {
@@ -64,6 +67,7 @@ object WikiApi {
     }
 
     @Volatile private var useBridge = false
+    @Volatile private var bridgeSince = 0L
     @Volatile private var lastDirectError = "-"
 
     private fun direct(url: String): String {

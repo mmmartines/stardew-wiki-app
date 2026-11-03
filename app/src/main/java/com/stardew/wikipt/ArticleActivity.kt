@@ -82,6 +82,7 @@ class ArticleActivity : AppCompatActivity() {
     private var findSnack: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        edgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article)
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)

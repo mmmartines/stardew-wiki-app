@@ -61,5 +61,6 @@
         app:itemIconTint="@color/nav_item_tint"
         app:itemTextColor="@color/nav_item_tint"
         app:itemActiveIndicatorStyle="@style/NavIndicator"
-        app:menu="@menu/bottom_nav" />
+        app:menu="@menu/bottom_nav"
+        app:paddingBottomSystemWindowInsets="false" />
 </LinearLayout>

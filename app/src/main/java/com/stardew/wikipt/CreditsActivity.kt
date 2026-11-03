@@ -16,6 +16,7 @@ import com.google.android.material.appbar.MaterialToolbar
 class CreditsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        edgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits)
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)

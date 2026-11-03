@@ -35,10 +35,11 @@ class MainActivity : AppCompatActivity() {
     private var recent: List<String> = emptyList()
     private val handler = Handler(Looper.getMainLooper())
     private var pending: Runnable? = null
-    private var requestId = 0
+    @Volatile private var requestId = 0
     private var searching = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        edgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         progress = findViewById(R.id.progress)
         bottomNav = findViewById(R.id.bottom_nav)
         homeWeb = findViewById(R.id.home_web)
-        applyInsets(toolbar, bottomNav)
+        applyInsets(toolbar, bottomNav, navBar = true)
         setupHome()
         bottomNav.setOnItemSelectedListener { showTab(it.itemId); true }
         showTab(R.id.nav_home)
@@ -322,7 +323,7 @@ class MainActivity : AppCompatActivity() {
     private fun suggest(q: String) {
         val id = ++requestId
         progress.isVisible = true
-        runAsync({ WikiApi.prefix(q) }) { r ->
+        runAsync({ if (id != requestId) throw java.util.concurrent.CancellationException(); WikiApi.prefix(q) }) { r ->
             if (id != requestId) return@runAsync
             progress.isVisible = false
             empty.isVisible = false
@@ -342,7 +343,7 @@ class MainActivity : AppCompatActivity() {
         val id = ++requestId
         progress.isVisible = true
         empty.isVisible = false
-        runAsync({ WikiApi.search(q) }) { r ->
+        runAsync({ if (id != requestId) throw java.util.concurrent.CancellationException(); WikiApi.search(q) }) { r ->
             if (id != requestId) return@runAsync
             progress.isVisible = false
             r.onSuccess { hits ->

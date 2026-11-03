@@ -11,6 +11,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -64,18 +65,49 @@ object WebBridge {
     /** Idioma trocado: a página-base passa a ser a da nova wiki. */
     fun reset() {
         if (!::app.isInitialized || web == null) return
-        reload()
+        reload(force = true)
     }
 
-    private fun reload() {
-        ready = CountDownLatch(1)
+    @Volatile private var lastReload = 0L
+
+    /**
+     * Recarrega a página-base, no máximo uma vez a cada 10 s. Antes, cada falha recarregava a página,
+     * o que derrubava os outros pedidos em andamento, que falhavam e recarregavam de novo, até a busca parar.
+     */
+    private fun reload(force: Boolean = false) {
+        val now = android.os.SystemClock.elapsedRealtime()
+        synchronized(this) {
+            if (!force && now - lastReload < 10_000) return
+            lastReload = now
+            ready = CountDownLatch(1)
+        }
+        // pedidos presos na página antiga não vão responder: libera quem está esperando
+        latches.keys.toList().forEach { id -> results[id] = arrayOf("0", "reload"); latches.remove(id)?.countDown() }
         main.post { ensure(); web?.loadUrl(HOME) }
     }
 
+    /** No máximo 3 pedidos ao mesmo tempo pelo navegador interno. */
+    private val gate = Semaphore(3)
+
     /** Busca [url] (mesma origem da wiki) e devolve o texto. Chamar fora da thread principal. */
     fun fetch(url: String, attempt: Int = 0): String {
+        var error: IOException? = null
+        if (!gate.tryAcquire(20, TimeUnit.SECONDS)) throw IOException("Navegador interno ocupado")
+        try {
+            return fetchOnce(url)
+        } catch (e: IOException) {
+            error = e
+        } finally {
+            gate.release()
+        }
+        if (attempt > 0) throw error ?: IOException("Sem resposta")
+        reload()
+        return fetch(url, 1)
+    }
+
+    private fun fetchOnce(url: String): String {
         main.post { ensure() }
-        ready.await(25, TimeUnit.SECONDS)
+        ready.await(15, TimeUnit.SECONDS)
         val id = seq.incrementAndGet()
         val latch = CountDownLatch(1)
         latches[id] = latch
@@ -86,20 +118,14 @@ object WebBridge {
             ensure()
             web?.evaluateJavascript(js, null)
         }
-        if (!latch.await(30, TimeUnit.SECONDS)) {
+        if (!latch.await(20, TimeUnit.SECONDS)) {
             latches.remove(id)
+            results.remove(id)
             throw IOException("Tempo esgotado (navegador interno)")
         }
         val r = results.remove(id) ?: throw IOException("Sem resposta")
         val text = r[1] ?: ""
-        val looksJson = text.trimStart().startsWith("{")
-        if (r[0] != "1" || !looksJson) {
-            if (attempt == 0) {
-                reload()
-                return fetch(url, 1)
-            }
-            throw IOException("Navegador interno: " + text.take(120))
-        }
+        if (r[0] != "1" || !text.trimStart().startsWith("{")) throw IOException("Navegador interno: " + text.take(120))
         return text
     }
 }

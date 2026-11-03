@@ -51,6 +51,7 @@ class ListActivity : AppCompatActivity() {
     private var pending: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        edgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)

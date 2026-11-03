@@ -17,6 +17,7 @@ class FanActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     override fun onCreate(savedInstanceState: Bundle?) {
+        edgeToEdge()
         super.onCreate(savedInstanceState)
         val bg = androidx.core.content.ContextCompat.getColor(this, R.color.bg)
         val root = android.widget.FrameLayout(this).apply { setBackgroundColor(bg) }

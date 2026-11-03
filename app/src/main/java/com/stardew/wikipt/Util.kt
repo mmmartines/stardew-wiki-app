@@ -9,6 +9,14 @@ object Bg {
     val pool: ExecutorService = Executors.newCachedThreadPool()
 }
 
+/**
+ * Exibição de ponta a ponta do jeito recomendado pelo Google (igual em todas as versões do Android).
+ * Barra de status transparente com ícones claros sobre a madeira; a de navegação se ajusta ao tema.
+ */
+fun androidx.activity.ComponentActivity.edgeToEdge() {
+    enableEdgeToEdge(statusBarStyle = androidx.activity.SystemBarStyle.dark(android.graphics.Color.TRANSPARENT))
+}
+
 /** Executa [work] em segundo plano e entrega o resultado na thread principal. */
 fun <T> AppCompatActivity.runAsync(work: () -> T, done: (Result<T>) -> Unit) {
     Bg.pool.execute {
@@ -34,17 +42,24 @@ fun stripHtml(s: String): String =
  * Android 15+ desenha o app atrás das barras do sistema (obrigatório a partir do Android 16).
  * Dá espaço no topo para a barra de status e embaixo para a barra de navegação/teclado.
  */
-fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.View?) {
+fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.View?, navBar: Boolean = false) {
     val t0 = top.paddingTop
     val b0 = bottom?.paddingBottom ?: 0
+    val gap = (6 * resources.displayMetrics.density).toInt()
     androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(top.rootView) { _, insets ->
-        val bars = insets.getInsets(
-            androidx.core.view.WindowInsetsCompat.Type.systemBars() or
-                androidx.core.view.WindowInsetsCompat.Type.displayCutout()
-        )
-        val ime = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime())
+        val T = androidx.core.view.WindowInsetsCompat.Type
+        val bars = insets.getInsets(T.systemBars() or T.displayCutout())
+        val ime = insets.getInsets(T.ime())
         top.setPadding(top.paddingLeft, t0 + bars.top, top.paddingRight, top.paddingBottom)
-        bottom?.setPadding(bottom.paddingLeft, bottom.paddingTop, bottom.paddingRight, b0 + maxOf(bars.bottom, ime.bottom))
+        val nav = if (navBar) {
+            // Navegação por gestos: a barra do sistema é só o traço de arrastar (não tem botões),
+            // então a barra de abas desce e fica só um respiro; com 3 botões, reserva a altura inteira.
+            val tappable = insets.getInsets(T.tappableElement()).bottom
+            if (tappable > 0) bars.bottom else minOf(bars.bottom, gap)
+        } else bars.bottom
+        val imeOpen = ime.bottom > bars.bottom
+        bottom?.setPadding(bottom.paddingLeft, bottom.paddingTop, bottom.paddingRight,
+            b0 + if (imeOpen) ime.bottom else nav)
         insets
     }
 }
