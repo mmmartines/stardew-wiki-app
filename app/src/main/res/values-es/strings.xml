@@ -128,4 +128,10 @@
     <string name="fan_p4">Esta app no es oficial y no está afiliada a ConcernedApe. Solo consulta la wiki y nunca la edita.</string>
     <string name="fan_signoff">¡Diviértete en el valle! 🌱</string>
     <string name="toolbar_subtitle">Lector no oficial</string>
+    <string name="offline_screen_title">Sin conexión a internet</string>
+    <string name="offline_screen_text">La Guía del Valle necesita internet para cargar las páginas de la wiki. Esta pantalla desaparece sola en cuanto vuelva la conexión.</string>
+    <string name="offline_waiting">Esperando conexión…</string>
+    <string name="offline_see_saved">Ver páginas guardadas</string>
+    <string name="offline_banner">📡 Sin internet · solo páginas guardadas</string>
+    <string name="js_zoom_hint">Usa dos dedos o toca dos veces para ampliar</string>
 </resources>

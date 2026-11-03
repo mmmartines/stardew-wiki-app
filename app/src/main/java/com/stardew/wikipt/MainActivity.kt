@@ -54,6 +54,12 @@ class MainActivity : AppCompatActivity() {
         setupHome()
         bottomNav.setOnItemSelectedListener { showTab(it.itemId); true }
         showTab(R.id.nav_home)
+        Offline.attach(this, toolbar, full = true,
+            onSeeSaved = { bottomNav.selectedItemId = R.id.nav_fav },
+            onOnline = {
+                homeKey = ""
+                if (!searching) showTab(bottomNav.selectedItemId)
+            })
 
         if (!Lang.load(this)) firstRun()
     }

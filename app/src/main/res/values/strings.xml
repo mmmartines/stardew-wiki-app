@@ -130,4 +130,10 @@
     <string name="fan_p4">This app is unofficial and not affiliated with ConcernedApe. It only reads the wiki and never edits it.</string>
     <string name="fan_signoff">Have fun in the valley! 🌱</string>
     <string name="toolbar_subtitle">Unofficial reader</string>
+    <string name="offline_screen_title">No internet connection</string>
+    <string name="offline_screen_text">Valley Guide needs internet to fetch pages from the wiki. This screen disappears on its own as soon as you\'re back online.</string>
+    <string name="offline_waiting">Waiting for connection…</string>
+    <string name="offline_see_saved">See saved pages</string>
+    <string name="offline_banner">📡 No internet · showing saved pages only</string>
+    <string name="js_zoom_hint">Pinch or double-tap to zoom</string>
 </resources>

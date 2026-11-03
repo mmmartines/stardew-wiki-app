@@ -12,4 +12,10 @@
     <string name="welcome_credits">Közreműködők</string>
     <string name="choose_language">Válaszd ki a wiki nyelvét</string>
     <string name="toolbar_subtitle">Nem hivatalos olvasó</string>
+    <string name="offline_screen_title">Nincs internetkapcsolat</string>
+    <string name="offline_screen_text">Az alkalmazásnak internet kell a wiki oldalainak betöltéséhez. Ez a képernyő magától eltűnik, amint visszajön a kapcsolat.</string>
+    <string name="offline_waiting">Várakozás a kapcsolatra…</string>
+    <string name="offline_see_saved">Mentett oldalak</string>
+    <string name="offline_banner">📡 Offline · csak mentett oldalak</string>
+    <string name="js_zoom_hint">Nagyításhoz csípd össze vagy koppints duplán</string>
 </resources>

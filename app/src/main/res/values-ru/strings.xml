@@ -12,4 +12,10 @@
     <string name="welcome_credits">Авторы</string>
     <string name="choose_language">Выберите язык вики</string>
     <string name="toolbar_subtitle">Неофициальное приложение</string>
+    <string name="offline_screen_title">Нет подключения к интернету</string>
+    <string name="offline_screen_text">Приложению нужен интернет, чтобы загружать страницы вики. Этот экран исчезнет сам, как только связь восстановится.</string>
+    <string name="offline_waiting">Ожидание подключения…</string>
+    <string name="offline_see_saved">Сохранённые страницы</string>
+    <string name="offline_banner">📡 Нет интернета · только сохранённые страницы</string>
+    <string name="js_zoom_hint">Сведите пальцы или коснитесь дважды для увеличения</string>
 </resources>

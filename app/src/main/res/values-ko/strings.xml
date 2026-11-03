@@ -12,4 +12,10 @@
     <string name="welcome_credits">크레딧 보기</string>
     <string name="choose_language">위키 언어를 선택하세요</string>
     <string name="toolbar_subtitle">비공식 리더</string>
+    <string name="offline_screen_title">인터넷에 연결되어 있지 않습니다</string>
+    <string name="offline_screen_text">위키 페이지를 불러오려면 인터넷이 필요합니다. 연결되면 이 화면은 자동으로 사라집니다.</string>
+    <string name="offline_waiting">연결을 기다리는 중…</string>
+    <string name="offline_see_saved">저장된 페이지 보기</string>
+    <string name="offline_banner">📡 오프라인 · 저장된 페이지만 표시</string>
+    <string name="js_zoom_hint">두 손가락으로 벌리거나 두 번 탭하여 확대</string>
 </resources>

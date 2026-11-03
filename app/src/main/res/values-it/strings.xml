@@ -12,4 +12,10 @@
     <string name="welcome_credits">Vedi i crediti</string>
     <string name="choose_language">Scegli la lingua della wiki</string>
     <string name="toolbar_subtitle">Lettore non ufficiale</string>
+    <string name="offline_screen_title">Nessuna connessione a Internet</string>
+    <string name="offline_screen_text">L\'app ha bisogno di Internet per caricare le pagine della wiki. Questa schermata sparisce da sola appena torna la connessione.</string>
+    <string name="offline_waiting">In attesa di connessione…</string>
+    <string name="offline_see_saved">Vedi pagine salvate</string>
+    <string name="offline_banner">📡 Offline · solo pagine salvate</string>
+    <string name="js_zoom_hint">Usa due dita o tocca due volte per ingrandire</string>
 </resources>

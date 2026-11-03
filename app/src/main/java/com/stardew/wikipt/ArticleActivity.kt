@@ -104,6 +104,19 @@ class ArticleActivity : AppCompatActivity() {
         supportActionBar?.title = current
 
         setupWeb()
+        // botão voltar fecha a imagem ampliada antes de sair da página
+        val closeZoom = object : androidx.activity.OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                web.evaluateJavascript("window.__closeZoom && __closeZoom()", null)
+                isEnabled = false
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, closeZoom)
+        Offline.attach(this, toolbar, onOnline = { if (errorBox.isVisible) load(force = false) })
+        web.addJavascriptInterface(object {
+            @android.webkit.JavascriptInterface
+            fun state(open: Boolean) = runOnUiThread { closeZoom.isEnabled = open }
+        }, "Zoom")
         load(force = false)
     }
 
@@ -233,6 +246,7 @@ class ArticleActivity : AppCompatActivity() {
         .put("seeAlso", getString(R.string.js_see_also))
         .put("showTable", getString(R.string.js_show_table))
         .put("show", getString(R.string.js_show))
+        .put("zoomHint", getString(R.string.js_zoom_hint))
         .toString()
 
     // ---------- Links ----------

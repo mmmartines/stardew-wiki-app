@@ -58,6 +58,7 @@ class ListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         applyInsets(toolbar, findViewById(R.id.content))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        Offline.attach(this, toolbar, onOnline = { if (empty.isVisible && hits.isEmpty()) { empty.isVisible = false; loadMore() } })
 
         WebBridge.init(this)
         mode = intent.getIntExtra(EXTRA_MODE, MODE_ALL)

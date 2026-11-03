@@ -12,4 +12,10 @@
     <string name="welcome_credits">查看致谢</string>
     <string name="choose_language">选择维基语言</string>
     <string name="toolbar_subtitle">非官方阅读器</string>
+    <string name="offline_screen_title">没有网络连接</string>
+    <string name="offline_screen_text">应用需要联网才能加载 Wiki 页面。网络恢复后此页面会自动消失。</string>
+    <string name="offline_waiting">正在等待连接…</string>
+    <string name="offline_see_saved">查看已保存的页面</string>
+    <string name="offline_banner">📡 离线 · 仅显示已保存的页面</string>
+    <string name="js_zoom_hint">双指缩放或双击放大</string>
 </resources>

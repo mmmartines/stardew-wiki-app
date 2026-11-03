@@ -385,4 +385,78 @@
     while (d) { d.open = true; d = d.parentElement && d.parentElement.closest('details'); }
     e.scrollIntoView(); window.scrollBy(0, -8);
   };
+
+  // ---------- ampliar imagens ----------
+  (function () {
+    function original(img) {
+      var src = img.currentSrc || img.src || '';
+      var ss = img.getAttribute('srcset');
+      if (ss) { var parts = ss.split(','); src = parts[parts.length - 1].trim().split(' ')[0] || src; }
+      // /images/thumb/a/ab/Nome.png/48px-Nome.png -> /images/a/ab/Nome.png
+      var m = src.match(/^(.*\/images\/)thumb\/(.+?\/[^\/]+)\/[^\/]+$/);
+      return m ? m[1] + m[2] : src;
+    }
+    function zoomable(img) {
+      if (img.closest('.zoom-box')) return false;
+      if ((img.naturalWidth || img.width) < 8) return false;
+      var a = img.closest('a');
+      // imagem que leva a outra página (ex.: ícone de item) continua abrindo a página
+      if (a && !/(^|\s)(image|mw-file-description)(\s|$)/.test(a.className) && !/\/(File|Image|Arquivo|Ficheiro|Datei|Fichier|Archivo|Fájl|Dosya|Файл|ファイル|파일|文件)[:%]/i.test(a.getAttribute('href') || '')) return false;
+      return true;
+    }
+    var box, pic, cap, scale = 1, tx = 0, ty = 0;
+    function apply() { pic.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')'; }
+    function close() { if (!box) return; box.remove(); box = null; document.body.style.overflow = ''; if (window.Zoom) Zoom.state(false); }
+    window.__closeZoom = close;
+    function open(img) {
+      close();
+      box = mk('div', 'zoom-box');
+      var x = mk('button', 'zoom-x', '✕'); x.setAttribute('aria-label', 'close');
+      pic = document.createElement('img'); pic.className = 'zoom-img'; pic.src = original(img);
+      pic.onerror = function () { pic.onerror = null; pic.src = img.currentSrc || img.src; };
+      var alt = img.getAttribute('alt') || ''; var fig = img.closest('.thumb, figure');
+      var c = fig && fig.querySelector('.thumbcaption, figcaption'); alt = (c && txt(c)) || alt.replace(/\.(png|gif|jpe?g|webp)$/i, '');
+      cap = mk('div', 'zoom-cap'); cap.textContent = alt;
+      var hint = mk('div', 'zoom-hint', tr('zoomHint', 'Pinch or double-tap to zoom'));
+      box.appendChild(pic); box.appendChild(x); if (alt) box.appendChild(cap); box.appendChild(hint);
+      document.body.appendChild(box); document.body.style.overflow = 'hidden';
+      scale = 1; tx = ty = 0;
+      // pixel art pequena começa ampliada para caber bem na tela
+      pic.onload = function () {
+        var w = pic.naturalWidth, h = pic.naturalHeight, W = window.innerWidth * 0.86, H = window.innerHeight * 0.7;
+        var f = Math.min(W / w, H / h); f = f > 1 ? Math.floor(f) : f;
+        pic.style.width = Math.round(w * f) + 'px'; pic.style.height = Math.round(h * f) + 'px';
+      };
+      x.addEventListener('click', function (e) { e.stopPropagation(); close(); });
+      box.addEventListener('click', function (e) { if (e.target === box) close(); });
+      var last = 0, d0 = 0, s0 = 1, p0 = null, t0x = 0, t0y = 0, moved = false;
+      function dist(t) { var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.sqrt(dx * dx + dy * dy); }
+      box.addEventListener('touchstart', function (e) {
+        moved = false;
+        if (e.touches.length === 2) { d0 = dist(e.touches); s0 = scale; }
+        else if (e.touches.length === 1) { p0 = { x: e.touches[0].clientX, y: e.touches[0].clientY }; t0x = tx; t0y = ty; }
+      }, { passive: true });
+      box.addEventListener('touchmove', function (e) {
+        e.preventDefault(); moved = true;
+        if (e.touches.length === 2 && d0) { scale = Math.max(1, Math.min(8, s0 * dist(e.touches) / d0)); apply(); }
+        else if (e.touches.length === 1 && p0 && scale > 1) { tx = t0x + e.touches[0].clientX - p0.x; ty = t0y + e.touches[0].clientY - p0.y; apply(); }
+      }, { passive: false });
+      box.addEventListener('touchend', function (e) {
+        if (e.touches.length) return;
+        d0 = 0;
+        if (scale <= 1) { tx = ty = 0; apply(); }
+        if (moved) return;
+        var now = Date.now();
+        if (now - last < 300 && e.target !== x) { scale = scale > 1 ? 1 : 2.5; tx = ty = 0; apply(); last = 0; }
+        else last = now;
+      });
+      if (window.Zoom) Zoom.state(true);
+    }
+    document.addEventListener('click', function (e) {
+      var img = e.target && e.target.tagName === 'IMG' ? e.target : null;
+      if (!img || !zoomable(img)) return;
+      e.preventDefault(); e.stopPropagation();
+      open(img);
+    }, true);
+  })();
 })();

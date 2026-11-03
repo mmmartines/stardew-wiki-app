@@ -12,4 +12,10 @@
     <string name="welcome_credits">Emeği geçenler</string>
     <string name="choose_language">Viki dilini seçin</string>
     <string name="toolbar_subtitle">Resmî olmayan okuyucu</string>
+    <string name="offline_screen_title">İnternet bağlantısı yok</string>
+    <string name="offline_screen_text">Uygulamanın wiki sayfalarını yüklemek için internete ihtiyacı var. Bağlantı gelir gelmez bu ekran kendiliğinden kaybolur.</string>
+    <string name="offline_waiting">Bağlantı bekleniyor…</string>
+    <string name="offline_see_saved">Kayıtlı sayfaları gör</string>
+    <string name="offline_banner">📡 İnternet yok · yalnızca kayıtlı sayfalar</string>
+    <string name="js_zoom_hint">Yakınlaştırmak için iki parmak kullanın veya çift dokunun</string>
 </resources>

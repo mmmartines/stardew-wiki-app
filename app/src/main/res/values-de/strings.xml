@@ -12,4 +12,10 @@
     <string name="welcome_credits">Danksagungen ansehen</string>
     <string name="choose_language">Wähle die Sprache des Wikis</string>
     <string name="toolbar_subtitle">Inoffizieller Reader</string>
+    <string name="offline_screen_title">Keine Internetverbindung</string>
+    <string name="offline_screen_text">Die App braucht Internet, um Seiten aus dem Wiki zu laden. Dieser Bildschirm verschwindet von selbst, sobald die Verbindung zurück ist.</string>
+    <string name="offline_waiting">Warte auf Verbindung…</string>
+    <string name="offline_see_saved">Gespeicherte Seiten ansehen</string>
+    <string name="offline_banner">📡 Offline · nur gespeicherte Seiten</string>
+    <string name="js_zoom_hint">Zum Zoomen zwei Finger nutzen oder doppelt tippen</string>
 </resources>

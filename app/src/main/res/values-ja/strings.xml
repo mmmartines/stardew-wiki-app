@@ -12,4 +12,10 @@
     <string name="welcome_credits">クレジットを見る</string>
     <string name="choose_language">Wikiの言語を選んでください</string>
     <string name="toolbar_subtitle">非公式リーダー</string>
+    <string name="offline_screen_title">インターネットに接続されていません</string>
+    <string name="offline_screen_text">Wikiのページを読み込むにはインターネットが必要です。接続が戻るとこの画面は自動で消えます。</string>
+    <string name="offline_waiting">接続を待っています…</string>
+    <string name="offline_see_saved">保存したページを見る</string>
+    <string name="offline_banner">📡 オフライン・保存したページのみ</string>
+    <string name="js_zoom_hint">ピンチまたはダブルタップで拡大</string>
 </resources>
