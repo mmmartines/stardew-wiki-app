@@ -1,6 +1,8 @@
 package com.stardew.wikipt
 
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowInsetsCompat.Type as T
 import androidx.appcompat.app.AppCompatActivity
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -47,7 +49,6 @@ fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.V
     val b0 = bottom?.paddingBottom ?: 0
     val gap = (6 * resources.displayMetrics.density).toInt()
     androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(top.rootView) { _, insets ->
-        val T = androidx.core.view.WindowInsetsCompat.Type
         val bars = insets.getInsets(T.systemBars() or T.displayCutout())
         val ime = insets.getInsets(T.ime())
         top.setPadding(top.paddingLeft, t0 + bars.top, top.paddingRight, top.paddingBottom)
