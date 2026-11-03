@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Versão de teste: nome diferente para não confundir com o app da loja no celular -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:label="Guia do Vale (teste)"
+        tools:replace="android:label" />
+</manifest>

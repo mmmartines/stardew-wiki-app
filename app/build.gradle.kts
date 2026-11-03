@@ -31,6 +31,14 @@ android {
     }
 
     signingConfigs {
+        // chave fixa para a versão de teste: sem ela cada build do GitHub sai com uma chave diferente
+        // e o Android recusa atualizar o app de teste já instalado (não serve para a loja)
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
         create("release") {
             val store = secret("storeFile", "SIGNING_STORE_FILE")
             if (store != null) {
@@ -45,6 +53,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
+            signingConfig = signingConfigs.getByName("debug")
             versionNameSuffix = "-teste"
         }
         release {
