@@ -34,4 +34,5 @@
     <string name="day_earlier">Ранее</string>
     <string name="removed_fmt">Удалено: %s</string>
     <string name="undo">Отменить</string>
+    <string name="close">Закрыть</string>
 </resources>

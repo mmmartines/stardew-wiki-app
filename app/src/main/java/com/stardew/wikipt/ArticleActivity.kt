@@ -263,6 +263,7 @@ class ArticleActivity : AppCompatActivity() {
         .put("showTable", getString(R.string.js_show_table))
         .put("show", getString(R.string.js_show))
         .put("zoomHint", getString(R.string.js_zoom_hint))
+        .put("close", getString(R.string.close))
         .toString()
 
     // ---------- Links ----------

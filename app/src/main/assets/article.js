@@ -411,12 +411,14 @@
     function open(img) {
       close();
       box = mk('div', 'zoom-box');
-      var x = mk('button', 'zoom-x', '✕'); x.setAttribute('aria-label', 'close');
+      var x = mk('button', 'zoom-x', '✕'); x.setAttribute('aria-label', tr('close', 'Close'));
+      box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
       pic = document.createElement('img'); pic.className = 'zoom-img'; pic.src = original(img);
       pic.onerror = function () { pic.onerror = null; pic.src = img.currentSrc || img.src; };
       var alt = img.getAttribute('alt') || ''; var fig = img.closest('.thumb, figure');
       var c = fig && fig.querySelector('.thumbcaption, figcaption'); alt = (c && txt(c)) || alt.replace(/\.(png|gif|jpe?g|webp)$/i, '');
-      cap = mk('div', 'zoom-cap'); cap.textContent = alt;
+      cap = mk('div', 'zoom-cap'); cap.textContent = alt; cap.setAttribute('aria-live', 'polite');
+      pic.alt = alt;
       var hint = mk('div', 'zoom-hint', tr('zoomHint', 'Pinch or double-tap to zoom'));
       box.appendChild(pic); box.appendChild(x); if (alt) box.appendChild(cap); box.appendChild(hint);
       document.body.appendChild(box); document.body.style.overflow = 'hidden';
@@ -451,6 +453,7 @@
         else last = now;
       });
       if (window.Zoom) Zoom.state(true);
+      try { x.focus(); } catch (e) {}
     }
     document.addEventListener('click', function (e) {
       var img = e.target && e.target.tagName === 'IMG' ? e.target : null;

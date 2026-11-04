@@ -34,4 +34,5 @@
     <string name="day_earlier">更早</string>
     <string name="removed_fmt">已移除：%s</string>
     <string name="undo">撤销</string>
+    <string name="close">关闭</string>
 </resources>

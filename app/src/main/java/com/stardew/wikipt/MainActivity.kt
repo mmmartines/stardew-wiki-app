@@ -273,6 +273,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     private fun setupHome() {
         homeWeb.settings.javaScriptEnabled = true
+        // ícones da Início vêm do cache quando possível (abre mais rápido e funciona offline)
+        homeWeb.settings.cacheMode = android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK
         homeWeb.addJavascriptInterface(object {
             @JavascriptInterface
             fun open(i: Int) = runOnUiThread { Categories.all.getOrNull(i)?.let { this@MainActivity.open(it.target) } }
@@ -302,7 +304,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
         homeKey = key
-        homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", Home.html(this, Fonts.css(this), dark, r), "text/html", "utf-8", null)
+        // monta o HTML (com a fonte embutida) fora da thread principal, para não travar a abertura
+        runAsync({ Home.html(this, Fonts.css(this), dark, r) }) { res ->
+            if (homeKey != key) return@runAsync // já mudou de novo
+            res.onSuccess { homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", it, "text/html", "utf-8", null) }
+        }
     }
 
     // ---------- Navegação ----------
@@ -329,6 +335,10 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.main_menu, menu)
         menu.findItem(R.id.action_language)?.actionView?.findViewById<TextView>(R.id.flag_button)?.apply {
             text = Lang.current().flag
+            // leitor de tela lê "Idioma da wiki: Português", não o emoji da bandeira
+            contentDescription = getString(R.string.language) + ": " + Lang.current().name
+            minWidth = (48 * resources.displayMetrics.density).toInt()
+            minHeight = (48 * resources.displayMetrics.density).toInt()
             contentDescription = getString(R.string.language) + ": " + Lang.current().name
             androidx.appcompat.widget.TooltipCompat.setTooltipText(this, contentDescription)
             setOnClickListener { chooseLanguage(cancelable = true) }

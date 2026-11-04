@@ -34,4 +34,5 @@
     <string name="day_earlier">それ以前</string>
     <string name="removed_fmt">削除しました：%s</string>
     <string name="undo">元に戻す</string>
+    <string name="close">閉じる</string>
 </resources>

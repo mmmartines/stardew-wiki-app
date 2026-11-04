@@ -150,4 +150,5 @@
     <string name="day_earlier">Antes</string>
     <string name="removed_fmt">Quitado: %s</string>
     <string name="undo">Deshacer</string>
+    <string name="close">Cerrar</string>
 </resources>

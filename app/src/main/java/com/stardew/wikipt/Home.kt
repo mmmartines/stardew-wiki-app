@@ -23,28 +23,30 @@ object Home {
             .append("</div><div class='t2'>").append(e(ctx.getString(R.string.home_tagline))).append("</div></div></div>")
         sb.append("<div class='grass'></div></div>")
 
-        sb.append("<div class='search' onclick='Android.search()'><span class='lupa'></span>")
+        sb.append("<div class='search' role='button' tabindex='0' onclick='Android.search()'><span class='lupa' aria-hidden='true'></span>")
         sb.append(e(ctx.getString(R.string.home_search))).append("</div>")
 
         sb.append("<div id='recent'>").append(recentHtml(ctx, recent)).append("</div>")
 
         var idx = 0
         for (g in Categories.groups) {
-            sb.append("<div class='plank'>").append(e(ctx.getString(g.nameRes))).append("</div><div class='box'><div class='grid'>")
+            sb.append("<div class='plank' role='heading' aria-level='2'>").append(e(ctx.getString(g.nameRes))).append("</div><div class='box'><div class='grid'>")
             for (c in g.items) {
-                sb.append("<div class='cell' onclick='Android.open(").append(idx).append(")'>")
+                // cada bloco é anunciado como botão com o nome; o ícone é ignorado pelo leitor de tela
+                sb.append("<div class='cell' role='button' tabindex='0' aria-label='").append(e(c.label(ctx)))
+                    .append("' onclick='Android.open(").append(idx).append(")'>")
                 if (BuildConfig.GAME_ICONS) {
-                    sb.append("<div class='slot'><img src='").append(c.icon)
+                    sb.append("<div class='slot' aria-hidden='true'><img alt='' src='").append(c.icon)
                         .append("' loading='lazy' onerror=\"this.style.visibility='hidden'\"></div>")
                 } else {
-                    sb.append("<div class='slot'><span class='emo'>").append(c.emoji).append("</span></div>")
+                    sb.append("<div class='slot' aria-hidden='true'><span class='emo'>").append(c.emoji).append("</span></div>")
                 }
-                sb.append("<div class='label'>").append(e(c.label(ctx))).append("</div></div>")
+                sb.append("<div class='label' aria-hidden='true'>").append(e(c.label(ctx))).append("</div></div>")
                 idx++
             }
             sb.append("</div></div>")
         }
-        sb.append("<p class='foot' onclick='Android.credits()'>").append(e(ctx.getString(R.string.home_footer)))
+        sb.append("<p class='foot' role='link' tabindex='0' onclick='Android.credits()'>").append(e(ctx.getString(R.string.home_footer)))
             .append("<br><u>").append(e(ctx.getString(R.string.about))).append("</u></p>")
         sb.append("<script>window.__recent=function(h){document.getElementById('recent').innerHTML=h}</script>")
         sb.append("</body></html>")
@@ -55,9 +57,9 @@ object Home {
     fun recentHtml(ctx: Context, recent: List<String>): String {
         if (recent.isEmpty()) return ""
         val sb = StringBuilder()
-        sb.append("<div class='plank'>").append(e(ctx.getString(R.string.home_recent))).append("</div><div class='chips'>")
+        sb.append("<div class='plank' role='heading' aria-level='2'>").append(e(ctx.getString(R.string.home_recent))).append("</div><div class='chips'>")
         recent.forEachIndexed { i, t ->
-            sb.append("<span class='chip' onclick='Android.recent($i)'>").append(e(t)).append("</span>")
+            sb.append("<span class='chip' role='button' tabindex='0' onclick='Android.recent($i)'>").append(e(t)).append("</span>")
         }
         sb.append("</div>")
         return sb.toString()

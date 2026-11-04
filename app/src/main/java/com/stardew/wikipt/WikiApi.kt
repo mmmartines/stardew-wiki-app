@@ -85,7 +85,11 @@ object WikiApi {
             conn.setRequestProperty("User-Agent", UA)
             conn.setRequestProperty("Accept", "application/json")
             val code = conn.responseCode
-            if (code !in 200..299) throw IOException("HTTP $code")
+            if (code !in 200..299) {
+                // lê e fecha a resposta de erro, para a conexão não ficar aberta até o sistema recolher
+                try { conn.errorStream?.use { it.readBytes() } } catch (_: Exception) {}
+                throw IOException("HTTP $code")
+            }
             val text = conn.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
             if (!text.trimStart().startsWith("{")) throw IOException("not JSON")
             return text

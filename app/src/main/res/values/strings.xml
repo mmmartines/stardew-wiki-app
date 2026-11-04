@@ -152,4 +152,5 @@
     <string name="day_earlier">Earlier</string>
     <string name="removed_fmt">Removed: %s</string>
     <string name="undo">Undo</string>
+    <string name="close">Close</string>
 </resources>

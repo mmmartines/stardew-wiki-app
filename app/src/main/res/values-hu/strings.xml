@@ -34,4 +34,5 @@
     <string name="day_earlier">Korábban</string>
     <string name="removed_fmt">Eltávolítva: %s</string>
     <string name="undo">Visszavonás</string>
+    <string name="close">Bezárás</string>
 </resources>
