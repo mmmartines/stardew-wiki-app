@@ -56,13 +56,7 @@ class Offline private constructor(
         main.postDelayed(check, 800)
     }
 
-    private fun isOnline(): Boolean = try {
-        val n = cm.activeNetwork
-        val c = if (n != null) cm.getNetworkCapabilities(n) else null
-        c != null && c.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-    } catch (e: Exception) {
-        true // na dúvida, não bloqueia
-    }
+    private fun isOnline(): Boolean = Net.online()
 
     private fun apply(online: Boolean) {
         if (act.isFinishing || act.isDestroyed) return

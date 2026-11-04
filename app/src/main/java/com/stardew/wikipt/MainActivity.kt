@@ -54,8 +54,9 @@ class MainActivity : AppCompatActivity() {
         setupHome()
         bottomNav.setOnItemSelectedListener { showTab(it.itemId); true }
         showTab(R.id.nav_home)
+        onBackPressedDispatcher.addCallback(this, closeSearch)
         Offline.attach(this, toolbar, full = true,
-            onSeeSaved = { bottomNav.selectedItemId = R.id.nav_fav },
+            onSeeSaved = { ListActivity.start(this, ListActivity.MODE_SAVED, null) },
             onOnline = {
                 homeKey = ""
                 if (!searching) showTab(bottomNav.selectedItemId)
@@ -129,6 +130,13 @@ class MainActivity : AppCompatActivity() {
     private fun openCredits() = startActivity(Intent(this, CreditsActivity::class.java))
 
     // ---------- Abas ----------
+
+    /** Voltar fecha a busca (necessário com o "voltar preditivo" do Android). */
+    private val closeSearch = object : androidx.activity.OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            searchItem?.collapseActionView()
+        }
+    }
 
     private fun showTab(id: Int) {
         progress.isVisible = false
@@ -230,11 +238,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderHome() {
         val r = store.historyHere().take(6)
-        val key = Lang.code + "|" + r.joinToString("|")
-        if (key == homeKey && homeWeb.url != null) return
-        homeKey = key
-        recent = r
         val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        val base = Lang.code + "|" + dark
+        val key = base + "|" + r.joinToString("|")
+        if (key == homeKey && homeWeb.url != null) return
+        recent = r
+        if (homeKey.startsWith("$base|") && homeWeb.url != null) {
+            // mesma página: troca só os chips, sem recarregar nem perder a rolagem
+            homeKey = key
+            homeWeb.evaluateJavascript("window.__recent&&__recent(" + org.json.JSONObject.quote(Home.recentHtml(this, r)) + ")", null)
+            return
+        }
+        homeKey = key
         homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", Home.html(this, Fonts.css(this), dark, r), "text/html", "utf-8", null)
     }
 
@@ -298,6 +313,7 @@ class MainActivity : AppCompatActivity() {
         })
         item.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                closeSearch.isEnabled = true
                 searching = true
                 bottomNav.isVisible = false
                 homeWeb.isVisible = false
@@ -311,6 +327,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                closeSearch.isEnabled = false
                 searching = false
                 requestId++
                 pending?.let { handler.removeCallbacks(it) }
@@ -336,8 +353,12 @@ class MainActivity : AppCompatActivity() {
             val out = mutableListOf(Row(getString(R.string.search_all_fmt, q), null, { fullSearch(q) }))
             r.onSuccess { hits ->
                 hits.forEach { h -> out.add(Row(h.title, null, { ArticleActivity.start(this, h.title) })) }
-            }.onFailure {
-                out.add(Row(getString(R.string.offline_title), getString(R.string.offline_sub), {}))
+            }.onFailure { e ->
+                if (e is OfflineException || !Net.online()) {
+                    out.add(Row(getString(R.string.offline_title), getString(R.string.offline_sub), {}))
+                } else {
+                    out.add(Row("⚠️  " + getString(R.string.search_failed), null, {}))
+                }
                 localMatches(q).forEach { t -> out.add(Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) })) }
             }
             rows.items = out
@@ -355,10 +376,10 @@ class MainActivity : AppCompatActivity() {
             r.onSuccess { hits ->
                 rows.items = hits.map { h -> Row(h.title, h.snippet, { ArticleActivity.start(this, h.title) }) }
                 if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
-            }.onFailure {
+            }.onFailure { e ->
                 val local = localMatches(q)
                 rows.items = local.map { t -> Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) }) }
-                if (local.isEmpty()) showEmpty(getString(R.string.no_connection))
+                if (local.isEmpty()) showEmpty(friendlyError(e, page = false))
             }
         }
     }
@@ -380,12 +401,17 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_clear_cache -> {
                 val mb = store.cacheBytes() / 1048576.0
-                wikiDialog()
-                    .setTitle(R.string.offline_pages)
-                    .setMessage(getString(R.string.offline_pages_fmt, store.cacheCount(), mb))
-                    .setPositiveButton(R.string.delete) { _, _ -> store.clearCache(); toast(getString(R.string.cache_cleared)) }
-                    .setNegativeButton(R.string.cancel, null)
-                    .show()
+                val n = store.cacheCount()
+                val dlg = wikiDialog().setTitle(R.string.offline_pages)
+                if (n == 0) {
+                    dlg.setMessage(R.string.offline_pages_none).setPositiveButton(R.string.ok, null)
+                } else {
+                    dlg.setMessage(getString(R.string.offline_pages_fmt, n, mb))
+                        .setPositiveButton(R.string.view_list) { _, _ -> ListActivity.start(this, ListActivity.MODE_SAVED, null) }
+                        .setNeutralButton(R.string.delete) { _, _ -> store.clearCache(); toast(getString(R.string.cache_cleared)) }
+                        .setNegativeButton(R.string.cancel, null)
+                }
+                dlg.show()
             }
 
             R.id.action_about -> openCredits()

@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Voir les pages enregistrées</string>
     <string name="offline_banner">📡 Hors ligne · pages enregistrées uniquement</string>
     <string name="js_zoom_hint">Pincez ou touchez deux fois pour zoomer</string>
+    <string name="err_offline_page">Pas d\'Internet, et cette page n\'est pas encore enregistrée. Elle s\'ouvrira dès le retour de la connexion.</string>
+    <string name="err_server_page">Le wiki ne répond pas pour le moment. Réessayez dans un instant.</string>
+    <string name="search_failed">Impossible de rechercher ce terme. Essayez d\'autres mots.</string>
+    <string name="show_details">Touchez pour voir les détails</string>
+    <string name="offline_pages_none">Aucune page enregistrée. Les pages ouvertes sont enregistrées automatiquement pour la lecture hors ligne.</string>
+    <string name="view_list">Voir la liste</string>
 </resources>

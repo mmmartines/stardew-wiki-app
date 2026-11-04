@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Vedi pagine salvate</string>
     <string name="offline_banner">📡 Offline · solo pagine salvate</string>
     <string name="js_zoom_hint">Usa due dita o tocca due volte per ingrandire</string>
+    <string name="err_offline_page">Nessuna connessione e questa pagina non è ancora salvata. Si aprirà quando torna la connessione.</string>
+    <string name="err_server_page">La wiki non risponde al momento. Riprova tra poco.</string>
+    <string name="search_failed">Impossibile cercare questo termine. Prova con altre parole.</string>
+    <string name="show_details">Tocca per i dettagli</string>
+    <string name="offline_pages_none">Nessuna pagina salvata. Le pagine aperte vengono salvate da sole per la lettura offline.</string>
+    <string name="view_list">Vedi elenco</string>
 </resources>

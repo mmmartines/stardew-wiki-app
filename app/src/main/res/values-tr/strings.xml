@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Kayıtlı sayfaları gör</string>
     <string name="offline_banner">📡 İnternet yok · yalnızca kayıtlı sayfalar</string>
     <string name="js_zoom_hint">Yakınlaştırmak için iki parmak kullanın veya çift dokunun</string>
+    <string name="err_offline_page">İnternet yok ve bu sayfa henüz kaydedilmedi. Bağlantı gelince açılacak.</string>
+    <string name="err_server_page">Wiki şu anda yanıt vermiyor. Birazdan tekrar deneyin.</string>
+    <string name="search_failed">Bu terim aranamadı. Başka kelimeler deneyin.</string>
+    <string name="show_details">Ayrıntılar için dokunun</string>
+    <string name="offline_pages_none">Henüz kayıtlı sayfa yok. Açtığınız sayfalar çevrimdışı okumak için otomatik kaydedilir.</string>
+    <string name="view_list">Listeyi gör</string>
 </resources>

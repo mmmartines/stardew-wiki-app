@@ -151,6 +151,11 @@ class ArticleActivity : AppCompatActivity() {
             show(cached.page)
             return
         }
+        if (!Net.online() && cached == null) {
+            // já sabemos que está offline: avisa na hora em vez de deixar a tela em branco (B5)
+            showError(getString(R.string.err_offline_page), null)
+            return
+        }
         showLoading()
         val title = current
         runAsync({ WikiApi.parse(title) }) { r ->
@@ -165,8 +170,8 @@ class ArticleActivity : AppCompatActivity() {
                         show(cached.page)
                         toast(getString(R.string.offline_showing_saved))
                     }
-                    e is MissingPageException -> showError(getString(R.string.page_not_found_fmt, title))
-                    else -> showError(getString(R.string.load_error) + "\n\n" + getString(R.string.details_fmt, e.message ?: e.toString()))
+                    e is MissingPageException -> showError(getString(R.string.page_not_found_fmt, title), null)
+                    else -> showError(friendlyError(e, page = true), e.message ?: e.toString())
                 }
             }
         }
@@ -179,7 +184,7 @@ class ArticleActivity : AppCompatActivity() {
         runAsync({ WikiApi.search(q) }) { r ->
             val first = r.getOrNull()?.firstOrNull()
             if (first == null) {
-                showError(getString(R.string.page_not_found_fmt, q))
+                showError(getString(R.string.page_not_found_fmt, q), null)
             } else {
                 current = first.title
                 supportActionBar?.title = current
@@ -193,11 +198,22 @@ class ArticleActivity : AppCompatActivity() {
         errorBox.isVisible = false
     }
 
-    private fun showError(msg: String) {
+    /** Mensagem curta; o detalhe técnico só aparece se a pessoa tocar em "Detalhes". */
+    private fun showError(msg: String, detail: String?) {
         progress.isVisible = false
         web.isVisible = false
-        errorText.text = msg
         errorBox.isVisible = true
+        if (detail == null) {
+            errorText.text = msg
+            errorText.setOnClickListener(null)
+            return
+        }
+        val more = "\n\n" + getString(R.string.show_details)
+        errorText.text = msg + more
+        errorText.setOnClickListener {
+            errorText.text = msg + "\n\n" + getString(R.string.details_fmt, detail)
+            errorText.setOnClickListener(null)
+        }
     }
 
     private fun show(p: Page) {
@@ -396,6 +412,15 @@ class ArticleActivity : AppCompatActivity() {
             }
         findSnack = s
         s.show()
+        // some sozinho se a pessoa não tocar em "Próximo" (B8)
+        handler.removeCallbacks(hideFind)
+        handler.postDelayed(hideFind, 7000)
+    }
+
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val hideFind = Runnable {
+        findSnack?.dismiss()
+        findSnack = null
     }
 
     private fun chooseTextSize() {
@@ -414,6 +439,8 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        handler.removeCallbacks(hideFind)
+        (web.parent as? android.view.ViewGroup)?.removeView(web) // tira da tela antes de destruir
         web.destroy()
         super.onDestroy()
     }

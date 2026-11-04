@@ -5,6 +5,7 @@ import android.app.Application
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        Net.init(this)
         Lang.load(this)
         WebBridge.init(this)
     }

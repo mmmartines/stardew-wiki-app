@@ -134,4 +134,10 @@
     <string name="offline_see_saved">Ver páginas salvas</string>
     <string name="offline_banner">📡 Sem internet · mostrando só páginas salvas</string>
     <string name="js_zoom_hint">Use dois dedos ou toque duas vezes para ampliar</string>
+    <string name="err_offline_page">Sem internet, e esta página ainda não foi salva no aparelho. Ela abre quando a conexão voltar.</string>
+    <string name="err_server_page">A wiki não respondeu agora. Tente de novo em instantes.</string>
+    <string name="search_failed">Não foi possível buscar este termo. Tente outras palavras.</string>
+    <string name="show_details">Toque para ver detalhes</string>
+    <string name="offline_pages_none">Nenhuma página salva ainda. As páginas que você abre são salvas sozinhas para ler offline.</string>
+    <string name="view_list">Ver lista</string>
 </resources>

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +17,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
@@ -24,10 +26,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ArticleActivity" android:exported="false" />
-        <activity android:name=".ListActivity" android:exported="false" />
-        <activity android:name=".CreditsActivity" android:exported="false" />
-        <activity android:name=".FanActivity" android:exported="false" />
+        <activity android:name=".ArticleActivity" android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
+        <activity android:name=".ListActivity" android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
+        <activity android:name=".CreditsActivity" android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
+        <activity android:name=".FanActivity" android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
 
         <!-- guarda o idioma escolhido no app em Androids anteriores ao 13 -->
         <service

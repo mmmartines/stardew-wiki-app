@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Mentett oldalak</string>
     <string name="offline_banner">📡 Offline · csak mentett oldalak</string>
     <string name="js_zoom_hint">Nagyításhoz csípd össze vagy koppints duplán</string>
+    <string name="err_offline_page">Nincs internet, és ez az oldal még nincs elmentve. Megnyílik, amint visszajön a kapcsolat.</string>
+    <string name="err_server_page">A wiki most nem válaszol. Próbáld újra egy kicsit később.</string>
+    <string name="search_failed">Erre a kifejezésre nem lehet keresni. Próbálj más szavakat.</string>
+    <string name="show_details">Koppints a részletekért</string>
+    <string name="offline_pages_none">Még nincs mentett oldal. A megnyitott oldalak maguktól mentődnek offline olvasáshoz.</string>
+    <string name="view_list">Lista</string>
 </resources>

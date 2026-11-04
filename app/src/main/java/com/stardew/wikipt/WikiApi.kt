@@ -47,6 +47,7 @@ object WikiApi {
             (if (other) mapOf("origin" to "*") else emptyMap())
         val api = "$base/mediawiki/api.php"
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
+        if (!Net.online()) throw OfflineException()
         throttle()
         // de tempos em tempos tenta de novo a conexão direta (o bloqueio anti-robô costuma ser passageiro)
         if (useBridge && android.os.SystemClock.elapsedRealtime() - bridgeSince > 180_000) useBridge = false
@@ -62,9 +63,15 @@ object WikiApi {
         try {
             return JSONObject(WebBridge.fetch(if (other) "$api?$query" else "/mediawiki/api.php?$query"))
         } catch (e: Exception) {
-            throw IOException((e.message ?: e.toString()) + "\n(direct: " + lastDirectError + ")")
+            if (!Net.online()) throw OfflineException()
+            val detail = (e.message ?: e.toString()) + "\n(direct: " + lastDirectError + ")"
+            val code = Regex("HTTP (\\d{3})").find(detail)?.groupValues?.get(1)?.toIntOrNull()
+            throw if (code != null) ServerException(code, detail) else IOException(detail)
         }
     }
+
+    /** Categorias internas da wiki, sem interesse para quem joga. */
+    private val MAINTENANCE = Regex("(?i)archived|user pages|maintenance|candidates for|pages with|pages using|hidden categor|tracking|templates?$")
 
     @Volatile private var useBridge = false
     @Volatile private var bridgeSince = 0L
@@ -132,6 +139,7 @@ object WikiApi {
             )
         )
         return queryList(j, "prefixsearch").map { Hit(it.getString("title")) }
+            .distinctBy { it.title.lowercase() } // redirecionamentos que só mudam maiúsculas
     }
 
     /** Busca no texto completo de todas as páginas. */
@@ -143,6 +151,7 @@ object WikiApi {
             )
         )
         return queryList(j, "search").map { Hit(it.getString("title"), stripHtml(it.optString("snippet"))) }
+            .distinctBy { it.title.lowercase() }
     }
 
     fun categoryMembers(category: String, next: String?): Chunk {
@@ -178,7 +187,7 @@ object WikiApi {
         val items = queryList(j, "allcategories").map {
             val name = it.optString("category", it.optString("*"))
             Hit("Category:$name", "", 14)
-        }
+        }.filterNot { MAINTENANCE.containsMatchIn(it.title) }
         return Chunk(items, cont(j, "accontinue"))
     }
 

@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Сохранённые страницы</string>
     <string name="offline_banner">📡 Нет интернета · только сохранённые страницы</string>
     <string name="js_zoom_hint">Сведите пальцы или коснитесь дважды для увеличения</string>
+    <string name="err_offline_page">Нет интернета, а эта страница ещё не сохранена. Она откроется, когда связь вернётся.</string>
+    <string name="err_server_page">Вики сейчас не отвечает. Попробуйте чуть позже.</string>
+    <string name="search_failed">Не удалось выполнить поиск по этому запросу. Попробуйте другие слова.</string>
+    <string name="show_details">Нажмите, чтобы увидеть подробности</string>
+    <string name="offline_pages_none">Сохранённых страниц пока нет. Открытые страницы сохраняются автоматически для чтения офлайн.</string>
+    <string name="view_list">Открыть список</string>
 </resources>

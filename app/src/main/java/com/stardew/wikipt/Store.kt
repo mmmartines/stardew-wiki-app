@@ -148,6 +148,23 @@ class Store(ctx: Context) {
         null
     }
 
+    /** Títulos das páginas salvas no aparelho para o idioma atual, em ordem alfabética. Ler fora da thread principal. */
+    fun savedTitles(): List<String> {
+        val files = dir.listFiles() ?: return emptyList()
+        val out = sortedSetOf(String.CASE_INSENSITIVE_ORDER)
+        for (f in files) {
+            try {
+                // o título vem logo no começo do arquivo; não precisa ler a página inteira
+                val head = f.bufferedReader().use { r -> CharArray(4096).let { b -> String(b, 0, r.read(b).coerceAtLeast(0)) } }
+                val t = Regex("\"title\":\"((?:[^\"\\\\]|\\\\.)*)\"").find(head)?.groupValues?.get(1) ?: continue
+                val title = JSONObject("{\"t\":\"$t\"}").getString("t")
+                if (file(title).name == f.name) out.add(title) // arquivo é deste idioma
+            } catch (_: Exception) {
+            }
+        }
+        return out.toList()
+    }
+
     fun cacheBytes(): Long = dir.listFiles()?.sumOf { it.length() } ?: 0L
     fun cacheCount(): Int = dir.listFiles()?.size ?: 0
     fun clearCache() {

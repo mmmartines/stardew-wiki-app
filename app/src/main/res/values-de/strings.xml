@@ -18,4 +18,10 @@
     <string name="offline_see_saved">Gespeicherte Seiten ansehen</string>
     <string name="offline_banner">📡 Offline · nur gespeicherte Seiten</string>
     <string name="js_zoom_hint">Zum Zoomen zwei Finger nutzen oder doppelt tippen</string>
+    <string name="err_offline_page">Kein Internet, und diese Seite ist noch nicht gespeichert. Sie öffnet sich, sobald die Verbindung zurück ist.</string>
+    <string name="err_server_page">Das Wiki antwortet gerade nicht. Versuche es gleich noch einmal.</string>
+    <string name="search_failed">Dieser Begriff konnte nicht gesucht werden. Versuche andere Wörter.</string>
+    <string name="show_details">Tippen für Details</string>
+    <string name="offline_pages_none">Noch keine gespeicherten Seiten. Geöffnete Seiten werden automatisch für die Offline-Nutzung gespeichert.</string>
+    <string name="view_list">Liste ansehen</string>
 </resources>

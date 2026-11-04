@@ -136,4 +136,10 @@
     <string name="offline_see_saved">See saved pages</string>
     <string name="offline_banner">📡 No internet · showing saved pages only</string>
     <string name="js_zoom_hint">Pinch or double-tap to zoom</string>
+    <string name="err_offline_page">No internet, and this page isn\'t saved on your device yet. It will open when you\'re back online.</string>
+    <string name="err_server_page">The wiki didn\'t respond right now. Try again in a moment.</string>
+    <string name="search_failed">Couldn\'t search for this term. Try other words.</string>
+    <string name="show_details">Tap to see details</string>
+    <string name="offline_pages_none">No pages saved yet. Pages you open are saved automatically to read offline.</string>
+    <string name="view_list">See list</string>
 </resources>

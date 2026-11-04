@@ -22,6 +22,7 @@ class ListActivity : AppCompatActivity() {
         const val MODE_CATEGORY = 0
         const val MODE_ALL = 1
         const val MODE_CATS = 2
+        const val MODE_SAVED = 3 // páginas salvas no aparelho (funciona offline)
         private const val EXTRA_MODE = "mode"
         private const val EXTRA_CAT = "cat"
 
@@ -66,6 +67,7 @@ class ListActivity : AppCompatActivity() {
         supportActionBar?.title = when (mode) {
             MODE_CATEGORY -> category.substringAfter(':')
             MODE_CATS -> getString(R.string.cat_categories)
+            MODE_SAVED -> getString(R.string.offline_pages)
             else -> getString(R.string.cat_all_pages)
         }
         if (mode == MODE_CATEGORY) supportActionBar?.subtitle = getString(R.string.category)
@@ -82,10 +84,10 @@ class ListActivity : AppCompatActivity() {
         })
 
         val input = findViewById<EditText>(R.id.filter)
-        input.hint = getString(if (mode == MODE_CATEGORY) R.string.filter_category else R.string.filter_prefix)
+        input.hint = getString(if (mode == MODE_CATEGORY || mode == MODE_SAVED) R.string.filter_category else R.string.filter_prefix)
         input.doAfterTextChanged { e ->
             filter = e?.toString()?.trim() ?: ""
-            if (mode == MODE_CATEGORY) {
+            if (mode == MODE_CATEGORY || mode == MODE_SAVED) {
                 render()
             } else {
                 pending?.let { handler.removeCallbacks(it) }
@@ -124,6 +126,7 @@ class ListActivity : AppCompatActivity() {
             when (mode) {
                 MODE_CATEGORY -> WikiApi.categoryMembers(category, cont)
                 MODE_CATS -> WikiApi.allCategories(pre, cont)
+                MODE_SAVED -> Chunk(Store(this).savedTitles().map { Hit(it) }, null)
                 else -> WikiApi.allPages(pre, cont)
             }
         }) { r ->
@@ -146,7 +149,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun render() {
-        val shown = if (mode == MODE_CATEGORY && filter.isNotEmpty()) {
+        val shown = if ((mode == MODE_CATEGORY || mode == MODE_SAVED) && filter.isNotEmpty()) {
             hits.filter { it.title.contains(filter, ignoreCase = true) }
         } else hits
         adapter.items = shown.map { h ->

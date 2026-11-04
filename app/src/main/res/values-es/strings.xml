@@ -134,4 +134,10 @@
     <string name="offline_see_saved">Ver páginas guardadas</string>
     <string name="offline_banner">📡 Sin internet · solo páginas guardadas</string>
     <string name="js_zoom_hint">Usa dos dedos o toca dos veces para ampliar</string>
+    <string name="err_offline_page">Sin internet, y esta página aún no está guardada en el dispositivo. Se abrirá cuando vuelva la conexión.</string>
+    <string name="err_server_page">La wiki no respondió ahora. Inténtalo de nuevo en un momento.</string>
+    <string name="search_failed">No se pudo buscar este término. Prueba con otras palabras.</string>
+    <string name="show_details">Toca para ver detalles</string>
+    <string name="offline_pages_none">Aún no hay páginas guardadas. Las páginas que abres se guardan solas para leer sin conexión.</string>
+    <string name="view_list">Ver lista</string>
 </resources>

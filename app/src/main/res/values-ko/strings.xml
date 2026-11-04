@@ -18,4 +18,10 @@
     <string name="offline_see_saved">저장된 페이지 보기</string>
     <string name="offline_banner">📡 오프라인 · 저장된 페이지만 표시</string>
     <string name="js_zoom_hint">두 손가락으로 벌리거나 두 번 탭하여 확대</string>
+    <string name="err_offline_page">인터넷에 연결되어 있지 않고 이 페이지는 아직 저장되지 않았습니다. 연결되면 열립니다.</string>
+    <string name="err_server_page">위키가 지금 응답하지 않습니다. 잠시 후 다시 시도하세요.</string>
+    <string name="search_failed">이 검색어로는 검색할 수 없습니다. 다른 단어로 시도하세요.</string>
+    <string name="show_details">탭하여 자세히 보기</string>
+    <string name="offline_pages_none">저장된 페이지가 아직 없습니다. 열어 본 페이지는 오프라인용으로 자동 저장됩니다.</string>
+    <string name="view_list">목록 보기</string>
 </resources>

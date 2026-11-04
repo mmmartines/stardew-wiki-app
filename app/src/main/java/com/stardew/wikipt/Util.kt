@@ -52,6 +52,8 @@ fun AppCompatActivity.applyInsets(top: android.view.View, bottom: android.view.V
         val bars = insets.getInsets(T.systemBars() or T.displayCutout())
         val ime = insets.getInsets(T.ime())
         top.setPadding(top.paddingLeft, t0 + bars.top, top.paddingRight, top.paddingBottom)
+        // paisagem: barra de navegação e recorte da câmera ficam nas laterais (B7)
+        findViewById<android.view.View>(android.R.id.content)?.setPadding(bars.left, 0, bars.right, 0)
         val nav = if (navBar) {
             // Navegação por gestos: a barra do sistema é só o traço de arrastar (não tem botões),
             // então a barra de abas desce e fica só um respiro; com 3 botões, reserva a altura inteira.
@@ -80,4 +82,11 @@ fun androidx.appcompat.app.AlertDialog.framed(): androidx.appcompat.app.AlertDia
         isScrollbarFadingEnabled = false
     }
     return this
+}
+
+/** Mensagem curta para o usuário; a técnica fica para "Detalhes". */
+fun android.content.Context.friendlyError(e: Throwable, page: Boolean): String = when {
+    e is OfflineException || !Net.online() -> getString(if (page) R.string.err_offline_page else R.string.no_connection)
+    e is ServerException -> getString(if (page) R.string.err_server_page else R.string.search_failed)
+    else -> getString(if (page) R.string.load_error else R.string.search_failed)
 }

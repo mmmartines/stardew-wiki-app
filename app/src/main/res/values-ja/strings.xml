@@ -18,4 +18,10 @@
     <string name="offline_see_saved">保存したページを見る</string>
     <string name="offline_banner">📡 オフライン・保存したページのみ</string>
     <string name="js_zoom_hint">ピンチまたはダブルタップで拡大</string>
+    <string name="err_offline_page">インターネットに接続されておらず、このページはまだ保存されていません。接続が戻ると開きます。</string>
+    <string name="err_server_page">Wikiが応答していません。しばらくしてからもう一度お試しください。</string>
+    <string name="search_failed">この語句では検索できませんでした。別の言葉をお試しください。</string>
+    <string name="show_details">タップして詳細を表示</string>
+    <string name="offline_pages_none">保存したページはまだありません。開いたページはオフライン用に自動で保存されます。</string>
+    <string name="view_list">一覧を見る</string>
 </resources>

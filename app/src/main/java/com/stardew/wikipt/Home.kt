@@ -26,13 +26,7 @@ object Home {
         sb.append("<div class='search' onclick='Android.search()'><span class='lupa'></span>")
         sb.append(e(ctx.getString(R.string.home_search))).append("</div>")
 
-        if (recent.isNotEmpty()) {
-            sb.append("<div class='plank'>").append(e(ctx.getString(R.string.home_recent))).append("</div><div class='chips'>")
-            recent.forEachIndexed { i, t ->
-                sb.append("<span class='chip' onclick='Android.recent($i)'>").append(e(t)).append("</span>")
-            }
-            sb.append("</div>")
-        }
+        sb.append("<div id='recent'>").append(recentHtml(ctx, recent)).append("</div>")
 
         var idx = 0
         for (g in Categories.groups) {
@@ -52,7 +46,20 @@ object Home {
         }
         sb.append("<p class='foot' onclick='Android.credits()'>").append(e(ctx.getString(R.string.home_footer)))
             .append("<br><u>").append(e(ctx.getString(R.string.about))).append("</u></p>")
+        sb.append("<script>window.__recent=function(h){document.getElementById('recent').innerHTML=h}</script>")
         sb.append("</body></html>")
+        return sb.toString()
+    }
+
+    /** Bloco "Vistos recentemente" (atualizado sozinho, sem recarregar a tela). */
+    fun recentHtml(ctx: Context, recent: List<String>): String {
+        if (recent.isEmpty()) return ""
+        val sb = StringBuilder()
+        sb.append("<div class='plank'>").append(e(ctx.getString(R.string.home_recent))).append("</div><div class='chips'>")
+        recent.forEachIndexed { i, t ->
+            sb.append("<span class='chip' onclick='Android.recent($i)'>").append(e(t)).append("</span>")
+        }
+        sb.append("</div>")
         return sb.toString()
     }
 
