@@ -24,4 +24,14 @@
     <string name="show_details">탭하여 자세히 보기</string>
     <string name="offline_pages_none">저장된 페이지가 아직 없습니다. 열어 본 페이지는 오프라인용으로 자동 저장됩니다.</string>
     <string name="view_list">목록 보기</string>
+    <string name="did_you_mean_fmt">이것을 찾으셨나요? · %s (English)</string>
+    <string name="only_in_english">영어 위키에만 있음 · 탭하여 열기</string>
+    <string name="offline_recent">최근에 연 페이지</string>
+    <string name="offline_see_favorites">즐겨찾기 보기</string>
+    <string name="swipe_hint">항목을 옆으로 밀어 삭제하세요</string>
+    <string name="day_today">오늘</string>
+    <string name="day_yesterday">어제</string>
+    <string name="day_earlier">이전</string>
+    <string name="removed_fmt">삭제됨: %s</string>
+    <string name="undo">실행 취소</string>
 </resources>

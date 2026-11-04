@@ -24,4 +24,14 @@
     <string name="show_details">Tippen für Details</string>
     <string name="offline_pages_none">Noch keine gespeicherten Seiten. Geöffnete Seiten werden automatisch für die Offline-Nutzung gespeichert.</string>
     <string name="view_list">Liste ansehen</string>
+    <string name="did_you_mean_fmt">Meintest du? · %s (English)</string>
+    <string name="only_in_english">Nur im englischen Wiki · zum Öffnen tippen</string>
+    <string name="offline_recent">Zuletzt geöffnet</string>
+    <string name="offline_see_favorites">Favoriten ansehen</string>
+    <string name="swipe_hint">Wische einen Eintrag zur Seite, um ihn zu entfernen</string>
+    <string name="day_today">Heute</string>
+    <string name="day_yesterday">Gestern</string>
+    <string name="day_earlier">Früher</string>
+    <string name="removed_fmt">Entfernt: %s</string>
+    <string name="undo">Rückgängig</string>
 </resources>

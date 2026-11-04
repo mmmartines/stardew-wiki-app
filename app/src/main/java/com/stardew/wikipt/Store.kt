@@ -18,8 +18,10 @@ class Store(ctx: Context) {
         const val HIST = "hist_all"
     }
 
-    /** Uma página salva: idioma da wiki + título. */
-    data class Entry(val lang: String, val title: String)
+    /** Uma página salva: idioma da wiki + título. [time] = quando foi vista (0 em itens antigos); não entra na igualdade. */
+    data class Entry(val lang: String, val title: String) {
+        var time: Long = 0L
+    }
 
     init {
         migrate()
@@ -50,13 +52,13 @@ class Store(ctx: Context) {
 
     private fun toJson(l: List<Entry>): String {
         val a = JSONArray()
-        l.forEach { a.put(JSONObject().put("l", it.lang).put("t", it.title)) }
+        l.forEach { a.put(JSONObject().put("l", it.lang).put("t", it.title).put("d", it.time)) }
         return a.toString()
     }
 
     private fun entries(key: String): MutableList<Entry> = try {
         val a = JSONArray(prefs.getString(key, "[]"))
-        MutableList(a.length()) { a.getJSONObject(it).let { o -> Entry(o.getString("l"), o.getString("t")) } }
+        MutableList(a.length()) { a.getJSONObject(it).let { o -> Entry(o.getString("l"), o.getString("t")).apply { time = o.optLong("d", 0L) } } }
     } catch (_: Exception) {
         mutableListOf()
     }
@@ -74,6 +76,7 @@ class Store(ctx: Context) {
     fun toggleFavorite(t: String): Boolean {
         val l = favorites()
         val e = here(t)
+        e.time = System.currentTimeMillis()
         val nowFav = if (l.remove(e)) false else { l.add(0, e); true }
         save(FAV, l)
         return nowFav
@@ -91,7 +94,7 @@ class Store(ctx: Context) {
 
     fun addHistory(t: String) {
         val l = history()
-        val e = here(t)
+        val e = here(t).apply { time = System.currentTimeMillis() }
         l.remove(e)
         l.add(0, e)
         while (l.size > 150) l.removeAt(l.size - 1)
@@ -103,6 +106,20 @@ class Store(ctx: Context) {
     }
 
     fun clearHistory() = save(HIST, emptyList())
+
+    /** Desfaz uma remoção: devolve o item na posição em que estava. */
+    fun restore(e: Entry, index: Int, fav: Boolean) {
+        val key = if (fav) FAV else HIST
+        val l = entries(key)
+        if (l.contains(e)) return
+        l.add(index.coerceIn(0, l.size), e)
+        save(key, l)
+    }
+
+    /** A pessoa já aprendeu a deslizar para remover (some a dica do topo da lista). */
+    var swipeLearned: Boolean
+        get() = prefs.getBoolean("swipe_learned", false)
+        set(v) = prefs.edit().putBoolean("swipe_learned", v).apply()
 
     var textZoom: Int
         get() = prefs.getInt("zoom", 100)
@@ -164,6 +181,9 @@ class Store(ctx: Context) {
         }
         return out.toList()
     }
+
+    /** Página salva no aparelho (só confere se o arquivo existe). */
+    fun isSaved(title: String): Boolean = file(title).exists()
 
     fun cacheBytes(): Long = dir.listFiles()?.sumOf { it.length() } ?: 0L
     fun cacheCount(): Int = dir.listFiles()?.size ?: 0

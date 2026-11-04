@@ -24,4 +24,14 @@
     <string name="show_details">Ayrıntılar için dokunun</string>
     <string name="offline_pages_none">Henüz kayıtlı sayfa yok. Açtığınız sayfalar çevrimdışı okumak için otomatik kaydedilir.</string>
     <string name="view_list">Listeyi gör</string>
+    <string name="did_you_mean_fmt">Bunu mu demek istediniz? · %s (English)</string>
+    <string name="only_in_english">Yalnızca İngilizce wikide · açmak için dokunun</string>
+    <string name="offline_recent">Son açılanlar</string>
+    <string name="offline_see_favorites">Favorileri gör</string>
+    <string name="swipe_hint">Kaldırmak için öğeyi yana kaydırın</string>
+    <string name="day_today">Bugün</string>
+    <string name="day_yesterday">Dün</string>
+    <string name="day_earlier">Daha önce</string>
+    <string name="removed_fmt">Kaldırıldı: %s</string>
+    <string name="undo">Geri al</string>
 </resources>

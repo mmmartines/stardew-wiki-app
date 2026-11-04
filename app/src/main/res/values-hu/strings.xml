@@ -24,4 +24,14 @@
     <string name="show_details">Koppints a részletekért</string>
     <string name="offline_pages_none">Még nincs mentett oldal. A megnyitott oldalak maguktól mentődnek offline olvasáshoz.</string>
     <string name="view_list">Lista</string>
+    <string name="did_you_mean_fmt">Erre gondoltál? · %s (English)</string>
+    <string name="only_in_english">Csak az angol wikin · koppints a megnyitáshoz</string>
+    <string name="offline_recent">Nemrég megnyitott</string>
+    <string name="offline_see_favorites">Kedvencek</string>
+    <string name="swipe_hint">Húzd oldalra az elemet a törléshez</string>
+    <string name="day_today">Ma</string>
+    <string name="day_yesterday">Tegnap</string>
+    <string name="day_earlier">Korábban</string>
+    <string name="removed_fmt">Eltávolítva: %s</string>
+    <string name="undo">Visszavonás</string>
 </resources>

@@ -24,4 +24,14 @@
     <string name="show_details">点按查看详情</string>
     <string name="offline_pages_none">还没有保存的页面。打开过的页面会自动保存以便离线阅读。</string>
     <string name="view_list">查看列表</string>
+    <string name="did_you_mean_fmt">您是不是要找 · %s (English)</string>
+    <string name="only_in_english">仅英文 Wiki 有 · 点按打开</string>
+    <string name="offline_recent">最近打开</string>
+    <string name="offline_see_favorites">查看收藏</string>
+    <string name="swipe_hint">向一侧滑动项目即可移除</string>
+    <string name="day_today">今天</string>
+    <string name="day_yesterday">昨天</string>
+    <string name="day_earlier">更早</string>
+    <string name="removed_fmt">已移除：%s</string>
+    <string name="undo">撤销</string>
 </resources>

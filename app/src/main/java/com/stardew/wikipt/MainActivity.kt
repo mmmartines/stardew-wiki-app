@@ -55,8 +55,13 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { showTab(it.itemId); true }
         showTab(R.id.nav_home)
         onBackPressedDispatcher.addCallback(this, closeSearch)
+        rows.attachSwipe(list)
         Offline.attach(this, toolbar, full = true,
             onSeeSaved = { ListActivity.start(this, ListActivity.MODE_SAVED, null) },
+            recents = { store.historyHere().filter { store.isSaved(it) }.take(4) },
+            onOpenPage = { ArticleActivity.start(this, it) },
+            onSeeFavorites = { bottomNav.selectedItemId = R.id.nav_fav },
+            savedCount = { store.cacheCount() },
             onOnline = {
                 homeKey = ""
                 if (!searching) showTab(bottomNav.selectedItemId)
@@ -163,13 +168,60 @@ class MainActivity : AppCompatActivity() {
 
     private fun showTitles(items: List<Store.Entry>, emptyMsg: String, fav: Boolean) {
         list.layoutManager = LinearLayoutManager(this)
-        rows.items = items.map { e ->
+        val out = mutableListOf<Row>()
+        if (items.isNotEmpty() && !store.swipeLearned) out.add(Row(getString(R.string.swipe_hint), null, {}, header = true))
+        val timeFmt = android.text.format.DateFormat.getTimeFormat(this)
+        var group: String? = null
+        items.forEachIndexed { index, e ->
+            if (!fav) {
+                val g = dayLabel(e.time)
+                if (g != group) { out.add(Row(g, null, {}, header = true)); group = g }
+            }
             val w = Lang.all.firstOrNull { it.code == e.lang }
-            val sub = if (e.lang == Lang.code || w == null) null else w.flag + "  " + w.name
-            Row(e.title, sub, { openEntry(e) }, { confirmRemove(e, fav) })
+            val parts = mutableListOf<String>()
+            if (!fav && e.time > 0) parts.add(timeFmt.format(java.util.Date(e.time)))
+            if (e.lang != Lang.code && w != null) parts.add(w.flag + "  " + w.name)
+            out.add(Row(e.title, parts.joinToString("  ·  ").ifEmpty { null }, { openEntry(e) }, { confirmRemove(e, fav) },
+                onSwipe = { removeWithUndo(e, index, fav) }))
         }
+        rows.items = out
         list.adapter = rows
         if (items.isEmpty()) showEmpty(emptyMsg)
+    }
+
+    /** "Hoje", "Ontem" ou a data ("2 de nov."), no fuso do celular; itens antigos sem hora ficam em "Antes". */
+    private fun dayLabel(t: Long): String {
+        if (t <= 0) return getString(R.string.day_earlier)
+        val cal = java.util.Calendar.getInstance()
+        fun dayIndex(ms: Long): Long {
+            cal.timeInMillis = ms
+            return cal.get(java.util.Calendar.YEAR) * 400L + cal.get(java.util.Calendar.DAY_OF_YEAR)
+        }
+        val now = System.currentTimeMillis()
+        val d = dayIndex(t)
+        return when (d) {
+            dayIndex(now) -> getString(R.string.day_today)
+            dayIndex(now - 86_400_000L) -> getString(R.string.day_yesterday)
+            else -> {
+                val loc = resources.configuration.locales[0]
+                val pattern = android.text.format.DateFormat.getBestDateTimePattern(loc, "dMMMyyyy")
+                java.text.SimpleDateFormat(pattern, loc).format(java.util.Date(t))
+            }
+        }
+    }
+
+    /** Deslizou: remove na hora e oferece "Desfazer" por alguns segundos. */
+    private fun removeWithUndo(e: Store.Entry, index: Int, fav: Boolean) {
+        if (fav) store.removeFavorite(e) else store.removeHistory(e)
+        store.swipeLearned = true
+        showTab(bottomNav.selectedItemId)
+        com.google.android.material.snackbar.Snackbar.make(list, getString(R.string.removed_fmt, e.title), 5000)
+            .setAnchorView(bottomNav)
+            .setAction(R.string.undo) {
+                store.restore(e, index, fav)
+                showTab(bottomNav.selectedItemId)
+            }
+            .show()
     }
 
     /** Abre um favorito/histórico; se for de outro idioma, procura a mesma página no idioma atual. */
@@ -362,7 +414,51 @@ class MainActivity : AppCompatActivity() {
                 localMatches(q).forEach { t -> out.add(Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) })) }
             }
             rows.items = out
+            val few = (r.getOrNull()?.size ?: 99) < 3
+            if (few && Lang.code != "en") crossLanguage(q, id, out)
         }
+    }
+
+    /**
+     * Poucos resultados no idioma atual: procura o termo na wiki em inglês e sugere a página equivalente
+     * ("Parsnip" na wiki PT → Chirívia). Sem equivalente, oferece abrir na wiki em inglês.
+     */
+    private fun crossLanguage(q: String, id: Int, base: List<Row>) {
+        val here = Lang.code
+        runAsync({
+            if (id != requestId) throw java.util.concurrent.CancellationException()
+            val en = WikiApi.prefix(q, "en", 3).map { it.title }
+            if (id != requestId) throw java.util.concurrent.CancellationException()
+            WikiApi.translateMany(en, "en", here)
+        }) { r ->
+            if (id != requestId || Lang.code != here) return@runAsync
+            val pairs = r.getOrNull() ?: return@runAsync
+            val shown = base.map { it.title.lowercase() }.toSet()
+            val extra = mutableListOf<Row>()
+            pairs.forEach { (en, t) ->
+                if (t != null) {
+                    if (t.lowercase() !in shown) extra.add(Row(t, getString(R.string.did_you_mean_fmt, en), { ArticleActivity.start(this, t) }))
+                } else {
+                    extra.add(Row(en, getString(R.string.only_in_english), { offerEnglish(en) }))
+                }
+            }
+            if (extra.isNotEmpty()) rows.items = base + extra.distinctBy { it.title.lowercase() }
+        }
+    }
+
+    /** Página que só existe na wiki em inglês: pergunta antes de trocar o idioma. */
+    private fun offerEnglish(title: String) {
+        val en = Lang.all.first { it.code == "en" }
+        wikiDialog()
+            .setTitle(title)
+            .setMessage(getString(R.string.not_in_lang_fmt, Lang.current().name, en.name))
+            .setPositiveButton(getString(R.string.open_in_fmt, en.flag + " " + en.name)) { _, _ ->
+                searchItem?.collapseActionView()
+                Lang.set(this, "en")
+                ArticleActivity.start(this, title)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun fullSearch(q: String) {

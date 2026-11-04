@@ -24,4 +24,14 @@
     <string name="show_details">Touchez pour voir les détails</string>
     <string name="offline_pages_none">Aucune page enregistrée. Les pages ouvertes sont enregistrées automatiquement pour la lecture hors ligne.</string>
     <string name="view_list">Voir la liste</string>
+    <string name="did_you_mean_fmt">Vouliez-vous dire ? · %s (English)</string>
+    <string name="only_in_english">Uniquement sur le wiki anglais · touchez pour ouvrir</string>
+    <string name="offline_recent">Ouvertes récemment</string>
+    <string name="offline_see_favorites">Voir les favoris</string>
+    <string name="swipe_hint">Glissez un élément sur le côté pour le retirer</string>
+    <string name="day_today">Aujourd\'hui</string>
+    <string name="day_yesterday">Hier</string>
+    <string name="day_earlier">Plus ancien</string>
+    <string name="removed_fmt">Retiré : %s</string>
+    <string name="undo">Annuler</string>
 </resources>

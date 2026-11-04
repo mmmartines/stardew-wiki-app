@@ -142,4 +142,14 @@
     <string name="show_details">Tap to see details</string>
     <string name="offline_pages_none">No pages saved yet. Pages you open are saved automatically to read offline.</string>
     <string name="view_list">See list</string>
+    <string name="did_you_mean_fmt">Did you mean this? · %s (English)</string>
+    <string name="only_in_english">Only on the English wiki · tap to open</string>
+    <string name="offline_recent">Recently opened</string>
+    <string name="offline_see_favorites">See favorites</string>
+    <string name="swipe_hint">Swipe an item sideways to remove it</string>
+    <string name="day_today">Today</string>
+    <string name="day_yesterday">Yesterday</string>
+    <string name="day_earlier">Earlier</string>
+    <string name="removed_fmt">Removed: %s</string>
+    <string name="undo">Undo</string>
 </resources>

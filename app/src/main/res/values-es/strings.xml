@@ -140,4 +140,14 @@
     <string name="show_details">Toca para ver detalles</string>
     <string name="offline_pages_none">Aún no hay páginas guardadas. Las páginas que abres se guardan solas para leer sin conexión.</string>
     <string name="view_list">Ver lista</string>
+    <string name="did_you_mean_fmt">¿Quisiste decir? · %s (English)</string>
+    <string name="only_in_english">Solo en la wiki en inglés · toca para abrir</string>
+    <string name="offline_recent">Abiertas recientemente</string>
+    <string name="offline_see_favorites">Ver favoritos</string>
+    <string name="swipe_hint">Desliza un elemento hacia un lado para quitarlo</string>
+    <string name="day_today">Hoy</string>
+    <string name="day_yesterday">Ayer</string>
+    <string name="day_earlier">Antes</string>
+    <string name="removed_fmt">Quitado: %s</string>
+    <string name="undo">Deshacer</string>
 </resources>

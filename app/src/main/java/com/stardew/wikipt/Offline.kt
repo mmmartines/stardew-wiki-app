@@ -33,6 +33,10 @@ class Offline private constructor(
     private val full: Boolean,
     private val onSeeSaved: (() -> Unit)?,
     private val onOnline: () -> Unit,
+    private val recents: (() -> List<String>)? = null,
+    private val onOpenPage: ((String) -> Unit)? = null,
+    private val onSeeFavorites: (() -> Unit)? = null,
+    private val savedCount: (() -> Int)? = null,
 ) {
     private val cm = act.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private val main = Handler(Looper.getMainLooper())
@@ -62,15 +66,14 @@ class Offline private constructor(
         if (act.isFinishing || act.isDestroyed) return
         if (online) {
             banner?.visibility = View.GONE
-            screen?.let { content.removeView(it) }
-            screen = null
+            screen?.visibility = View.GONE
             dismissed = false
             if (wasOffline) onOnline()
             wasOffline = false
         } else {
             wasOffline = true
             showBanner()
-            if (full && !dismissed && screen == null) showScreen()
+            if (full && !dismissed) showScreen()
         }
     }
 
@@ -103,13 +106,36 @@ class Offline private constructor(
         b.translationY = (loc[1] - base[1] + anchor.height).toFloat()
     }
 
+    private var recentBox: LinearLayout? = null
+    private var savedButton: MaterialButton? = null
+
+    /** A tela é montada uma vez só e depois apenas mostrada ou escondida. */
     private fun showScreen() {
+        val root = screen ?: buildScreen()
+        fillRecents()
+        if (root.visibility != View.VISIBLE || root.parent == null) {
+            root.visibility = View.VISIBLE
+            root.bringToFront()
+            // leitor de tela anuncia o aviso assim que ele aparece
+            root.announceForAccessibility(act.getString(R.string.offline_screen_title))
+        }
+    }
+
+    private fun hideScreen() {
+        dismissed = true
+        screen?.visibility = View.GONE
+    }
+
+    private fun buildScreen(): View {
         val root = FrameLayout(act).apply {
             setBackgroundColor(color(R.color.bg))
             isClickable = true // bloqueia toques na tela de trás
             isFocusable = true
             elevation = dp(8).toFloat()
         }
+        // rola em telas baixas ou com fonte grande, para os botões não ficarem fora da tela
+        val scroll = android.widget.ScrollView(act).apply { isFillViewport = true }
+        val frame = FrameLayout(act)
         val card = LinearLayout(act).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
@@ -118,15 +144,16 @@ class Offline private constructor(
         }
         card.addView(ImageView(act).apply {
             setImageResource(R.mipmap.ic_launcher_round)
-            contentDescription = null
-        }, LinearLayout.LayoutParams(dp(80), dp(80)))
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+        }, LinearLayout.LayoutParams(dp(72), dp(72)))
         card.addView(TextView(act).apply {
             text = act.getString(R.string.offline_screen_title)
             typeface = pixel
             textSize = 22f
             setTextColor(color(R.color.ink))
             gravity = Gravity.CENTER
-            setPadding(0, dp(14), 0, dp(8))
+            setPadding(0, dp(12), 0, dp(8))
+            androidx.core.view.ViewCompat.setAccessibilityHeading(this, true)
         })
         card.addView(TextView(act).apply {
             text = act.getString(R.string.offline_screen_text)
@@ -138,7 +165,7 @@ class Offline private constructor(
         val wait = LinearLayout(act).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
-            setPadding(0, dp(18), 0, dp(6))
+            setPadding(0, dp(16), 0, dp(4))
         }
         wait.addView(ProgressBar(act).apply { isIndeterminate = true }, LinearLayout.LayoutParams(dp(22), dp(22)))
         wait.addView(TextView(act).apply {
@@ -149,23 +176,65 @@ class Offline private constructor(
             setPadding(dp(10), 0, 0, 0)
         })
         card.addView(wait)
+        val box = LinearLayout(act).apply { orientation = LinearLayout.VERTICAL }
+        card.addView(box, LinearLayout.LayoutParams(-1, -2))
+        recentBox = box
         if (onSeeSaved != null) {
-            card.addView(MaterialButton(act).apply {
-                text = act.getString(R.string.offline_see_saved)
+            val btn = MaterialButton(act).apply {
                 typeface = pixel
                 isAllCaps = false
-                setOnClickListener {
-                    dismissed = true
-                    content.removeView(root)
-                    screen = null
-                    onSeeSaved.invoke()
-                }
-            }, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(12) })
+            }
+            card.addView(btn, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(10) })
+            savedButton = btn
         }
-        val lp = FrameLayout.LayoutParams(-1, -2, Gravity.CENTER).apply { leftMargin = dp(22); rightMargin = dp(22) }
-        root.addView(card, lp)
+        frame.addView(card, FrameLayout.LayoutParams(-1, -2, Gravity.CENTER).apply {
+            leftMargin = dp(22); rightMargin = dp(22); topMargin = dp(16); bottomMargin = dp(16)
+        })
+        scroll.addView(frame, FrameLayout.LayoutParams(-1, -2))
+        root.addView(scroll, FrameLayout.LayoutParams(-1, -1))
         content.addView(root, FrameLayout.LayoutParams(-1, -1))
         screen = root
+        return root
+    }
+
+    /** "Abertas recentemente": até 4 páginas do histórico que estão salvas no aparelho. */
+    private fun fillRecents() {
+        val box = recentBox ?: return
+        box.removeAllViews()
+        val list = recents?.invoke().orEmpty()
+        if (list.isNotEmpty()) {
+            box.addView(TextView(act).apply {
+                text = act.getString(R.string.offline_recent)
+                typeface = pixel
+                textSize = 16f
+                setTextColor(color(R.color.ink))
+                gravity = Gravity.CENTER
+                setPadding(0, dp(16), 0, dp(6))
+                androidx.core.view.ViewCompat.setAccessibilityHeading(this, true)
+            })
+            for (t in list) {
+                box.addView(TextView(act).apply {
+                    text = t
+                    textSize = 15f
+                    setTextColor(color(R.color.ink))
+                    background = ContextCompat.getDrawable(act, R.drawable.row_bg)
+                    minHeight = dp(48)
+                    gravity = Gravity.CENTER_VERTICAL
+                    setPadding(dp(14), dp(8), dp(14), dp(8))
+                    isClickable = true
+                    isFocusable = true
+                    setOnClickListener { hideScreen(); onOpenPage?.invoke(t) }
+                }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(6) })
+            }
+        }
+        savedButton?.apply {
+            val hasSaved = list.isNotEmpty() || (savedCount?.invoke() ?: 0) > 0
+            text = act.getString(if (hasSaved) R.string.offline_see_saved else R.string.offline_see_favorites)
+            setOnClickListener {
+                hideScreen()
+                if (hasSaved) onSeeSaved?.invoke() else onSeeFavorites?.invoke()
+            }
+        }
     }
 
     private fun start() {
@@ -186,8 +255,10 @@ class Offline private constructor(
         fun attach(
             act: AppCompatActivity, anchor: View, full: Boolean = false,
             onSeeSaved: (() -> Unit)? = null, onOnline: () -> Unit = {},
+            recents: (() -> List<String>)? = null, onOpenPage: ((String) -> Unit)? = null,
+            onSeeFavorites: (() -> Unit)? = null, savedCount: (() -> Int)? = null,
         ): Offline {
-            val o = Offline(act, anchor, full, onSeeSaved, onOnline)
+            val o = Offline(act, anchor, full, onSeeSaved, onOnline, recents, onOpenPage, onSeeFavorites, savedCount)
             anchor.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> o.place() }
             act.lifecycle.addObserver(LifecycleEventObserver { _, e ->
                 when (e) {

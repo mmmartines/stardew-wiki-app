@@ -131,12 +131,13 @@ object WikiApi {
     }
 
     /** Sugestões rápidas pelo começo do título. */
-    fun prefix(q: String): List<Hit> {
+    fun prefix(q: String, lang: String = Lang.code, limit: Int = 20): List<Hit> {
         val j = get(
             mapOf(
                 "action" to "query", "list" to "prefixsearch",
-                "pssearch" to q, "pslimit" to "20", "psnamespace" to "0"
-            )
+                "pssearch" to q, "pslimit" to limit.toString(), "psnamespace" to "0"
+            ),
+            Lang.base(lang)
         )
         return queryList(j, "prefixsearch").map { Hit(it.getString("title")) }
             .distinctBy { it.title.lowercase() } // redirecionamentos que só mudam maiúsculas
@@ -201,6 +202,36 @@ object WikiApi {
         val page = queryList(j, "pages").firstOrNull() ?: return null
         val ll = page.optJSONArray("langlinks") ?: return null
         return if (ll.length() > 0) ll.getJSONObject(0).optString("title").takeIf { it.isNotBlank() } else null
+    }
+
+    /**
+     * Para cada título da wiki em [from], o equivalente na wiki em [to] (null quando não há), numa chamada só.
+     * Usado para "Você quis dizer Chirívia (Parsnip)?".
+     */
+    fun translateMany(titles: List<String>, from: String, to: String): List<Pair<String, String?>> {
+        if (titles.isEmpty()) return emptyList()
+        val j = get(
+            mapOf("action" to "query", "titles" to titles.joinToString("|"), "redirects" to "1",
+                "prop" to "langlinks", "lllang" to to, "lllimit" to "max"),
+            Lang.base(from)
+        )
+        // título pedido -> título final (normalizado/redirecionado)
+        val alias = mutableMapOf<String, String>()
+        for (k in listOf("normalized", "redirects")) {
+            j.optJSONObject("query")?.optJSONArray(k)?.let { a ->
+                for (i in 0 until a.length()) a.getJSONObject(i).let { alias[it.optString("from")] = it.optString("to") }
+            }
+        }
+        val found = mutableMapOf<String, String?>()
+        queryList(j, "pages").forEach { p ->
+            val ll = p.optJSONArray("langlinks")
+            found[p.optString("title")] = if (ll != null && ll.length() > 0) ll.getJSONObject(0).optString("title").takeIf { it.isNotBlank() } else null
+        }
+        return titles.map { t ->
+            var k = t
+            repeat(3) { alias[k]?.let { k = it } }
+            t to found[k]
+        }
     }
 
     fun random(): String {

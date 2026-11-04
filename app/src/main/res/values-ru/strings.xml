@@ -24,4 +24,14 @@
     <string name="show_details">Нажмите, чтобы увидеть подробности</string>
     <string name="offline_pages_none">Сохранённых страниц пока нет. Открытые страницы сохраняются автоматически для чтения офлайн.</string>
     <string name="view_list">Открыть список</string>
+    <string name="did_you_mean_fmt">Возможно, вы искали · %s (English)</string>
+    <string name="only_in_english">Только в английской вики · нажмите, чтобы открыть</string>
+    <string name="offline_recent">Недавно открытые</string>
+    <string name="offline_see_favorites">Избранное</string>
+    <string name="swipe_hint">Смахните элемент в сторону, чтобы удалить</string>
+    <string name="day_today">Сегодня</string>
+    <string name="day_yesterday">Вчера</string>
+    <string name="day_earlier">Ранее</string>
+    <string name="removed_fmt">Удалено: %s</string>
+    <string name="undo">Отменить</string>
 </resources>

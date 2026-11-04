@@ -24,4 +24,14 @@
     <string name="show_details">Tocca per i dettagli</string>
     <string name="offline_pages_none">Nessuna pagina salvata. Le pagine aperte vengono salvate da sole per la lettura offline.</string>
     <string name="view_list">Vedi elenco</string>
+    <string name="did_you_mean_fmt">Intendevi? · %s (English)</string>
+    <string name="only_in_english">Solo sulla wiki inglese · tocca per aprire</string>
+    <string name="offline_recent">Aperte di recente</string>
+    <string name="offline_see_favorites">Vedi preferiti</string>
+    <string name="swipe_hint">Scorri un elemento di lato per rimuoverlo</string>
+    <string name="day_today">Oggi</string>
+    <string name="day_yesterday">Ieri</string>
+    <string name="day_earlier">Prima</string>
+    <string name="removed_fmt">Rimosso: %s</string>
+    <string name="undo">Annulla</string>
 </resources>
