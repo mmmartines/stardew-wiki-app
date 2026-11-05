@@ -75,7 +75,7 @@ class FanActivity : AppCompatActivity() {
 body.dark{--bg:#1e1812;--fg:#f0e1c2;--muted:#b49a72;--card:#2a2017;--card2:#34281c;--wood:#6b3d17;--woodD:#3a1f0a;--woodL:#8a5428;--slot:#4a3624;--link:#f0a560}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--fg);height:100%}
-body{font-family:sans-serif;font-size:16px;line-height:1.55;padding:18px 16px 16px;
+body{font-family:sans-serif;font-size:16px;line-height:1.55;padding:18px 16px 16px;max-width:640px;margin:0 auto;
  height:100vh;display:flex;flex-direction:column;overflow:hidden;
  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 2px,transparent 2px 6px)}
 img{image-rendering:pixelated}

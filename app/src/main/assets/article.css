@@ -137,3 +137,6 @@ th,td{overflow-wrap:normal;word-break:normal}
 .zoom-cap{position:absolute;bottom:52px;left:16px;right:16px;text-align:center;color:#ffe9b8;font-size:15px}
 .zoom-hint{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#b49a72;font-size:12px}
 .mw-parser-output a.image img,.mw-parser-output a.mw-file-description img,.mw-parser-output img:not(a img){cursor:zoom-in}
+
+/* telas grandes (tablet, dobrável aberto): linha de leitura confortável */
+body{max-width:760px;margin-left:auto;margin-right:auto}

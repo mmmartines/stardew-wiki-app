@@ -197,6 +197,7 @@ class Offline private constructor(
             card.addView(btn, LinearLayout.LayoutParams(-2, -2).apply { topMargin = dp(10) })
             savedButton = btn
         }
+        frame.capWidth(560) // em tablet o cartão não estica a tela toda
         frame.addView(card, FrameLayout.LayoutParams(-1, -2, Gravity.CENTER).apply {
             leftMargin = dp(22); rightMargin = dp(22); topMargin = dp(16); bottomMargin = dp(16)
         })

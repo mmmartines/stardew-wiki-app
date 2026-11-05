@@ -73,6 +73,7 @@ class ListActivity : AppCompatActivity() {
         if (mode == MODE_CATEGORY) supportActionBar?.subtitle = getString(R.string.category)
 
         list = findViewById(R.id.list)
+        list.capWidth()
         progress = findViewById(R.id.progress)
         empty = findViewById(R.id.empty)
         list.layoutManager = LinearLayoutManager(this)

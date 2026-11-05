@@ -17,6 +17,33 @@ object Bg {
  */
 fun androidx.activity.ComponentActivity.edgeToEdge() {
     enableEdgeToEdge(statusBarStyle = androidx.activity.SystemBarStyle.dark(android.graphics.Color.TRANSPARENT))
+    lockPortraitOnPhones()
+    // dobrável abrindo/fechando muda a largura sem recriar a tela: reavalia a trava
+    addOnConfigurationChangedListener { lockPortraitOnPhones() }
+}
+
+/**
+ * Celular (menor largura < 600 dp): sempre em pé. Tablet e dobrável aberto: livre para girar.
+ * Feito em código, e não no manifesto, porque o Android 16 ignora a trava do manifesto em telas grandes
+ * e o Google Play alerta sobre ela.
+ */
+@android.annotation.SuppressLint("SourceLockedOrientationActivity")
+private fun android.app.Activity.lockPortraitOnPhones() {
+    val phone = resources.configuration.smallestScreenWidthDp < 600
+    val want = if (phone) android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    else android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    if (requestedOrientation != want) requestedOrientation = want
+}
+
+/** Em telas largas, mantém o conteúdo da lista com no máximo [maxDp] de largura, centralizado. */
+fun android.view.View.capWidth(maxDp: Int = 720) {
+    val l0 = paddingLeft; val r0 = paddingRight
+    addOnLayoutChangeListener { v, left, _, right, _, oldLeft, _, oldRight, _ ->
+        if (right - left == oldRight - oldLeft) return@addOnLayoutChangeListener
+        val max = (maxDp * v.resources.displayMetrics.density).toInt()
+        val extra = ((right - left) - max).coerceAtLeast(0) / 2
+        if (v.paddingLeft != l0 + extra) v.post { v.setPadding(l0 + extra, v.paddingTop, r0 + extra, v.paddingBottom) }
+    }
 }
 
 /** Executa [work] em segundo plano e entrega o resultado na thread principal. */

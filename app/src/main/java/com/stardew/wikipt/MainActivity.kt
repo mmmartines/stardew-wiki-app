@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         store = Store(this)
         list = findViewById(R.id.list)
+        list.capWidth()
         empty = findViewById(R.id.empty)
         progress = findViewById(R.id.progress)
         bottomNav = findViewById(R.id.bottom_nav)

@@ -76,7 +76,7 @@ body.dark{
  --paper:#3a2c1e;--paper2:#2d2116;--slot:#4a3624;--slotD:#2a1d12;--bg:#1e1812;--muted:#b49a72}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden;max-width:100%}
-body{font-family:'Pixel',sans-serif;padding:0 10px 30px;
+body{font-family:'Pixel',sans-serif;padding:0 10px 30px;max-width:900px;margin:0 auto;
  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 2px,transparent 2px 6px)}
 img{image-rendering:pixelated}
 

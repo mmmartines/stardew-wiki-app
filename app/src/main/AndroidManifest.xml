@@ -17,7 +17,6 @@
 
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation"
             android:exported="true"
             android:launchMode="singleTop">
@@ -28,16 +27,12 @@
         </activity>
 
         <activity android:name=".ArticleActivity" android:exported="false"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
         <activity android:name=".ListActivity" android:exported="false"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
         <activity android:name=".CreditsActivity" android:exported="false"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
         <activity android:name=".FanActivity" android:exported="false"
-            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation" />
 
         <!-- guarda o idioma escolhido no app em Androids anteriores ao 13 -->
