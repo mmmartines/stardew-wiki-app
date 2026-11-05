@@ -238,6 +238,16 @@ object WikiApi {
         }
     }
 
+    /**
+     * Páginas da wiki atual que apontam para [enTitle] na wiki em inglês (ex.: "Parsnip" → "Chirívia").
+     * Consulta a própria wiki do idioma atual, então funciona mesmo pelo navegador interno.
+     */
+    fun fromEnglish(enTitle: String): List<String> {
+        val j = get(mapOf("action" to "query", "list" to "langbacklinks", "lbllang" to "en",
+            "lbltitle" to enTitle, "lbllimit" to "5"))
+        return queryList(j, "langbacklinks").filter { it.optInt("ns") == 0 }.map { it.getString("title") }
+    }
+
     fun random(): String {
         val j = get(mapOf("action" to "query", "list" to "random", "rnnamespace" to "0", "rnlimit" to "1"))
         return queryList(j, "random").firstOrNull()?.getString("title") ?: throw IOException("Sem resultado")

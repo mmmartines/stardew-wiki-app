@@ -111,7 +111,9 @@ object WebBridge {
         val id = seq.incrementAndGet()
         val latch = CountDownLatch(1)
         latches[id] = latch
-        val js = "fetch(" + JSONObject.quote(url) + ",{credentials:'include'})" +
+        // outra wiki (endereço completo): sem cookies, senão o navegador bloqueia (CORS com origin=*)
+        val cred = if (url.startsWith("http")) "omit" else "include"
+        val js = "fetch(" + JSONObject.quote(url) + ",{credentials:'$cred'})" +
             ".then(function(r){return r.text().then(function(t){Bridge.done($id, r.ok, r.ok ? t : ('HTTP '+r.status))})})" +
             ".catch(function(e){Bridge.done($id,false,String(e))})"
         main.post {

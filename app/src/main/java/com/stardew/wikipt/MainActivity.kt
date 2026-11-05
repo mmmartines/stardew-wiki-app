@@ -433,16 +433,15 @@ class MainActivity : AppCompatActivity() {
      * Poucos resultados no idioma atual: procura o termo na wiki em inglês e sugere a página equivalente
      * ("Parsnip" na wiki PT → Chirívia). Sem equivalente, oferece abrir na wiki em inglês.
      */
-    private fun crossLanguage(q: String, id: Int, base: List<Row>) {
+    private fun crossLanguage(q: String, id: Int, base: List<Row>, onNone: (() -> Unit)? = null) {
         val here = Lang.code
         runAsync({
             if (id != requestId) throw java.util.concurrent.CancellationException()
-            val en = WikiApi.prefix(q, "en", 3).map { it.title }
-            if (id != requestId) throw java.util.concurrent.CancellationException()
-            WikiApi.translateMany(en, "en", here)
+            crossLookup(q, here, id)
         }) { r ->
             if (id != requestId || Lang.code != here) return@runAsync
-            val pairs = r.getOrNull() ?: return@runAsync
+            progress.isVisible = false
+            val pairs = r.getOrNull().orEmpty()
             val shown = base.map { it.title.lowercase() }.toSet()
             val extra = mutableListOf<Row>()
             pairs.forEach { (en, t) ->
@@ -452,7 +451,34 @@ class MainActivity : AppCompatActivity() {
                     extra.add(Row(en, getString(R.string.only_in_english), { offerEnglish(en) }))
                 }
             }
-            if (extra.isNotEmpty()) rows.items = base + extra.distinctBy { it.title.lowercase() }
+            if (extra.isNotEmpty()) {
+                empty.isVisible = false
+                rows.items = base + extra.distinctBy { it.title.lowercase() }
+            } else onNone?.invoke()
+        }
+    }
+
+    /**
+     * Nome em inglês → página no idioma atual. Primeiro pergunta à própria wiki do idioma (funciona sempre);
+     * se não achar, busca o termo na wiki em inglês e traduz pelos links entre idiomas.
+     */
+    private fun crossLookup(q: String, here: String, id: Int): List<Pair<String, String?>> {
+        val words = q.trim().split(Regex("\\s+"))
+        val candidates = listOf(
+            q.trim().replaceFirstChar { it.uppercase() },
+            words.joinToString(" ") { w -> w.replaceFirstChar { it.uppercase() } },
+        ).distinct()
+        for (c in candidates) {
+            if (id != requestId) throw java.util.concurrent.CancellationException()
+            val local = try { WikiApi.fromEnglish(c) } catch (e: java.io.IOException) { emptyList() }
+            if (local.isNotEmpty()) return local.map { c to it }
+        }
+        if (id != requestId) throw java.util.concurrent.CancellationException()
+        return try {
+            val en = WikiApi.prefix(q, "en", 3).map { it.title }
+            WikiApi.translateMany(en, "en", here)
+        } catch (e: java.io.IOException) {
+            emptyList()
         }
     }
 
@@ -480,8 +506,16 @@ class MainActivity : AppCompatActivity() {
             if (id != requestId) return@runAsync
             progress.isVisible = false
             r.onSuccess { hits ->
-                rows.items = hits.map { h -> Row(h.title, h.snippet, { ArticleActivity.start(this, h.title) }) }
-                if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
+                val base = hits.map { h -> Row(h.title, h.snippet, { ArticleActivity.start(this, h.title) }) }
+                rows.items = base
+                if (hits.size < 3 && Lang.code != "en") {
+                    // poucos resultados: tenta o nome em inglês antes de dizer "nada encontrado"
+                    progress.isVisible = true
+                    crossLanguage(q, id, base) {
+                        progress.isVisible = false
+                        if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
+                    }
+                } else if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
             }.onFailure { e ->
                 val local = localMatches(q)
                 rows.items = local.map { t -> Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) }) }

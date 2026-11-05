@@ -89,18 +89,28 @@ class Offline private constructor(
             textSize = 13f
             gravity = Gravity.CENTER
             setPadding(dp(12), dp(6), dp(12), dp(6))
-            elevation = dp(4).toFloat()
-            content.addView(this, FrameLayout.LayoutParams(-1, -2, Gravity.TOP))
+            // entra no layout logo abaixo da barra superior e empurra a página para baixo,
+            // em vez de ficar por cima do começo do conteúdo
+            val parent = anchor.parent as? LinearLayout
+            if (parent != null) {
+                parent.addView(this, parent.indexOfChild(anchor) + 1, LinearLayout.LayoutParams(-1, -2))
+                inLayout = true
+            } else {
+                elevation = dp(4).toFloat()
+                content.addView(this, FrameLayout.LayoutParams(-1, -2, Gravity.TOP))
+            }
             banner = this
         }
         b.visibility = View.VISIBLE
-        b.bringToFront()
-        place()
+        if (!inLayout) { b.bringToFront(); place() }
     }
 
-    /** A faixa fica logo abaixo da barra superior. */
+    private var inLayout = false
+
+    /** Sem lugar no layout: a faixa flutua logo abaixo da barra superior. */
     private fun place() {
         val b = banner ?: return
+        if (inLayout) return
         val loc = IntArray(2); val base = IntArray(2)
         anchor.getLocationInWindow(loc); content.getLocationInWindow(base)
         b.translationY = (loc[1] - base[1] + anchor.height).toFloat()
