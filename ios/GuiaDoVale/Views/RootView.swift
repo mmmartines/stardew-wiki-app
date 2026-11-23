@@ -47,6 +47,7 @@ struct RootView: View {
         .onValueChange(net.online) { online in
             if online { model.offlineDismissed = false }
         }
+        .preferredColorScheme(model.tourDark ? .dark : nil)
         .onAppear(perform: screenshotMode)
     }
 
@@ -65,8 +66,29 @@ struct RootView: View {
         case "fan": model.showFan = true
         case "credits": model.homePath = [.credits]
         case "list": model.homePath = [.list(.allCategories)]
+        case "tour": Task { await tour() }
         default: break
         }
+    }
+
+    /// Modo "tour" dos testes no Appetize: passa sozinho pelas telas principais, 8 s em cada,
+    /// para uma única sessão curta registrar todas (o plano grátis tem sessões de 3 minutos).
+    private func tour() async {
+        func step(_ change: () -> Void) async {
+            try? await Task.sleep(nanoseconds: 8_000_000_000)
+            change()
+        }
+        // 0: Início (já está na tela)
+        await step { model.presetQuery = "Parsnip"; model.searchActive = true }          // 1: busca pelo nome em inglês
+        await step { model.searchActive = false; model.homePath = [.article("Abigail")] } // 2: artigo
+        await step {
+            if !Store.shared.isFavorite("Abigail") { Store.shared.toggleFavorite("Abigail") }
+            model.tab = .favorites                                                            // 3: favoritos
+        }
+        await step { model.tab = .home; model.homePath = [.list(.allCategories)] }        // 4: categorias
+        await step { model.homePath = []; model.tourOffline = true }                       // 5: sem internet
+        await step { model.tourOffline = false; model.tourDark = true }                    // 6: Início no escuro
+        await step { model.homePath = [.article("Chirívia")] }                             // 7: artigo no escuro
     }
 }
 

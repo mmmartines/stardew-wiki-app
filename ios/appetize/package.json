@@ -1,0 +1,10 @@
+{
+  "name": "guiadovale-appetize",
+  "private": true,
+  "description": "Testes de layout do app iOS no Appetize (iOS 17, 18, 26 e 27)",
+  "scripts": { "test": "playwright test" },
+  "devDependencies": {
+    "@appetize/playwright": "^1.0.0",
+    "@playwright/test": "^1.49.0"
+  }
+}

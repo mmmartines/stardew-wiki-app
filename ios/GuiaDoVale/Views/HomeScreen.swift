@@ -26,7 +26,7 @@ struct HomeScreen: View {
             if model.searchActive {
                 SearchResultsView(search: search, query: query)
             }
-            if !net.online && !model.offlineDismissed && !model.searchActive {
+            if (!net.online || model.tourOffline) && !model.offlineDismissed && !model.searchActive {
                 OfflineScreen()
             }
             SearchStateSync(active: $model.searchActive) // iOS 16
@@ -40,6 +40,9 @@ struct HomeScreen: View {
         .onValueChange(model.searchActive) { active in if !active { search.cancel() } }
         .onValueChange(store.history) { _ in updateRecent() }
         .onAppear { if !query.isEmpty { search.suggest(query) } }
+        .onValueChange(model.presetQuery) { q in
+            if let q { query = q; search.suggest(q) }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {

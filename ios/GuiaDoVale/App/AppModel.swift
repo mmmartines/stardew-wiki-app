@@ -33,6 +33,11 @@ final class AppModel: ObservableObject {
     @Published var offlineDismissed = false
     @Published var toast: String?
 
+    // Só para os testes automáticos (modo "tour"): busca pronta, sem internet simulado e modo escuro.
+    @Published var presetQuery: String?
+    @Published var tourOffline = false
+    @Published var tourDark = false
+
     init() {
         if firstRun { showLanguage = true }
     }

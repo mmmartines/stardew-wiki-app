@@ -1,0 +1,74 @@
+name: Testar iOS no Appetize
+
+# Roda só quando pedido (aba Actions → "Testar iOS no Appetize" → Run workflow), para economizar os
+# 30 minutos mensais do plano grátis. Cada rodada usa cerca de 6 minutos (4 versões de iOS).
+on:
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: "Versões de iOS (separadas por vírgula)"
+        default: "17,18,26,27"
+
+permissions:
+  contents: write
+
+jobs:
+  appetize:
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compilar versão de simulador
+        run: |
+          set -o pipefail
+          brew install xcodegen
+          python3 ios/scripts/gen_strings.py
+          cd ios && xcodegen generate
+          xcodebuild -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Debug -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log | grep -E "error:|BUILD" || true
+          grep -q "BUILD SUCCEEDED" build.log
+          cd build/Build/Products/Debug-iphonesimulator && zip -qry "$GITHUB_WORKSPACE/GuiaDoVale.zip" GuiaDoVale.app
+
+      - name: Enviar para o Appetize
+        id: up
+        env:
+          TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
+          KNOWN: ${{ vars.APPETIZE_BUILD_ID }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "Falta o segredo APPETIZE_API_TOKEN"; exit 1; fi
+          URL=https://api.appetize.io/v1/apps
+          if [ -n "$KNOWN" ]; then URL="$URL/$KNOWN"; fi
+          curl -sS -X POST "$URL" -H "X-API-KEY: $TOKEN" -F "file=@GuiaDoVale.zip" -F "platform=ios" -o resp.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          r = json.load(open("resp.json"))
+          key = r.get("buildId") or r.get("publicKey")
+          if not key:
+              raise SystemExit("Resposta do Appetize sem buildId/publicKey: " + json.dumps(r)[:500])
+          print("id=" + key)
+          PY
+          echo "Build no Appetize: $(python3 -c 'import json;r=json.load(open("resp.json"));print(r.get("buildId") or r.get("publicKey"))')"
+
+      - name: Rodar o tour em cada versão de iOS
+        env:
+          APPETIZE_BUILD_ID: ${{ steps.up.outputs.id }}
+          IOS_VERSIONS: ${{ inputs.versions }}
+        run: |
+          cd ios/appetize
+          npm install --no-audit --no-fund
+          npx playwright install chromium
+          npx playwright test || echo "Alguma sessão falhou; publicando o que foi capturado."
+
+      - name: Publicar prints no branch "ios-appetize"
+        if: always()
+        run: |
+          mkdir -p appetize-shots
+          cd appetize-shots
+          git init -q -b ios-appetize
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -qm "Appetize ${GITHUB_SHA::7} (${{ job.status }})" || exit 0
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ios-appetize
