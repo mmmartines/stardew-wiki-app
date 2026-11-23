@@ -189,7 +189,7 @@ struct ArticleScreen: View {
     private func errorView(_ msg: String, _ detail: String?) -> some View {
         VStack(spacing: 16) {
             Image(systemName: net.online ? "exclamationmark.triangle" : "wifi.slash")
-                .font(.largeTitle).foregroundStyle(Color.wood)
+                .font(.largeTitle).foregroundStyle(Color.accentColor)
             Text(msg).multilineTextAlignment(.center)
             if let detail {
                 if showDetails {

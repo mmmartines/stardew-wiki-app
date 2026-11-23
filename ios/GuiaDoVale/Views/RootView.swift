@@ -25,7 +25,7 @@ struct RootView: View {
             .tabItem { Label(t("tab_history"), systemImage: "clock.arrow.circlepath") }
             .tag(AppTab.history)
         }
-        .tint(Color.wood)
+        .tint(Color.accentColor) // marrom no claro, dourado no escuro (legível nos dois)
         .sheet(isPresented: $model.showLanguage) {
             LanguageSheet(required: model.firstRun)
                 .interactiveDismissDisabled(model.firstRun) // na primeira abertura a escolha é obrigatória

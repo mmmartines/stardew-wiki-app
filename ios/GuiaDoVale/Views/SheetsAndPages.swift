@@ -19,7 +19,7 @@ struct LanguageSheet: View {
                         Text(w.name).font(.pixel(18)).foregroundStyle(Color.ink)
                         Spacer()
                         if w.code == Lang.code && !required {
-                            Image(systemName: "checkmark").foregroundStyle(Color.wood).fontWeight(.semibold)
+                            Image(systemName: "checkmark").foregroundStyle(Color.accentColor).fontWeight(.semibold)
                         }
                     }
                     .frame(minHeight: 44)

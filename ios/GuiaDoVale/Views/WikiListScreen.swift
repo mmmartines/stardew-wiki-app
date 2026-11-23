@@ -124,7 +124,7 @@ struct WikiListScreen: View {
 
     private func row(_ h: Hit) -> some View {
         HStack {
-            if h.ns == 14 { Image(systemName: "folder").foregroundStyle(Color.wood) }
+            if h.ns == 14 { Image(systemName: "folder").foregroundStyle(Color.accentColor) }
             Text(h.ns == 14 ? (h.title.split(separator: ":", maxSplits: 1).last.map(String.init) ?? h.title) : h.title)
                 .foregroundStyle(Color.ink)
         }

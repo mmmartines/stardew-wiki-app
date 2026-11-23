@@ -177,7 +177,7 @@ struct SearchResultsView: View {
         switch r.kind {
         case .searchAll:
             Label(t("search_all_fmt", r.title).replacingOccurrences(of: "🔎  ", with: ""), systemImage: "magnifyingglass")
-                .foregroundStyle(Color.wood)
+                .foregroundStyle(Color.accentColor)
         default:
             VStack(alignment: .leading, spacing: 2) {
                 Text(r.title).foregroundStyle(r.kind == .info ? .secondary : .primary)
