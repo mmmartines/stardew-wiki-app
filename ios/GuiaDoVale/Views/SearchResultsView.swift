@@ -83,6 +83,13 @@ final class SearchModel: ObservableObject {
                 out.append(SearchRow(kind: .info, title: "⚠️  " + t("search_failed")))
             }
             out += localMatches(q)
+        } else {
+            // alguma wiki não respondeu: avisa em vez de parecer que não há nada nela
+            let failed = parts.filter(\.failed)
+            if !failed.isEmpty {
+                out.append(SearchRow(kind: .info, title: "⚠️  " + t("search_failed"),
+                                     subtitle: failed.map { $0.src.mod ? $0.src.short : t("src_base") }.joined(separator: "  ·  ")))
+            }
         }
         rows = out
         emptyText = full && out.isEmpty ? t("nothing_found_fmt", q) : nil

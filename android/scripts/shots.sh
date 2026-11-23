@@ -11,6 +11,7 @@ adb shell settings put global transition_animation_scale 0
 adb shell settings put global animator_duration_scale 0
 adb shell cmd locale set-app-locales $PKG --locales pt-BR || true
 # idioma já escolhido (pula a primeira abertura)
+adb logcat -c
 adb shell am start -W -n $ACT; sleep 4; adb shell am force-stop $PKG
 cat > /tmp/wiki.xml <<'X'
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
@@ -26,7 +27,7 @@ adb shell "run-as $PKG sh -c 'mkdir -p shared_prefs && cp /data/local/tmp/wiki.x
 shot() { # nome, espera, extras...
   name=$1; wait=$2; shift 2
   adb shell am force-stop $PKG
-  adb shell am start -W -n $ACT "$@"
+  adb shell am start -W -n $ACT --es shot_lang pt "$@"
   sleep "$wait"
   adb exec-out screencap -p > "$OUT/$name.png"
 }
@@ -42,4 +43,5 @@ shot 09-artigo-base-abigail 16 --es shot_page Abigail
 adb shell cmd uimode night yes
 shot 10-inicio-sve-escuro 12 --es shot_src sve
 shot 11-artigo-rsv-escuro 16 --es shot_page Lenny --es shot_page_src rsv
-adb logcat -d -s AndroidRuntime:E > $OUT/crash.txt || true
+adb logcat -d > $OUT/logcat.txt || true
+grep -E "FATAL|AndroidRuntime|GuiaDoVale|wikipt" $OUT/logcat.txt > $OUT/crash.txt || true

@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity() {
     /** Só no APK de teste: atalhos para os prints automáticos do GitHub (sem efeito na versão da loja). */
     private fun shotSetup() {
         if (!BuildConfig.DEBUG) return
+        intent.getStringExtra("shot_lang")?.let {
+            androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags(it))
+        }
         intent.getStringExtra("shot_src")?.let { homeChoice = it; homeKey = ""; showTab(R.id.nav_home) }
         intent.getStringExtra("shot_page")?.let { ArticleActivity.start(this, it, src = intent.getStringExtra("shot_page_src")) }
     }
@@ -490,6 +493,13 @@ class MainActivity : AppCompatActivity() {
             if (!Net.online()) out.add(Row(getString(R.string.offline_title), getString(R.string.offline_sub), {}))
             else out.add(Row("⚠️  " + getString(R.string.search_failed), null, {}))
             localMatches(q).forEach { out.add(it) }
+        } else {
+            // alguma wiki não respondeu: avisa em vez de parecer que não há nada nela
+            val failed = parts.filter { it.failed }
+            if (failed.isNotEmpty()) {
+                out.add(Row("⚠️  " + getString(R.string.search_failed),
+                    failed.joinToString("  ·  ") { if (it.wiki.mod) it.wiki.short else getString(R.string.src_base) }, {}))
+            }
         }
         empty.isVisible = false
         rows.items = out
@@ -624,6 +634,7 @@ class MainActivity : AppCompatActivity() {
             if (!base.failed && base.rows.size < 3 && Lang.code != "en") {
                 // poucos resultados no jogo base: tenta o nome em inglês antes de dizer "nada encontrado"
                 renderSearch(q, full = false)
+                if (rows.items.isEmpty()) showEmpty(getString(R.string.searching))
                 crossLanguage(q, id, full = true)
             } else {
                 renderSearch(q, full = true)
