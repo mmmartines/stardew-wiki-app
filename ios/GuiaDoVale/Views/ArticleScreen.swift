@@ -214,10 +214,11 @@ struct ArticleScreen: View {
         let host = (url.host ?? "").replacingOccurrences(of: "www.", with: "")
 
         if q("app_ext") != nil {
-            var c = comps
-            c?.queryItems = c?.queryItems?.filter { $0.name != "app_ext" }
-            if c?.queryItems?.isEmpty == true { c?.queryItems = nil }
-            if let u = c?.url { openURL(u) }
+            if var c = comps {
+                let items = (c.queryItems ?? []).filter { $0.name != "app_ext" }
+                c.queryItems = items.isEmpty ? nil : items
+                if let u = c.url { openURL(u) }
+            }
             return
         }
         if host != Lang.host() || q("action") == "history" { openURL(url); return }
