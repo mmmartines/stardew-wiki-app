@@ -93,6 +93,9 @@ object Wikis {
         gg("esc", "eastscarp", "East Scarp", "East Scarp", "🌊",
             "Villagers", "Locations", "Festivals", "Quests", "Special Orders", "Letters", "Animals", "Crops", "Fish",
             "Crafting", "Shops", "Compatibility"),
+        gg("mtv", "visitmountvapius", "Visit Mount Vapius", "Vapius", "🏔️",
+            "Villagers", "Locations", "Events", "Quests", "Animals", "Crops", "Trees", "Foraging", "Fish", "Cooking",
+            "Crafting", "Artisan Goods", "Buildings", "Furniture", "Clothing", "Bundles", "Monsters", "Minerals", "Artifacts"),
     )
 
     fun base(lang: String = Lang.code) = Wiki(
