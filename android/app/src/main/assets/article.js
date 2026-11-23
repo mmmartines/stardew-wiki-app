@@ -524,9 +524,13 @@
   var nodes = [], orig = [], trans = null, showing = false;
   var fixed = [];   // tradução já conhecida (termo da wiki oficial), sem passar pelo tradutor automático
   var pending = []; // índices que vão para o tradutor automático
-  var terms = window.__terms || {};
-  var lower = {};
-  for (var k in terms) lower[k.toLowerCase()] = terms[k];
+  var terms = {}, lower = {};
+  /** Termos da wiki oficial no idioma (o app manda quando já tem; podem chegar depois de a página abrir). */
+  window.__setTerms = function (m) {
+    terms = m || {}; lower = {};
+    for (var k in terms) lower[k.toLowerCase()] = terms[k];
+  };
+  window.__setTerms(window.__terms);
 
   /** Termo da wiki oficial para o texto (exato, sem maiúsculas ou no singular: "Loves" -> "Love"). */
   function term(t) {

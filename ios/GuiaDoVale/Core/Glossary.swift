@@ -82,13 +82,71 @@ enum Glossary {
             "window.__terms=" + termsJSON(Lang.code) + ";"
     }
 
-    /// Termos da wiki oficial (títulos de seção, rótulos) para o idioma — terms.json, o mesmo do Android.
+    // MARK: Termos da wiki (títulos de seção, rótulos dos quadros, cabeçalhos de tabela) — igual ao Android
+
+    /// Páginas do jogo base comparadas em inglês e no idioma: a estrutura é a mesma, então os termos se alinham.
+    private static let sample = ["Abigail", "Parsnip", "Sardine", "Fried Egg", "Green Slime", "Galaxy Sword", "Egg Festival"]
+    private static let label = try! NSRegularExpression(pattern: #"<td id="infoboxsection"[^>]*>(.*?)</td>"#, options: .dotMatchesLineSeparators)
+    private static let table = try! NSRegularExpression(pattern: #"<table[^>]*>(.*?)</table>"#, options: .dotMatchesLineSeparators)
+    private static let th = try! NSRegularExpression(pattern: #"<th[^>]*>(.*?)</th>"#, options: .dotMatchesLineSeparators)
+    nonisolated(unsafe) private static var terms: [String: String] = [:]
+
+    private static func termsFile(_ lang: String) -> URL {
+        file(lang).deletingLastPathComponent().appendingPathComponent("terms_\(lang).json")
+    }
+
+    static func hasTerms(_ lang: String) -> Bool { FileManager.default.fileExists(atPath: termsFile(lang).path) }
+
+    /// Termos já salvos para o idioma, como JSON para a página ("{}" se ainda não buscou).
     static func termsJSON(_ lang: String) -> String {
-        guard let url = Bundle.main.url(forResource: "terms", withExtension: "json"),
-              let d = try? Data(contentsOf: url),
-              let all = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
-              let m = all[lang],
-              let out = try? JSONSerialization.data(withJSONObject: m) else { return "{}" }
-        return String(data: out, encoding: .utf8) ?? "{}"
+        lock.lock(); defer { lock.unlock() }
+        if let t = terms[lang] { return t }
+        let t = (try? String(contentsOf: termsFile(lang), encoding: .utf8)) ?? "{}"
+        terms[lang] = t
+        return t
+    }
+
+    private static func groups(_ re: NSRegularExpression, _ s: String) -> [String] {
+        re.matches(in: s, range: NSRange(s.startIndex..., in: s)).compactMap { m in
+            Range(m.range(at: 1), in: s).map { String(s[$0]) }
+        }
+    }
+
+    private static func clean(_ h: String) -> String {
+        var t = h.strippingHTML.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+            .trimmingCharacters(in: .whitespaces)
+        while t.hasSuffix(":") { t.removeLast() }
+        return t.trimmingCharacters(in: .whitespaces)
+    }
+
+    private static func parts(_ p: Page) -> ([String], [String], [[String]]) {
+        (p.sections.map { $0.line.trimmingCharacters(in: .whitespaces) },
+         groups(label, p.html).map(clean),
+         groups(table, p.html).map { groups(th, $0).map(clean) })
+    }
+
+    /// Busca e salva os termos do idioma (uma vez por idioma).
+    static func fetchTerms(_ lang: String) async {
+        guard let pairs = try? await WikiApi.translateMany(sample, from: "en", to: lang) else { return }
+        var out: [String: String] = [:]
+        func add(_ a: [String], _ b: [String]) {
+            guard a.count == b.count else { return } // só alinha listas com a mesma estrutura
+            for (x, y) in zip(a, b) where !x.isEmpty && !y.isEmpty && x.count <= 40 && y.count <= 60
+                && !x.contains(where: \.isNumber) && out[x] == nil {
+                out[x] = y
+            }
+        }
+        for (en, tr) in pairs {
+            guard let tr,
+                  let a = try? await WikiApi.parse(en, src: Sources.base("en")),
+                  let b = try? await WikiApi.parse(tr, src: Sources.base(lang)) else { continue }
+            let pa = parts(a), pb = parts(b)
+            add(pa.0, pb.0)
+            add(pa.1, pb.1)
+            if pa.2.count == pb.2.count { for (x, y) in zip(pa.2, pb.2) { add(x, y) } }
+        }
+        let json = (try? JSONSerialization.data(withJSONObject: out)).flatMap { String(data: $0, encoding: .utf8) } ?? "{}"
+        lock.lock(); terms[lang] = json; lock.unlock()
+        try? json.write(to: termsFile(lang), atomically: true, encoding: .utf8)
     }
 }

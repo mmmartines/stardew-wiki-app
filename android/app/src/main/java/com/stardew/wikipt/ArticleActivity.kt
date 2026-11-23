@@ -246,13 +246,20 @@ class ArticleActivity : AppCompatActivity() {
         val lang = Lang.code
         val titles = Glossary.titles(p.html)
         val missing = if (Net.online()) Glossary.missing(this, lang, titles) else emptyList()
-        if (missing.isEmpty()) { autoTranslate(p); return }
-        runAsync({ Glossary.fetch(this, lang, missing); Glossary.knownJson(this, lang, titles) }) { r ->
+        val needTerms = Net.online() && !Glossary.hasTerms(this, lang)
+        if (missing.isEmpty() && !needTerms) { autoTranslate(p); return }
+        runAsync({
+            // termos da wiki (uma vez por idioma) e nomes do jogo citados na página; um erro não impede o outro
+            if (needTerms) try { Glossary.fetchTerms(this, lang) } catch (_: Exception) {}
+            if (missing.isNotEmpty()) try { Glossary.fetch(this, lang, missing) } catch (_: Exception) {}
+            Glossary.knownJson(this, lang, titles)
+        }) { r ->
             if (page !== p) return@runAsync // já abriu outra página
             r.getOrNull()?.let { json ->
-                web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ")", null)
+                web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ");" +
+                    "window.__setTerms&&__setTerms(" + Glossary.termsJson(this, lang) + ")", null)
             }
-            autoTranslate(p) // o texto é traduzido depois dos nomes do jogo, que ficam como na wiki oficial
+            autoTranslate(p) // o texto é traduzido depois dos nomes e termos do jogo, que ficam como na wiki oficial
         }
     }
 

@@ -26,8 +26,6 @@ targets:
         buildPhase: resources
       - path: ../android/app/src/main/assets/titles.json
         buildPhase: resources
-      - path: ../android/app/src/main/assets/terms.json
-        buildPhase: resources
       - path: ../android/app/src/main/assets/fonts/pixelify-sans-latin-400-normal.woff2
         buildPhase: resources
       - path: ../android/app/src/main/assets/fonts/pixelify-sans-latin-700-normal.woff2

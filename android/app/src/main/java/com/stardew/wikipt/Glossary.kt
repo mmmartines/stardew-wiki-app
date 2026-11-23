@@ -80,13 +80,54 @@ object Glossary {
         }
     }
 
-    private var terms: JSONObject? = null
+    // ---------- Termos da wiki (títulos de seção, rótulos dos quadros, cabeçalhos de tabela) ----------
 
-    /** Termos da wiki oficial (títulos de seção, rótulos), gerados por tools/gen_terms.py, para o idioma. */
+    /** Páginas do jogo base comparadas em inglês e no idioma: a estrutura é a mesma, então os termos se alinham. */
+    private val SAMPLE = listOf("Abigail", "Parsnip", "Sardine", "Fried Egg", "Green Slime", "Galaxy Sword", "Egg Festival")
+    private val LABEL = Regex("<td id=\"infoboxsection\"[^>]*>(.*?)</td>", RegexOption.DOT_MATCHES_ALL)
+    private val TABLE = Regex("<table[^>]*>(.*?)</table>", RegexOption.DOT_MATCHES_ALL)
+    private val TH = Regex("<th[^>]*>(.*?)</th>", RegexOption.DOT_MATCHES_ALL)
+    private val terms = HashMap<String, String>()
+
+    private fun termsFile(ctx: Context, lang: String) = File(ctx.applicationContext.filesDir, "terms_$lang.json")
+
+    fun hasTerms(ctx: Context, lang: String) = termsFile(ctx, lang).exists()
+
+    /** Termos já salvos para o idioma, como JSON para a página ("{}" se ainda não buscou). */
     @Synchronized
-    fun termsJson(ctx: Context, lang: String): String {
-        val all = terms ?: try { JSONObject(Assets.text(ctx, "terms.json").ifBlank { "{}" }) } catch (_: Exception) { JSONObject() }
-        terms = all
-        return all.optJSONObject(lang)?.toString() ?: "{}"
+    fun termsJson(ctx: Context, lang: String): String = terms.getOrPut(lang) {
+        try { termsFile(ctx, lang).takeIf { it.exists() }?.readText() ?: "{}" } catch (_: Exception) { "{}" }
+    }
+
+    private fun clean(h: String) = stripHtml(h).replace(Regex("\\s+"), " ").trim().trimEnd(':').trim()
+
+    private fun parts(p: Page): Triple<List<String>, List<String>, List<List<String>>> = Triple(
+        p.sections.map { it.line.trim() },
+        LABEL.findAll(p.html).map { clean(it.groupValues[1]) }.toList(),
+        TABLE.findAll(p.html).map { t -> TH.findAll(t.groupValues[1]).map { clean(it.groupValues[1]) }.toList() }.toList(),
+    )
+
+    /** Busca e salva os termos do idioma (uma vez por idioma; fora da thread principal). */
+    fun fetchTerms(ctx: Context, lang: String) {
+        val out = LinkedHashMap<String, String>()
+        fun add(a: List<String>, b: List<String>) {
+            if (a.size != b.size) return // só alinha listas com a mesma estrutura
+            a.zip(b).forEach { (x, y) ->
+                if (x.isNotEmpty() && y.isNotEmpty() && x.length <= 40 && y.length <= 60 && !x.any { it.isDigit() }) out.putIfAbsent(x, y)
+            }
+        }
+        WikiApi.translateMany(SAMPLE, "en", lang).forEach { (en, tr) ->
+            if (tr == null) return@forEach
+            val a = parts(WikiApi.parse(en, Wikis.base("en")))
+            val b = parts(WikiApi.parse(tr, Wikis.base(lang)))
+            add(a.first, b.first)
+            add(a.second, b.second)
+            if (a.third.size == b.third.size) a.third.zip(b.third).forEach { (x, y) -> add(x, y) }
+        }
+        val json = JSONObject(out as Map<*, *>).toString()
+        synchronized(this) {
+            terms[lang] = json
+            try { termsFile(ctx, lang).writeText(json) } catch (_: Exception) {}
+        }
     }
 }

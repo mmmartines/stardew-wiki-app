@@ -159,12 +159,16 @@ struct ArticleScreen: View {
         let lang = Lang.code
         let titles = Glossary.titles(p.html)
         let missing = Net.isOnline ? Glossary.missing(lang, titles) : []
+        let needTerms = Net.isOnline && !Glossary.hasTerms(lang)
         Task {
-            if !missing.isEmpty {
-                await Glossary.fetch(lang, missing)
+            if !missing.isEmpty || needTerms {
+                // termos da wiki (uma vez por idioma) e nomes do jogo citados na página
+                if needTerms { await Glossary.fetchTerms(lang) }
+                if !missing.isEmpty { await Glossary.fetch(lang, missing) }
                 guard article.page?.title == p.title, Lang.code == lang else { return }
                 let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
-                web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0])")
+                web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0]);" +
+                       "window.__setTerms&&__setTerms(" + Glossary.termsJSON(lang) + ")")
             }
             // depois dos nomes do jogo (que ficam como na wiki oficial), o resto do texto: tradução automática
             guard AutoTranslateSupport.available, article.page?.title == p.title else { return }
