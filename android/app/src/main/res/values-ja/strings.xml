@@ -55,4 +55,7 @@
     <string name="mt_original_shown">英語の原文</string>
     <string name="mt_see_original">原文を見る</string>
     <string name="mt_see_translation">翻訳を見る</string>
+    <string name="my_mods">マイMOD</string>
+    <string name="my_mods_hint">遊んでいるMODを選んでください。ホーム画面と検索には選んだMODだけが表示されます。</string>
+    <string name="my_mods_add">MODを追加</string>
 </resources>

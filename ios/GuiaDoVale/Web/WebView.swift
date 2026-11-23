@@ -55,7 +55,7 @@ struct WebView: UIViewRepresentable {
         (function(){
           function post(a,v){ try { window.webkit.messageHandlers.app.postMessage({a:a, v:v}); } catch(e) {} }
           window.Android = {
-            open: function(i){ post('open', i); }, recent: function(i){ post('recent', i); }, source: function(i){ post('source', i); },
+            open: function(i){ post('open', i); }, recent: function(i){ post('recent', i); }, source: function(i){ post('source', i); }, myMods: function(){ post('mymods', 0); },
             search: function(){ post('search', 0); }, credits: function(){ post('credits', 0); },
             done: function(){ post('done', 0); }
           };

@@ -36,7 +36,14 @@ final class AppModel: ObservableObject {
     /// Wiki escolhida nos botões da tela inicial: "base" (jogo base) ou o código do mod.
     /// O app abre na wiki marcada em "Wiki ao abrir o app".
     @Published var homeChoice = Sources.startChoice
-    var homeSource: Source { Sources.fromChoice(homeChoice) }
+    /// Muda quando "Meus mods" muda (para redesenhar a tela inicial).
+    @Published var myModsVersion = 0
+    @Published var showMyMods = false
+    var homeSource: Source {
+        // mod tirado de "Meus mods": mostra o jogo base
+        if Sources.isMod(homeChoice) && !Sources.myMods.contains(where: { $0.key == homeChoice }) { return Sources.base() }
+        return Sources.fromChoice(homeChoice)
+    }
 
     // Só para os testes automáticos (modo "tour"): busca pronta, sem internet simulado e modo escuro.
     @Published var presetQuery: String?

@@ -27,7 +27,8 @@ enum HTML {
 
         // um botão por wiki: filtra o menu da tela inicial
         sb += "<div class='srcs' role='tablist' aria-label='" + e(t("home_sources")) + "'>"
-        let all: [Source?] = [nil] + Sources.mods.map { Optional($0) }
+        let mine = Sources.myMods
+        let all: [Source?] = [nil] + mine.map { Optional($0) }
         for (i, w) in all.enumerated() {
             let on = w == nil ? !src.mod : w!.key == src.key
             let label = w == nil ? "⭐ " + t("src_base") : w!.emoji + " " + w!.short
@@ -35,6 +36,9 @@ enum HTML {
             sb += "<span class='src" + (on ? " on" : "") + "' role='tab' tabindex='0' aria-selected='\(on)'"
             sb += " aria-label='" + e(a11y) + "' onclick='Android.source(\(i))'>" + e(label) + "</span>"
         }
+        // atalho para "Meus mods" (escolher quais mods aparecem)
+        let more = mine.isEmpty ? "＋ " + t("my_mods_add") : "⚙ " + t("my_mods")
+        sb += "<span class='src more' role='button' tabindex='0' onclick='Android.myMods()'>" + e(more) + "</span>"
         sb += "</div>"
         if src.mod {
             sb += "<div class='modinfo'>" + e(t("src_mod_fmt", src.name))

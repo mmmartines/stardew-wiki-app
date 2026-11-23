@@ -55,4 +55,7 @@
     <string name="mt_original_shown">영어 원문</string>
     <string name="mt_see_original">원문 보기</string>
     <string name="mt_see_translation">번역 보기</string>
+    <string name="my_mods">내 모드</string>
+    <string name="my_mods_hint">플레이하는 모드를 선택하세요. 홈 화면과 검색에는 선택한 모드만 나타납니다.</string>
+    <string name="my_mods_add">모드 추가</string>
 </resources>

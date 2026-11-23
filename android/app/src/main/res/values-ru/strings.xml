@@ -55,4 +55,7 @@
     <string name="mt_original_shown">Оригинал на английском</string>
     <string name="mt_see_original">Показать оригинал</string>
     <string name="mt_see_translation">Показать перевод</string>
+    <string name="my_mods">Мои моды</string>
+    <string name="my_mods_hint">Отметьте моды, в которые играете. Только они будут на главном экране и в поиске.</string>
+    <string name="my_mods_add">Добавить моды</string>
 </resources>

@@ -79,6 +79,7 @@ body.dark .star{display:block}
 .src{flex:0 1 auto;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;padding:6px 10px;
  background:var(--paper);border:3px solid var(--woodD);border-radius:3px;box-shadow:0 2px 0 var(--woodD);min-height:36px;
  display:flex;align-items:center}
+.src.more{background:transparent;border-style:dashed;box-shadow:none}
 .src.on{background:var(--wood);color:#ffe9b8;box-shadow:inset 0 0 0 2px var(--woodL),0 2px 0 var(--woodD);text-shadow:1px 1px 0 var(--woodD)}
 .src:active{transform:translateY(1px)}
 .modinfo{margin:10px 2px 0;padding:8px 10px;font-family:sans-serif;font-size:13px;line-height:1.35;color:var(--ink);

@@ -171,4 +171,7 @@
     <string name="mt_original_shown">Original en inglés</string>
     <string name="mt_see_original">Ver original</string>
     <string name="mt_see_translation">Ver traducción</string>
+    <string name="my_mods">Mis mods</string>
+    <string name="my_mods_hint">Marca los mods que juegas. Solo ellos aparecen en el inicio y en la búsqueda.</string>
+    <string name="my_mods_add">Añadir mods</string>
 </resources>

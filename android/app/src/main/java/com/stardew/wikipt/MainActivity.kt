@@ -40,7 +40,11 @@ class MainActivity : AppCompatActivity() {
 
     /** Wiki escolhida nos botões da tela inicial: "base" (jogo base) ou o código do mod. */
     private var homeChoice = Wikis.BASE
-    private fun homeWiki(): Wiki = Wikis.fromChoice(homeChoice)
+    private fun homeWiki(): Wiki {
+        // mod tirado de "Meus mods": volta para o jogo base
+        if (Wikis.isMod(homeChoice) && Wikis.myMods(this).none { it.key == homeChoice }) homeChoice = Wikis.BASE
+        return Wikis.fromChoice(homeChoice)
+    }
     /** Itens do menu mostrado na tela inicial (o índice vem da página). */
     private var menuItems: List<Cat> = Categories.all
 
@@ -148,6 +152,11 @@ class MainActivity : AppCompatActivity() {
         if (prefs.getBoolean("pending_welcome", false) && !isFinishing) {
             prefs.edit().putBoolean("pending_welcome", false).apply()
             welcome()
+        } else if (!isFinishing && prefs.contains("lang") && !Wikis.myModsAsked(this) && !myModsShowing &&
+            intent.extras?.keySet()?.any { it.startsWith("shot_") } != true) {
+            myModsShowing = true
+            // pergunta uma vez quais mods a pessoa joga (depois da primeira abertura ou ao atualizar o app)
+            handler.postDelayed({ if (!isFinishing && !Wikis.myModsAsked(this)) chooseMyMods() else myModsShowing = false }, 600)
         }
     }
 
@@ -320,7 +329,7 @@ class MainActivity : AppCompatActivity() {
             /** Botões de wiki no topo: 0 = jogo base, 1… = mods. */
             @JavascriptInterface
             fun source(i: Int) = runOnUiThread {
-                val c = if (i <= 0) Wikis.BASE else Wikis.mods.getOrNull(i - 1)?.key ?: Wikis.BASE
+                val c = if (i <= 0) Wikis.BASE else Wikis.myMods(this@MainActivity).getOrNull(i - 1)?.key ?: Wikis.BASE
                 if (c != homeChoice) {
                     homeChoice = c
                     homeKey = ""
@@ -333,6 +342,9 @@ class MainActivity : AppCompatActivity() {
 
             @JavascriptInterface
             fun credits() = runOnUiThread { openCredits() }
+
+            @JavascriptInterface
+            fun myMods() = runOnUiThread { chooseMyMods() }
         }, "Android")
     }
 
@@ -340,7 +352,8 @@ class MainActivity : AppCompatActivity() {
         val wiki = homeWiki()
         val r = store.historyHere(wiki.key).take(6)
         val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-        val base = Lang.code + "|" + homeChoice + "|" + dark
+        val mine = Wikis.myMods(this)
+        val base = Lang.code + "|" + homeChoice + "|" + dark + "|" + mine.joinToString(",") { it.key }
         val key = base + "|" + r.joinToString("|")
         if (key == homeKey && homeWeb.url != null) return
         recent = r
@@ -355,7 +368,7 @@ class MainActivity : AppCompatActivity() {
         val menu = if (wiki.mod) listOf(wiki.name to wiki.menu)
             else Categories.groups.map { getString(it.nameRes) to it.items }
         menuItems = menu.flatMap { it.second }
-        runAsync({ Home.html(this, Fonts.css(this), dark, r, wiki, menu) }) { res ->
+        runAsync({ Home.html(this, Fonts.css(this), dark, r, wiki, menu, mine) }) { res ->
             if (homeKey != key) return@runAsync // já mudou de novo
             res.onSuccess { homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", it, "text/html", "utf-8", null) }
         }
@@ -470,7 +483,7 @@ class MainActivity : AppCompatActivity() {
     /** Ordem das seções: a wiki aberta na tela inicial primeiro, depois as outras. */
     private fun searchOrder(): List<Wiki> {
         val cur = homeWiki()
-        return listOf(cur) + (listOf(Wikis.base()) + Wikis.mods).filter { it.key != cur.key }
+        return listOf(cur) + (listOf(Wikis.base()) + Wikis.myMods(this)).filter { it.key != cur.key }
     }
 
     private fun sectionTitle(w: Wiki): String =
@@ -672,6 +685,7 @@ class MainActivity : AppCompatActivity() {
                 dlg.show()
             }
 
+            R.id.action_my_mods -> chooseMyMods()
             R.id.action_start_wiki -> chooseStartWiki()
             R.id.action_about -> openCredits()
             R.id.action_fan -> startActivity(Intent(this, FanActivity::class.java))
@@ -681,9 +695,33 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    /** "Meus mods": marcar os mods que a pessoa joga (só eles aparecem na tela inicial e na busca). */
+    private var myModsShowing = false
+
+    private fun chooseMyMods() {
+        val all = Wikis.mods
+        val mine = Wikis.myMods(this).map { it.key }.toSet()
+        val checked = BooleanArray(all.size) { all[it].key in mine }
+        val labels = all.map { it.emoji + "  " + it.name }.toTypedArray()
+        wikiDialog()
+            .setTitle(R.string.my_mods)
+            .setMultiChoiceItems(labels, checked) { _, i, on -> checked[i] = on }
+            .setPositiveButton(R.string.ok) { _, _ ->
+                Wikis.setMyMods(this, all.filterIndexed { i, _ -> checked[i] }.map { it.key }.toSet())
+                homeKey = ""
+                if (!searching) showTab(bottomNav.selectedItemId)
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                if (!Wikis.myModsAsked(this)) Wikis.setMyMods(this, mine) // não pergunta de novo
+            }
+            .setOnDismissListener { myModsShowing = false }
+            .show().framed()
+        toast(getString(R.string.my_mods_hint))
+    }
+
     /** "Wiki ao abrir o app": jogo base ou um mod. A busca do topo continua procurando em todas. */
     private fun chooseStartWiki() {
-        val choices = listOf(Wikis.BASE) + Wikis.mods.map { it.key }
+        val choices = listOf(Wikis.BASE) + Wikis.myMods(this).map { it.key }
         val names = choices.map { c -> if (c == Wikis.BASE) getString(R.string.src_base) else Wikis.of(c).name }
         val labels = choices.mapIndexed { i, c -> (if (c == Wikis.BASE) "⭐" else Wikis.of(c).emoji) + "  " + names[i] }.toTypedArray()
         val cur = choices.indexOf(Wikis.startChoice(this)).coerceAtLeast(0)

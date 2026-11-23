@@ -37,7 +37,7 @@ final class SearchModel: ObservableObject {
     }
 
     private func order(_ first: Source) -> [Source] {
-        [first] + ([Sources.base()] + Sources.mods).filter { $0.key != first.key }
+        [first] + ([Sources.base()] + Sources.myMods).filter { $0.key != first.key }
     }
 
     private func sectionTitle(_ s: Source) -> String {

@@ -127,4 +127,20 @@ object Wikis {
     fun startChoice(ctx: Context): String = prefs(ctx).getString("start_src", BASE)?.takeIf { it == BASE || isMod(it) } ?: BASE
 
     fun setStartChoice(ctx: Context, choice: String) = prefs(ctx).edit().putString("start_src", choice).apply()
+
+    /** "Meus mods": os mods que a pessoa joga. Só eles aparecem na tela inicial e na busca. Sem escolha = todos. */
+    fun myMods(ctx: Context): List<Wiki> {
+        val set = prefs(ctx).getStringSet("my_mods", null) ?: return mods
+        return mods.filter { it.key in set }
+    }
+
+    fun setMyMods(ctx: Context, keys: Set<String>) {
+        val e = prefs(ctx).edit().putStringSet("my_mods", HashSet(keys)).putBoolean("my_mods_asked", true)
+        // a wiki de abertura deixou de estar na lista: volta para o jogo base
+        if (isMod(startChoice(ctx)) && startChoice(ctx) !in keys) e.putString("start_src", BASE)
+        e.apply()
+    }
+
+    /** Já perguntou "Meus mods" alguma vez? (pergunta uma vez, depois da primeira abertura ou da atualização) */
+    fun myModsAsked(ctx: Context) = prefs(ctx).getBoolean("my_mods_asked", false)
 }

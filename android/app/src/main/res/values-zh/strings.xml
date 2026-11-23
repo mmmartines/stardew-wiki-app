@@ -55,4 +55,7 @@
     <string name="mt_original_shown">英文原文</string>
     <string name="mt_see_original">查看原文</string>
     <string name="mt_see_translation">查看译文</string>
+    <string name="my_mods">我的模组</string>
+    <string name="my_mods_hint">勾选你在玩的模组。主页和搜索中只会显示它们。</string>
+    <string name="my_mods_add">添加模组</string>
 </resources>

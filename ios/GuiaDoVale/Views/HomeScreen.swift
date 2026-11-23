@@ -25,7 +25,7 @@ struct HomeScreen: View {
             Color.homeBackground.ignoresSafeArea()
             WebView(html: HTML.home(dark: scheme == .dark, recent: recent, src: src, menu: menu),
                     baseURL: URL(string: Lang.base() + "/"),
-                    key: "\(model.lang)|\(model.homeChoice)|\(scheme == .dark)",
+                    key: "\(model.lang)|\(src.key)|\(model.myModsVersion)|\(scheme == .dark)",
                     controller: web,
                     onMessage: handle)
                 .opacity(model.searchActive ? 0 : 1)
@@ -65,6 +65,7 @@ struct HomeScreen: View {
                         Label(t("clear_history"), systemImage: "trash")
                     }
                     Button { cacheDialog = true } label: { Label(t("offline_pages"), systemImage: "arrow.down.circle") }
+                    Button { model.showMyMods = true } label: { Label(t("my_mods"), systemImage: "puzzlepiece.extension") }
                     Button { startDialog = true } label: { Label(t("start_wiki"), systemImage: "flag") }
                     Divider()
                     Button { model.showFan = true } label: { Label(t("fan_menu"), systemImage: "heart") }
@@ -76,7 +77,7 @@ struct HomeScreen: View {
         }
         // "Wiki ao abrir o app": jogo base ou um mod (a busca do topo continua procurando em todas)
         .confirmationDialog(t("start_wiki"), isPresented: $startDialog, titleVisibility: .visible) {
-            ForEach([Sources.baseChoice] + Sources.mods.map(\.key), id: \.self) { c in
+            ForEach([Sources.baseChoice] + Sources.myMods.map(\.key), id: \.self) { c in
                 let name = c == Sources.baseChoice ? t("src_base") : Sources.of(c).name
                 let icon = c == Sources.baseChoice ? "⭐" : Sources.of(c).emoji
                 Button(icon + "  " + name + (Sources.startChoice == c ? "  ✓" : "")) {
@@ -120,7 +121,9 @@ struct HomeScreen: View {
         case "recent": if recent.indices.contains(i) { model.push(.article(recent[i], src: src.mod ? src.key : nil)) }
         case "source":
             // botões de wiki no topo: 0 = jogo base, 1… = mods
-            model.homeChoice = i <= 0 ? Sources.baseChoice : (Sources.mods.indices.contains(i - 1) ? Sources.mods[i - 1].key : Sources.baseChoice)
+            let mine = Sources.myMods
+            model.homeChoice = i <= 0 ? Sources.baseChoice : (mine.indices.contains(i - 1) ? mine[i - 1].key : Sources.baseChoice)
+        case "mymods": model.showMyMods = true
         case "search": model.searchActive = true
         case "credits": model.push(.credits)
         default: break

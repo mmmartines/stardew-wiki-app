@@ -11,7 +11,8 @@ object Home {
      * [wiki] = wiki escolhida nos botões do topo (jogo base ou um mod): o menu, os "Vistos recentemente"
      * e a placa mostram só ela. A busca do topo é sempre global (jogo base + todos os mods).
      */
-    fun html(ctx: Context, fontCss: String, dark: Boolean, recent: List<String>, wiki: Wiki, menu: List<Pair<String, List<Cat>>>): String {
+    fun html(ctx: Context, fontCss: String, dark: Boolean, recent: List<String>, wiki: Wiki, menu: List<Pair<String, List<Cat>>>,
+             myMods: List<Wiki>): String {
         val sb = StringBuilder()
         sb.append("<!DOCTYPE html><html><head><meta charset='utf-8'>")
         sb.append("<meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>")
@@ -34,7 +35,7 @@ object Home {
 
         // um botão por wiki: filtra o menu da tela inicial
         sb.append("<div class='srcs' role='tablist' aria-label='").append(e(ctx.getString(R.string.home_sources))).append("'>")
-        val all = listOf<Wiki?>(null) + Wikis.mods
+        val all = listOf<Wiki?>(null) + myMods
         all.forEachIndexed { i, w ->
             val on = (w == null && !wiki.mod) || (w != null && w.key == wiki.key)
             val label = if (w == null) "⭐ " + ctx.getString(R.string.src_base) else w.emoji + " " + w.short
@@ -43,6 +44,9 @@ object Home {
                 .append(on).append("' aria-label='").append(e(a11y)).append("' onclick='Android.source(").append(i).append(")'>")
                 .append(e(label)).append("</span>")
         }
+        // atalho para "Meus mods" (escolher quais mods aparecem)
+        val more = if (myMods.isEmpty()) "＋ " + ctx.getString(R.string.my_mods_add) else "⚙ " + ctx.getString(R.string.my_mods)
+        sb.append("<span class='src more' role='button' tabindex='0' onclick='Android.myMods()'>").append(e(more)).append("</span>")
         sb.append("</div>")
         if (wiki.mod) {
             sb.append("<div class='modinfo'>").append(e(ctx.getString(R.string.src_mod_fmt, wiki.name)))
@@ -167,6 +171,7 @@ body.dark .star{display:block}
 .src{flex:0 1 auto;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;padding:6px 10px;
  background:var(--paper);border:3px solid var(--woodD);border-radius:3px;box-shadow:0 2px 0 var(--woodD);min-height:36px;
  display:flex;align-items:center}
+.src.more{background:transparent;border-style:dashed;box-shadow:none}
 .src.on{background:var(--wood);color:#ffe9b8;box-shadow:inset 0 0 0 2px var(--woodL),0 2px 0 var(--woodD);text-shadow:1px 1px 0 var(--woodD)}
 .src:active{transform:translateY(1px)}
 .modinfo{margin:10px 2px 0;padding:8px 10px;font-family:sans-serif;font-size:13px;line-height:1.35;color:var(--ink);

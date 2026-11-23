@@ -55,4 +55,7 @@
     <string name="mt_original_shown">İngilizce orijinal</string>
     <string name="mt_see_original">Orijinali gör</string>
     <string name="mt_see_translation">Çeviriyi gör</string>
+    <string name="my_mods">Modlarım</string>
+    <string name="my_mods_hint">Oynadığın modları işaretle. Ana ekranda ve aramada yalnızca bunlar görünür.</string>
+    <string name="my_mods_add">Mod ekle</string>
 </resources>

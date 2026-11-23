@@ -31,6 +31,13 @@ struct RootView: View {
                 .interactiveDismissDisabled(model.firstRun) // na primeira abertura a escolha é obrigatória
         }
         .fullScreenCover(isPresented: $model.showFan) { FanScreen() }
+        .sheet(isPresented: $model.showMyMods) { MyModsSheet() }
+        // pergunta uma vez quais mods a pessoa joga (depois da primeira abertura ou ao atualizar o app)
+        .onValueChange(model.showFan) { showing in
+            if !showing && !Sources.myModsAsked && UserDefaults.standard.string(forKey: "screen") == nil {
+                Task { try? await Task.sleep(nanoseconds: 600_000_000); model.showMyMods = true }
+            }
+        }
         .overlay(alignment: .bottom) {
             if let text = model.toast {
                 Text(text)
@@ -48,7 +55,12 @@ struct RootView: View {
             if online { model.offlineDismissed = false }
         }
         .preferredColorScheme(model.tourDark ? .dark : nil)
-        .onAppear(perform: screenshotMode)
+        .onAppear {
+            screenshotMode()
+            if Lang.chosen && !model.firstRun && !Sources.myModsAsked && UserDefaults.standard.string(forKey: "screen") == nil {
+                Task { try? await Task.sleep(nanoseconds: 800_000_000); model.showMyMods = true }
+            }
+        }
     }
 
     /// Só para os prints automáticos do GitHub (argumentos de inicialização). Sem efeito no uso normal.

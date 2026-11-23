@@ -106,6 +106,22 @@ enum Sources {
     /// Escolha salva ("base" ou o código do mod) → wiki.
     static func fromChoice(_ choice: String) -> Source { isMod(choice) ? of(choice) : base() }
 
+    /// "Meus mods": os mods que a pessoa joga. Só eles aparecem na tela inicial e na busca. Sem escolha = todos.
+    static var myMods: [Source] {
+        guard let keys = UserDefaults.standard.array(forKey: "my_mods") as? [String] else { return mods }
+        return mods.filter { keys.contains($0.key) }
+    }
+
+    static func setMyMods(_ keys: Set<String>) {
+        UserDefaults.standard.set(Array(keys), forKey: "my_mods")
+        UserDefaults.standard.set(true, forKey: "my_mods_asked")
+        // a wiki de abertura deixou de estar na lista: volta para o jogo base
+        if isMod(startChoice) && !keys.contains(startChoice) { startChoice = baseChoice }
+    }
+
+    /// Já perguntou "Meus mods" alguma vez?
+    static var myModsAsked: Bool { UserDefaults.standard.bool(forKey: "my_mods_asked") }
+
     /// "Wiki ao abrir o app".
     static var startChoice: String {
         get {

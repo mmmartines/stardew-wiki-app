@@ -173,4 +173,7 @@
     <string name="mt_original_shown">Original in English</string>
     <string name="mt_see_original">See original</string>
     <string name="mt_see_translation">See translation</string>
+    <string name="my_mods">My mods</string>
+    <string name="my_mods_hint">Tick the mods you play. Only they show on the home screen and in search.</string>
+    <string name="my_mods_add">Add mods</string>
 </resources>

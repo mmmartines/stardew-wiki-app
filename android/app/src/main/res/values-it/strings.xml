@@ -55,4 +55,7 @@
     <string name="mt_original_shown">Originale in inglese</string>
     <string name="mt_see_original">Vedi originale</string>
     <string name="mt_see_translation">Vedi traduzione</string>
+    <string name="my_mods">Le mie mod</string>
+    <string name="my_mods_hint">Seleziona le mod che usi. Solo quelle compaiono nella schermata iniziale e nella ricerca.</string>
+    <string name="my_mods_add">Aggiungi mod</string>
 </resources>
