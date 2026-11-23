@@ -1,0 +1,108 @@
+name: Gerar iOS
+
+# Compila o app iOS num Mac do GitHub (grátis em repositório público), roda no simulador
+# e tira prints das telas principais para conferência. Ainda não assina nem envia para a Apple.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ios/**'
+      - 'android/app/src/main/assets/**'
+      - 'android/app/src/main/res/values*/strings.xml'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ferramentas
+        run: |
+          brew install xcodegen
+          xcodebuild -version
+
+      - name: Gerar textos e projeto
+        run: |
+          python3 ios/scripts/gen_strings.py
+          cd ios && xcodegen generate
+
+      - name: Escolher simulador
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c '
+          import json,sys,re
+          d=json.load(sys.stdin)["devices"]
+          best=None
+          for rt,devs in d.items():
+              if "iOS" not in rt: continue
+              v=tuple(int(x) for x in re.findall(r"\d+", rt.split("iOS")[-1])[:2])
+              for x in devs:
+                  n=x["name"]
+                  if n.startswith("iPhone") and "Max" not in n and "Plus" not in n and "SE" not in n:
+                      k=(v, "Pro" not in n, n)
+                      if best is None or k>best[0]: best=(k,x["udid"],n)
+          print(best[1]); print(best[2], file=sys.stderr)
+          ')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Compilar
+        run: |
+          set -o pipefail
+          cd ios
+          xcodebuild -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Debug \
+            -destination "id=${{ steps.sim.outputs.udid }}" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log | grep -E "error:|warning: .*GuiaDoVale|BUILD" || true
+          test -d build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+      - name: Rodar no simulador e tirar prints
+        run: |
+          UDID=${{ steps.sim.outputs.udid }}
+          APP=ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+          BID=io.github.mmmartines.guiadovale
+          mkdir -p shots
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3
+          xcrun simctl install "$UDID" "$APP"
+          shot() { # nome, espera, argumentos...
+            name=$1; wait=$2; shift 2
+            xcrun simctl terminate "$UDID" $BID 2>/dev/null || true
+            xcrun simctl launch "$UDID" $BID "$@"
+            sleep "$wait"
+            xcrun simctl io "$UDID" screenshot "shots/$name.png"
+          }
+          shot 01-primeira-abertura 8
+          shot 02-inicio 14 -lang pt -screen home
+          shot 03-busca-parsnip 16 -lang pt -screen search -q Parsnip
+          shot 04-artigo 16 -lang pt -screen article -page Abigail
+          shot 05-favoritos 6 -lang pt -screen favorites -page Abigail
+          shot 06-historico 6 -lang pt -screen history -page Chirívia
+          shot 07-categorias 12 -lang pt -screen list
+          shot 08-idiomas 6 -lang pt -screen lang
+          shot 09-feito-por-fa 8 -lang pt -screen fan
+          shot 10-creditos 6 -lang pt -screen credits
+          shot 11-inicio-espanhol 14 -lang es -screen home
+          xcrun simctl ui "$UDID" appearance dark
+          shot 12-inicio-escuro 14 -lang pt -screen home
+          shot 13-artigo-escuro 16 -lang pt -screen article -page Chirívia
+          xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "GuiaDoVale"' --style compact > shots/app-log.txt 2>/dev/null || true
+
+      - name: Publicar prints no branch "ios-shots"
+        if: always()
+        run: |
+          mkdir -p /tmp/out && cp -R shots/. /tmp/out/ 2>/dev/null || true
+          cp ios/build.log /tmp/out/build.log 2>/dev/null || true
+          grep -E "error:" -A3 ios/build.log > /tmp/out/erros.txt 2>/dev/null || true
+          cd /tmp/out
+          git init -q -b ios-shots
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A
+          git commit -qm "iOS ${GITHUB_SHA::7} (${{ job.status }})"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ios-shots

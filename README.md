@@ -15,6 +15,10 @@ lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação ne
 - Créditos completos: primeira abertura, tela "Sobre e créditos" e rodapé em cada página com link para o original e o histórico de autores
 - Android 7.0 (API 24) ou mais novo; mira o Android 16 (API 36), como exige o Google Play
 
+## Estrutura
+- `android/` — app Android (Kotlin), publicado no Google Play
+- `ios/` — app iOS (SwiftUI), em desenvolvimento; reaproveita o CSS/JS das páginas e os textos do Android
+
 ## Builds
 Cada envio para `main` compila no GitHub Actions e publica no branch `apk`:
 - `GuiaDoVale-teste.apk` — versão de teste (instala ao lado da versão da loja, com o sufixo "-teste")
