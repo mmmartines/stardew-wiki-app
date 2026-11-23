@@ -75,7 +75,8 @@ body.dark .star{display:block}
 .chip{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip{background:var(--paper);border:3px solid var(--woodD);border-radius:3px;padding:4px 10px;font-size:14px;
  box-shadow:0 2px 0 var(--woodD)}
-.foot{font-family:sans-serif;font-size:11px;color:var(--muted);text-align:center;margin-top:26px}"""#
+.foot{font-family:sans-serif;font-size:11px;color:var(--muted);text-align:center;margin-top:26px}
+"""#
 
     static let credits = #"""
 :root{--bg:#f7e2b0;--fg:#3b2412;--muted:#7a5a35;--link:#a8410f;--card:#fff1cc;--wood:#9a5a24;--woodD:#5a2f0e;--woodL:#c27a3a}
@@ -90,7 +91,8 @@ body{font-family:sans-serif;font-size:15px;line-height:1.55;padding:14px 14px 40
 h2{font-family:'Pixel',sans-serif;font-size:19px;color:var(--wood);margin:10px 0 4px}
 body.dark h2{color:#e7b77a}
 a{color:var(--link);font-weight:700;text-decoration:none}
-.small{font-size:12.5px;color:var(--muted)}"""#
+.small{font-size:12.5px;color:var(--muted)}
+"""#
 
     static let fan = #"""
 :root{--bg:#f7e2b0;--fg:#3b2412;--muted:#7a5a35;--card:#fff1cc;--card2:#f6dca4;--wood:#9a5a24;--woodD:#5a2f0e;--woodL:#c27a3a;--slot:#f0c477;--link:#a8410f}
@@ -122,5 +124,6 @@ button{display:block;width:100%;font-family:'Pixel',sans-serif;cursor:pointer}
 .board,.icons,.actions{flex:0 0 auto}
 @media (max-width:340px){.name{font-size:22px}.title{font-size:15px}.icons img{width:30px;height:30px}body{padding:12px 10px}}
 @media (max-height:700px){.icons{margin:10px 0 0}.board{padding:10px}.name{font-size:24px}p{margin:9px 0}}
-.link{margin-top:12px;padding:10px;font-size:16px;background:none;border:0;color:var(--link);text-decoration:underline}"""#
+.link{margin-top:12px;padding:10px;font-size:16px;background:none;border:0;color:var(--link);text-decoration:underline}
+"""#
 }

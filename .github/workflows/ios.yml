@@ -58,7 +58,7 @@ jobs:
           xcodebuild -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Debug \
             -destination "id=${{ steps.sim.outputs.udid }}" -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log | grep -E "error:|warning: .*GuiaDoVale|BUILD" || true
-          test -d build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+          grep -q "BUILD SUCCEEDED" build.log
 
       - name: Rodar no simulador e tirar prints
         run: |
