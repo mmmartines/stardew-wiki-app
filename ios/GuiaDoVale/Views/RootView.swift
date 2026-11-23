@@ -44,7 +44,7 @@ struct RootView: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: model.toast)
-        .onChange(of: net.online) { _, online in
+        .onValueChange(net.online) { online in
             if online { model.offlineDismissed = false }
         }
         .onAppear(perform: screenshotMode)

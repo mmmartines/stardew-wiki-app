@@ -144,9 +144,7 @@ struct SearchResultsView: View {
     var body: some View {
         Group {
             if let text = search.emptyText, search.rows.isEmpty, !search.loading {
-                ContentUnavailableView {
-                    Label(text, systemImage: "magnifyingglass")
-                }
+                EmptyState(title: text, systemImage: "magnifyingglass")
             } else {
                 List(search.rows) { r in
                     Button { tap(r) } label: { row(r) }

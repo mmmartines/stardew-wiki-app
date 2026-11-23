@@ -123,7 +123,7 @@ struct ArticleScreen: View {
             AppToast.model = model
             if article.page == nil { _ = await article.load() }
         }
-        .onChange(of: net.online) { _, online in
+        .onValueChange(net.online) { online in
             if online, case .error = article.state { Task { _ = await article.load() } }
         }
     }
@@ -131,7 +131,7 @@ struct ArticleScreen: View {
     // MARK: Barra superior
 
     @ToolbarContentBuilder private var toolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .topBarTrailing) {
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
             if let p = article.page {
                 let fav = store.isFavorite(p.title)
                 Button {

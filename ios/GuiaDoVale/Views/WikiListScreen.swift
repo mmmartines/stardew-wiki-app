@@ -95,10 +95,8 @@ struct WikiListScreen: View {
         .background(Color.pageBackground)
         .overlay {
             if !list.loading && shown.isEmpty {
-                ContentUnavailableView {
-                    Label(list.error ?? t(list.mode == .saved ? "offline_pages_none" : "nothing_here"),
-                          systemImage: list.error == nil ? "tray" : "wifi.exclamationmark")
-                } actions: {
+                EmptyState(title: list.error ?? t(list.mode == .saved ? "offline_pages_none" : "nothing_here"),
+                           systemImage: list.error == nil ? "tray" : "wifi.exclamationmark") {
                     if list.error != nil { Button(t("retry")) { list.reset(prefix: filter) } }
                 }
             }
@@ -108,7 +106,7 @@ struct WikiListScreen: View {
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $filter, placement: .navigationBarDrawer(displayMode: .always),
                     prompt: t(list.localFilter ? "filter_category" : "filter_prefix"))
-        .onChange(of: filter) { _, f in
+        .onValueChange(filter) { f in
             if !list.localFilter {
                 Task {
                     try? await Task.sleep(nanoseconds: 400_000_000)
@@ -116,7 +114,7 @@ struct WikiListScreen: View {
                 }
             }
         }
-        .onChange(of: net.online) { _, online in
+        .onValueChange(net.online) { online in
             if online && list.error != nil { list.reset(prefix: filter) }
         }
         .task { if list.hits.isEmpty { await list.more(prefix: "") } }

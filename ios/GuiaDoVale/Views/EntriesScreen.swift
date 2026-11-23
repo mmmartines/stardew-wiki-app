@@ -25,11 +25,8 @@ struct EntriesScreen: View {
     var body: some View {
         Group {
             if items.isEmpty {
-                ContentUnavailableView {
-                    Label(t(favorites ? "tab_favorites" : "tab_history"), systemImage: favorites ? "star" : "clock")
-                } description: {
-                    Text(t(favorites ? "empty_favorites" : "empty_history"))
-                }
+                EmptyState(title: t(favorites ? "tab_favorites" : "tab_history"), systemImage: favorites ? "star" : "clock",
+                           message: t(favorites ? "empty_favorites" : "empty_history"))
             } else {
                 List {
                     ForEach(groups, id: \.0) { g in
@@ -48,7 +45,7 @@ struct EntriesScreen: View {
         .offlineBanner()
         .navigationTitle(t(favorites ? "tab_favorites" : "tab_history"))
         .toolbar {
-            ToolbarItemGroup(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 if !favorites && !items.isEmpty {
                     Button(role: .destructive) { confirmClear = true } label: { Image(systemName: "trash") }
                         .accessibilityLabel(Text(t("clear_history")))

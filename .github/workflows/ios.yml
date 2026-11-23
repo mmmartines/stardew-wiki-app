@@ -91,6 +91,7 @@ jobs:
           xcrun simctl ui "$UDID" appearance dark
           shot 12-inicio-escuro 14 -lang pt -screen home
           shot 13-artigo-escuro 16 -lang pt -screen article -page Chirívia
+          xcrun simctl list runtimes > shots/runtimes.txt 2>&1 || true
           xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "GuiaDoVale"' --style compact > shots/app-log.txt 2>/dev/null || true
 
       - name: Publicar prints no branch "ios-shots"

@@ -66,7 +66,7 @@ struct WebView: UIViewRepresentable {
         web.backgroundColor = UIColor(named: "PageBackground") ?? .systemBackground
         web.scrollView.isScrollEnabled = scrollEnabled
         web.allowsLinkPreview = false
-        web.isInspectable = true
+        if #available(iOS 16.4, *) { web.isInspectable = true }
         controller?.web = web
         context.coordinator.load(into: web)
         return web

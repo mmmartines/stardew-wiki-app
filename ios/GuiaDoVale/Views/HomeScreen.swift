@@ -29,16 +29,16 @@ struct HomeScreen: View {
             if !net.online && !model.offlineDismissed && !model.searchActive {
                 OfflineScreen()
             }
+            SearchStateSync(active: $model.searchActive) // iOS 16
         }
         .offlineBanner(show: !net.online && (model.offlineDismissed || model.searchActive))
-        .searchable(text: $query, isPresented: $model.searchActive, placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: t("search_hint"))
+        .searchableCompat(text: $query, isPresented: $model.searchActive, prompt: t("search_hint"))
         .autocorrectionDisabled()
         .textInputAutocapitalization(.never)
         .onSubmit(of: .search) { search.full(query) }
-        .onChange(of: query) { _, q in search.suggest(q) }
-        .onChange(of: model.searchActive) { _, active in if !active { search.cancel() } }
-        .onChange(of: store.history) { _, _ in updateRecent() }
+        .onValueChange(query) { q in search.suggest(q) }
+        .onValueChange(model.searchActive) { active in if !active { search.cancel() } }
+        .onValueChange(store.history) { _ in updateRecent() }
         .onAppear { if !query.isEmpty { search.suggest(query) } }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -49,7 +49,7 @@ struct HomeScreen: View {
                 }
                 .accessibilityElement(children: .combine)
             }
-            ToolbarItemGroup(placement: .topBarTrailing) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 LanguageButton()
                 Menu {
                     Button(role: .destructive) { confirmClear = true } label: {
