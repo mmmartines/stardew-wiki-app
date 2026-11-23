@@ -23,7 +23,7 @@ struct Cat: Hashable {
     }
 }
 
-struct Group {
+struct MenuGroup {
     let nameKey: String
     let items: [Cat]
 }
@@ -33,8 +33,8 @@ private func a(_ en: String, _ icon: String, _ emoji: String) -> Cat { Cat(targe
 
 /// Mesmo menu do app Android.
 enum Categories {
-    static let groups: [Group] = [
-        Group(nameKey: "group_community", items: [
+    static let groups: [MenuGroup] = [
+        MenuGroup(nameKey: "group_community", items: [
             a("Villagers", "b/b6/Lewis_Icon.png", "🧑‍🌾"),
             a("Friendship", "8/83/Bouquet.png", "💐"),
             a("Marriage", "e/e0/Mermaid%27s_Pendant.png", "💍"),
@@ -44,7 +44,7 @@ enum Categories {
             a("Festivals", "4/46/Golden_Pumpkin.png", "🎉"),
             a("Pelican Town", "1/10/Gold.png", "🏘️"),
         ]),
-        Group(nameKey: "group_farm", items: [
+        MenuGroup(nameKey: "group_farm", items: [
             a("Crops", "d/db/Parsnip.png", "🌱"),
             a("Fruit Trees", "7/7d/Apple.png", "🍎"),
             a("Animals", "2/22/White_Chicken.png", "🐔"),
@@ -54,14 +54,14 @@ enum Categories {
             a("Tools", "c/ca/Iridium_Pickaxe.png", "⛏️"),
             a("Farming", "7/75/Scarecrow.png", "🌾"),
         ]),
-        Group(nameKey: "group_nature", items: [
+        MenuGroup(nameKey: "group_nature", items: [
             a("Fish", "0/04/Sardine.png", "🐟"),
             a("Fishing", "d/da/Bamboo_Pole.png", "🎣"),
             a("Foraging", "2/2e/Common_Mushroom.png", "🍄"),
             a("Cooking", "1/18/Fried_Egg.png", "🍳"),
             a("Seasons", "9/9c/Spring.png", "🍂"),
         ]),
-        Group(nameKey: "group_adventure", items: [
+        MenuGroup(nameKey: "group_adventure", items: [
             a("The Mines", "7/78/Copper_Ore.png", "🪨"),
             a("Skull Cavern", "e/e9/Iridium_Ore.png", "💀"),
             a("Monsters", "7/7b/Green_Slime.png", "👾"),
@@ -71,7 +71,7 @@ enum Categories {
             a("Artifacts", "b/b9/Dwarf_Scroll_I.png", "🏺"),
             a("Ginger Island", "5/54/Golden_Walnut.png", "🏝️"),
         ]),
-        Group(nameKey: "group_explore", items: [
+        MenuGroup(nameKey: "group_explore", items: [
             Cat(target: .article("Stardew Valley Wiki"), icon: img + "a/a5/Stardrop.png", emoji: "⭐", labelKey: "cat_home_page"),
             a("Skills", "8/82/Farming_Skill_Icon.png", "📈"),
             a("Achievements", "5/56/Prismatic_Shard.png", "🏆"),

@@ -11,19 +11,19 @@ struct RootView: View {
                 HomeScreen().routes()
             }
             .tabItem { Label(t("tab_home"), systemImage: "house.fill") }
-            .tag(Tab.home)
+            .tag(AppTab.home)
 
             NavigationStack(path: $model.favPath) {
                 EntriesScreen(favorites: true).routes()
             }
             .tabItem { Label(t("tab_favorites"), systemImage: "star.fill") }
-            .tag(Tab.favorites)
+            .tag(AppTab.favorites)
 
             NavigationStack(path: $model.histPath) {
                 EntriesScreen(favorites: false).routes()
             }
             .tabItem { Label(t("tab_history"), systemImage: "clock.arrow.circlepath") }
-            .tag(Tab.history)
+            .tag(AppTab.history)
         }
         .tint(Color.wood)
         .sheet(isPresented: $model.showLanguage) {

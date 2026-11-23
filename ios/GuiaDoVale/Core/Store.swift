@@ -97,7 +97,7 @@ final class Store: ObservableObject {
         let title: String
         let html: String
         let time: Double
-        let sections: [Section]
+        let sections: [WikiSection]
         var page: Page { Page(title: title, html: html, sections: sections) }
     }
 

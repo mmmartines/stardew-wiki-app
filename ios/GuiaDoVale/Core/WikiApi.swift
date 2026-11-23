@@ -1,6 +1,6 @@
 import Foundation
 
-struct Section: Codable, Hashable {
+struct WikiSection: Codable, Hashable {
     let line: String
     let anchor: String
     let level: Int
@@ -9,7 +9,7 @@ struct Section: Codable, Hashable {
 struct Page: Codable {
     let title: String
     let html: String
-    let sections: [Section]
+    let sections: [WikiSection]
 }
 
 struct Hit: Hashable, Identifiable {
@@ -143,7 +143,7 @@ enum WikiApi {
         }
         guard let p = j["parse"] as? [String: Any] else { throw WikiError(description: "no parse") }
         let secs = (p["sections"] as? [[String: Any]] ?? []).map {
-            Section(line: ($0["line"] as? String ?? "").strippingHTML,
+            WikiSection(line: ($0["line"] as? String ?? "").strippingHTML,
                     anchor: $0["anchor"] as? String ?? "",
                     level: $0["toclevel"] as? Int ?? 1)
         }

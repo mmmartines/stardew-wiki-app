@@ -11,7 +11,7 @@ enum ListMode: Hashable {
     case category, allPages, allCategories, saved
 }
 
-enum Tab: Hashable {
+enum AppTab: Hashable {
     case home, favorites, history
 }
 
@@ -20,7 +20,7 @@ enum Tab: Hashable {
 final class AppModel: ObservableObject {
     /// Idioma atual (a interface toda é redesenhada quando muda).
     @Published private(set) var lang = Lang.code
-    @Published var tab: Tab = .home
+    @Published var tab: AppTab = .home
     @Published var homePath: [Route] = []
     @Published var favPath: [Route] = []
     @Published var histPath: [Route] = []
