@@ -91,7 +91,7 @@ jobs:
           shot 11-inicio-sve-escuro 14 -lang pt -screen home -src sve
           shot 12-artigo-rsv-escuro 16 -lang pt -screen article -page Lenny -src rsv
           xcrun simctl list runtimes > shots/runtimes.txt 2>&1 || true
-          xcrun simctl spawn "$UDID" log show --last 5m --predicate 'process == "GuiaDoVale"' --style compact > shots/app-log.txt 2>/dev/null || true
+          xcrun simctl spawn "$UDID" log show --last 20m --predicate 'process == "GuiaDoVale"' --style compact > shots/app-log.txt 2>/dev/null || true
 
       - name: Publicar prints no branch "ios-shots-mods"
         if: always()

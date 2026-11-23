@@ -13,7 +13,7 @@ final class WebController: ObservableObject {
     /// Roda JS e devolve o resultado (nil se a página não respondeu).
     func evaluate(_ code: String) async -> Any? {
         guard let web else { return nil }
-        return try? await web.evaluateJavaScript(code)
+        do { return try await web.evaluateJavaScript(code) } catch { NSLog("GDV-JS error \(error)"); return nil }
     }
 
     func scrollTo(anchor: String) {

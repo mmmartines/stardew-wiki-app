@@ -167,8 +167,11 @@ struct ArticleScreen: View {
                 web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0])")
             }
             // depois dos nomes do jogo (que ficam como na wiki oficial), o resto do texto: tradução automática
+            NSLog("GDV-MT available=\(AutoTranslateSupport.available) same=\(article.page?.title == p.title)")
             guard AutoTranslateSupport.available, article.page?.title == p.title else { return }
-            let texts = (await web.evaluate("window.__mtCollect?__mtCollect():[]") as? [Any])?.map { "\($0)" } ?? []
+            let raw = await web.evaluate("window.__mtCollect?__mtCollect():[]")
+            let texts = (raw as? [Any])?.map { "\($0)" } ?? []
+            NSLog("GDV-MT collected=\(texts.count) raw=\(String(describing: type(of: raw)))")
             if !texts.isEmpty { mtRequest = MTRequest(texts: texts) }
         }
     }
