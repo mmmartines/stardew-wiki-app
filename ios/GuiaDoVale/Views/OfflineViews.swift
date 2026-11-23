@@ -87,6 +87,7 @@ struct OfflineScreen: View {
                 } label: {
                     Text(t(hasSaved ? "offline_see_saved" : "offline_see_favorites"))
                         .font(.pixel(17, relativeTo: .body))
+                        .foregroundStyle(Color(red: 1, green: 0.914, blue: 0.722)) // texto claro sobre a madeira
                         .frame(maxWidth: .infinity, minHeight: 44)
                 }
                 .buttonStyle(.borderedProminent)

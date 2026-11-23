@@ -24,7 +24,7 @@ for (const v of versions) {
       // 8 telas x 8 s = 64 s; dois prints por tela para não perder nenhuma
       for (let i = 0; i < 17; i++) {
         const shot = await session.screenshot('base64')
-        fs.writeFileSync(path.join(out, `ios${v}-${String(i).padStart(2, '0')}.png`), Buffer.from(shot.data, 'base64'))
+        fs.writeFileSync(path.join(out, `ios${v}-${String(i).padStart(2, '0')}.png`), Buffer.from(String(shot.data).replace(/^data:[^,]*,/, ''), 'base64'))
         await session.waitForTimeout(4000)
       }
     })

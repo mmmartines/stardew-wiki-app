@@ -68,7 +68,7 @@ body.dark .star{display:block}
 .slot img{width:36px;height:36px;object-fit:contain}
 .emo{font-size:28px;line-height:1}
 .label{font-size:1em;line-height:1.15;min-height:30px;display:flex;align-items:flex-start;justify-content:center;
- overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
+ overflow-wrap:break-word;hyphens:manual;-webkit-hyphens:manual}
 /* telas estreitas ou fonte do sistema grande */
 @media (max-width:380px){.box{padding:6px}.slot{width:48px;height:48px}.slot img{width:32px;height:32px}.t1{font-size:24px}.grid{font-size:12px}}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
