@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">Uygulama şununla açılacak: %s</string>
     <string name="credits_mods_h">Mod vikileri</string>
     <string name="credits_mods">Genişleme modlarının vikilerini her modun topluluğu hazırlar (İngilizce). İçerik CC BY-SA 4.0 lisanslıdır ve yazarlarına aittir; bu uygulama yalnızca gösterir, salt okunur, orijinaline bağlantı ile.</string>
+    <string name="mod_terms_translated">Oyundaki adlar Stardew Valley Wiki ile çevrildi.</string>
 </resources>

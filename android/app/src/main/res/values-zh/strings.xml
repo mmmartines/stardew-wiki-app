@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">应用将打开：%s</string>
     <string name="credits_mods_h">模组维基</string>
     <string name="credits_mods">扩展模组的维基由各模组社区编写（英文）。内容采用 CC BY-SA 4.0 许可并归作者所有；本应用仅以只读方式展示，并附原文链接。</string>
+    <string name="mod_terms_translated">本体游戏名称依据 Stardew Valley Wiki 翻译。</string>
 </resources>

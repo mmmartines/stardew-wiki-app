@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">L’appli s’ouvrira sur : %s</string>
     <string name="credits_mods_h">Wikis des mods</string>
     <string name="credits_mods">Les wikis des mods d’extension sont faits par la communauté de chaque mod (en anglais). Leur contenu est sous CC BY-SA 4.0 et appartient à leurs auteurs ; cette appli ne fait que l’afficher, en lecture seule, avec un lien vers l’original.</string>
+    <string name="mod_terms_translated">Les noms du jeu sont traduits grâce au Stardew Valley Wiki.</string>
 </resources>

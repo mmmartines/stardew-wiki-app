@@ -463,3 +463,55 @@
     }, true);
   })();
 })();
+
+/* Páginas dos mods: nomes do jogo base no idioma da pessoa.
+   O app manda um glossário (título em inglês -> título na wiki oficial do idioma), vindo dos links entre
+   idiomas da wiki oficial. Só troca links que levam ao jogo base (stardewvalleywiki.com) e as estações;
+   o texto do mod continua como está. */
+(function () {
+  var SEASONS = { Spring: 1, Summer: 1, Fall: 1, Winter: 1 };
+
+  function target(a) {
+    var h = a.getAttribute('href') || '';
+    var m = h.match(/^https?:\/\/(?:www\.)?stardewvalleywiki\.com\/([^?#]+)/);
+    if (m) {
+      try { return { t: decodeURIComponent(m[1]).replace(/_/g, ' '), ext: true }; } catch (e) { return null; }
+    }
+    var l = h.match(/^(?:https?:\/\/[^/]+)?\/wiki\/([^?#]+)$/);
+    if (l && SEASONS[l[1]]) return { t: l[1], ext: false };
+    return null;
+  }
+
+  function swapText(node, from, to) {
+    if (node.nodeType === 3) {
+      if (node.nodeValue.trim().toLowerCase() === from.toLowerCase()) {
+        node.nodeValue = node.nodeValue.replace(node.nodeValue.trim(), to);
+        return true;
+      }
+      return false;
+    }
+    for (var c = node.firstChild; c; c = c.nextSibling) if (swapText(c, from, to)) return true;
+    return false;
+  }
+
+  window.__gloss = function (map, base) {
+    if (!map) return;
+    var as = document.querySelectorAll('a[href]');
+    for (var i = 0; i < as.length; i++) {
+      var a = as[i];
+      if (a.getAttribute('data-gloss')) continue;
+      var g = target(a);
+      if (!g) continue;
+      var tr = map[g.t];
+      if (!tr) continue;
+      a.setAttribute('data-gloss', '1');
+      if (a.textContent.trim().toLowerCase() === g.t.toLowerCase()) swapText(a, g.t, tr);
+      if (g.ext && base) {
+        a.setAttribute('href', base + '/' + encodeURIComponent(tr.replace(/ /g, '_')).replace(/%2F/g, '/').replace(/%3A/g, ':'));
+      }
+      a.setAttribute('title', g.t); // nome original em inglês
+    }
+  };
+
+  if (window.__glossInit) window.__gloss(window.__glossInit.map, window.__glossInit.base);
+})();

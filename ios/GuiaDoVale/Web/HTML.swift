@@ -88,13 +88,13 @@ enum HTML {
         if src.mod {
             // faixa no topo: qual mod é e, fora do inglês, que a wiki do mod só existe em inglês
             var txt = t("src_mod_fmt", src.name)
-            if Lang.code != "en" { txt += " · " + t("mod_english_only") }
+            if Lang.code != "en" { txt += " · " + t("mod_english_only") + " " + t("mod_terms_translated") }
             s += "<div class='mod-badge'>" + src.emoji + " " + e(txt) + "</div>"
         }
         s += "<h1 class=\"page-title\">" + e(p.title) + "</h1>"
         s += p.html
         s += footer(p, src)
-        s += "<script>window.__t=" + jsStrings() + ";</script>"
+        s += "<script>window.__t=" + jsStrings() + ";" + Glossary.initScript(src, html: p.html) + "</script>"
         s += "<script>" + SharedAssets.text("article", "js") + "</script></body></html>"
         return s
     }

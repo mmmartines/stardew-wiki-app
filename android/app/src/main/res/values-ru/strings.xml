@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">Приложение будет открываться с: %s</string>
     <string name="credits_mods_h">Вики модов</string>
     <string name="credits_mods">Вики модов-расширений ведут сообщества самих модов (на английском). Материалы доступны по CC BY-SA 4.0 и принадлежат авторам; приложение только показывает их, без редактирования, со ссылкой на оригинал.</string>
+    <string name="mod_terms_translated">Названия из основной игры переведены по Stardew Valley Wiki.</string>
 </resources>

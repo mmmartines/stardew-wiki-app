@@ -235,6 +235,21 @@ class ArticleActivity : AppCompatActivity() {
         store.addHistory(p.title, wiki.key)
         web.loadDataWithBaseURL(WikiApi.pageUrl(p.title, wiki), buildHtml(p), "text/html", "utf-8", null)
         invalidateOptionsMenu()
+        translateTerms(p)
+    }
+
+    /** Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda não estão no glossário. */
+    private fun translateTerms(p: Page) {
+        if (!Glossary.applies(wiki) || !Net.online()) return
+        val lang = Lang.code
+        val titles = Glossary.titles(p.html)
+        val missing = Glossary.missing(this, lang, titles)
+        if (missing.isEmpty()) return
+        runAsync({ Glossary.fetch(this, lang, missing); Glossary.knownJson(this, lang, titles) }) { r ->
+            val json = r.getOrNull() ?: return@runAsync
+            if (page !== p) return@runAsync // já abriu outra página
+            web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ")", null)
+        }
     }
 
     private fun isDark(): Boolean =
@@ -248,15 +263,22 @@ class ArticleActivity : AppCompatActivity() {
             modNotice() +
             "<h1 class=\"page-title\">" + TextUtils.htmlEncode(p.title) + "</h1>" +
             p.html + footer(p) +
-            "<script>window.__t=" + jsStrings() + ";</script>" +
+            "<script>window.__t=" + jsStrings() + ";" + glossInit(p) + "</script>" +
             "<script>" + Assets.text(this, "article.js") + "</script></body></html>"
+    }
+
+    /** Nomes do jogo já conhecidos, aplicados assim que a página abre (sem esperar a internet). */
+    private fun glossInit(p: Page): String {
+        if (!Glossary.applies(wiki)) return ""
+        val json = Glossary.knownJson(this, Lang.code, Glossary.titles(p.html))
+        return "window.__glossInit={map:" + json + ",base:" + JSONObject.quote(Lang.base()) + "};"
     }
 
     /** Faixa no topo das páginas de mod: qual mod é e, fora do inglês, que a wiki do mod só existe em inglês. */
     private fun modNotice(): String {
         if (!wiki.mod) return ""
         val txt = getString(R.string.src_mod_fmt, wiki.name) +
-            (if (Lang.code != "en") " · " + getString(R.string.mod_english_only) else "")
+            (if (Lang.code != "en") " · " + getString(R.string.mod_english_only) + " " + getString(R.string.mod_terms_translated) else "")
         return "<div class='mod-badge'>" + wiki.emoji + " " + TextUtils.htmlEncode(txt) + "</div>"
     }
 

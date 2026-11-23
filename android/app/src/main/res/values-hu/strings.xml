@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">Az app ezzel indul: %s</string>
     <string name="credits_mods_h">Modok wikijei</string>
     <string name="credits_mods">A bővítő modok wikijeit az adott mod közössége készíti (angolul). A tartalom CC BY-SA 4.0 licenc alatt áll és a szerzőké; ez az app csak megjeleníti, csak olvasásra, az eredetire mutató hivatkozással.</string>
+    <string name="mod_terms_translated">Az alapjáték nevei a Stardew Valley Wiki alapján fordítva.</string>
 </resources>

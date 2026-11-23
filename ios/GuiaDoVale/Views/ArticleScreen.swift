@@ -117,6 +117,7 @@ struct ArticleScreen: View {
                         onLoaded: {
                             web.setTextZoom(store.textZoom)
                             if let anchor { web.scrollTo(anchor: anchor) }
+                            translateTerms(p)
                         })
                     .ignoresSafeArea(edges: .bottom)
             }
@@ -141,6 +142,21 @@ struct ArticleScreen: View {
         }
         .onValueChange(net.online) { online in
             if online, case .error = article.state { Task { _ = await article.load() } }
+        }
+    }
+
+    /// Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda faltam no glossário.
+    private func translateTerms(_ p: Page) {
+        guard Glossary.applies(src), Net.isOnline else { return }
+        let lang = Lang.code
+        let titles = Glossary.titles(p.html)
+        let missing = Glossary.missing(lang, titles)
+        if missing.isEmpty { return }
+        Task {
+            await Glossary.fetch(lang, missing)
+            guard article.page?.title == p.title, Lang.code == lang else { return }
+            let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
+            web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0])")
         }
     }
 

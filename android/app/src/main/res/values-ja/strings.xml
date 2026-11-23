@@ -49,4 +49,5 @@
     <string name="start_wiki_set_fmt">アプリ起動時に開くWiki：%s</string>
     <string name="credits_mods_h">MODのWiki</string>
     <string name="credits_mods">拡張MODのWikiは各MODのコミュニティが作成しています（英語）。内容はCC BY-SA 4.0で作者に帰属し、このアプリは閲覧専用で表示し、元ページへのリンクを付けています。</string>
+    <string name="mod_terms_translated">本編の名称はStardew Valley Wikiをもとに翻訳しています。</string>
 </resources>
