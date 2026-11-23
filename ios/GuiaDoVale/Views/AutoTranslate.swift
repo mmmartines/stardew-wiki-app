@@ -26,7 +26,14 @@ enum AutoTranslateSupport {
         return false
     }
 
-    static var target: String { Lang.code == "zh" ? "zh-Hans" : Lang.code }
+    /// Idioma de destino no formato da Apple (português do Brasil, chinês simplificado).
+    static var target: String {
+        switch Lang.code {
+        case "zh": return "zh-Hans"
+        case "pt": return "pt-BR"
+        default: return Lang.code
+        }
+    }
 }
 
 @available(iOS 18.0, *)
@@ -39,7 +46,6 @@ private struct AutoTranslateModifier: ViewModifier {
         content
             .translationTask(config) { session in
                 guard let r = request else { return }
-                NSLog("GDV-MT task start texts=\(r.texts.count)")
                 do {
                     // o sistema pede para baixar o idioma na primeira vez, se precisar
                     let reqs = r.texts.enumerated().map {
@@ -49,7 +55,6 @@ private struct AutoTranslateModifier: ViewModifier {
                     let resp = try await session.translations(from: reqs)
                     var out = r.texts
                     for x in resp { if let id = x.clientIdentifier, let i = Int(id), out.indices.contains(i) { out[i] = x.targetText } }
-                    NSLog("GDV-MT done \(resp.count)")
                     done(out)
                 } catch {
                     NSLog("GDV-MT error \(String(describing: error))")
