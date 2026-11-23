@@ -1,10 +1,16 @@
 .gradle/
 build/
-app/build/
 local.properties
 .idea/
 *.iml
 keystore.properties
 *.jks
 *.keystore
-!app/debug.keystore
+!android/app/debug.keystore
+
+# iOS
+ios/build/
+ios/*.xcodeproj/
+ios/DerivedData/
+xcuserdata/
+.DS_Store

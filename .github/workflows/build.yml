@@ -3,6 +3,9 @@ name: Gerar APK
 on:
   push:
     branches: [main]
+    paths:
+      - 'android/**'
+      - '.github/workflows/build.yml'
   workflow_dispatch:
 
 permissions:
@@ -11,6 +14,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -57,8 +63,8 @@ jobs:
         with:
           name: GuiaDoVale
           path: |
-            app/build/outputs/apk/debug/*.apk
-            app/build/outputs/bundle/release/*.aab
+            android/app/build/outputs/apk/debug/*.apk
+            android/app/build/outputs/bundle/release/*.aab
 
       - name: Publicar APK no branch "apk"
         run: |

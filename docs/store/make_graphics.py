@@ -11,7 +11,7 @@ import urllib.request
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-FONT = os.path.join(ROOT, "..", "..", "app", "src", "main", "res", "font", "pixel.ttf")
+FONT = os.path.join(ROOT, "..", "..", "android", "app", "src", "main", "res", "font", "pixel.ttf")
 OUT = ROOT
 W, H = 1024, 500
 

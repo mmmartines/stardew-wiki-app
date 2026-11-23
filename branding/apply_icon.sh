@@ -4,7 +4,7 @@ set -e
 SRC=branding/app-icon.png
 [ -f "$SRC" ] || { echo "Sem branding/app-icon.png: mantendo o ícone próprio."; exit 0; }
 BG="#78BEF0"; [ -f branding/app-icon-bg.txt ] && BG=$(tr -d ' \n\r' < branding/app-icon-bg.txt)
-RES=app/src/main/res
+RES=android/app/src/main/res
 declare -A SIZE=( [mdpi]=48 [hdpi]=72 [xhdpi]=96 [xxhdpi]=144 [xxxhdpi]=192 )
 for d in "${!SIZE[@]}"; do
   s=${SIZE[$d]}; inner=$((s*80/100)); fg=$((s*108/48)); fgin=$((fg*58/100))
