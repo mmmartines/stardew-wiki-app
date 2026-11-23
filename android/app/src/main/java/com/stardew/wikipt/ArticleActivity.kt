@@ -294,7 +294,8 @@ class ArticleActivity : AppCompatActivity() {
     private fun glossInit(p: Page): String {
         if (!Glossary.applies(wiki)) return ""
         val json = Glossary.knownJson(this, Lang.code, Glossary.titles(p.html))
-        return "window.__glossInit={map:" + json + ",base:" + JSONObject.quote(Lang.base()) + "};"
+        return "window.__glossInit={map:" + json + ",base:" + JSONObject.quote(Lang.base()) + "};" +
+            "window.__terms=" + Glossary.termsJson(this, Lang.code) + ";"
     }
 
     /** Faixa no topo das páginas de mod: qual mod é e, fora do inglês, que a wiki do mod só existe em inglês. */

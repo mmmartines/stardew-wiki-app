@@ -522,6 +522,32 @@
 (function () {
   var T = window.__t || {};
   var nodes = [], orig = [], trans = null, showing = false;
+  var fixed = [];   // tradução já conhecida (termo da wiki oficial), sem passar pelo tradutor automático
+  var pending = []; // índices que vão para o tradutor automático
+  var terms = window.__terms || {};
+  var lower = {};
+  for (var k in terms) lower[k.toLowerCase()] = terms[k];
+
+  /** Termo da wiki oficial para o texto (exato, sem maiúsculas ou no singular: "Loves" -> "Love"). */
+  function term(t) {
+    if (terms[t]) return terms[t];
+    var l = t.toLowerCase();
+    if (lower[l]) return lower[l];
+    if (/s$/.test(l) && lower[l.slice(0, -1)]) return lower[l.slice(0, -1)];
+    return null;
+  }
+
+  /** Nome de página do mod (link cujo texto é o próprio título: personagem, lugar, item do mod). */
+  function properName(n) {
+    for (var p = n.parentNode; p && p !== document.body; p = p.parentNode) {
+      if (p.classList && (p.classList.contains('druid-title'))) return true;
+      if (p.nodeName === 'A') {
+        var t = (p.getAttribute('title') || '').trim();
+        return t && t.toLowerCase() === n.nodeValue.trim().toLowerCase();
+      }
+    }
+    return false;
+  }
   var SKIP = { SCRIPT: 1, STYLE: 1, CODE: 1, PRE: 1, NOSCRIPT: 1 };
 
   function bar() {
@@ -571,18 +597,31 @@
       }
     });
     var n;
-    while ((n = w.nextNode())) { nodes.push(n); orig.push(n.nodeValue); }
+    fixed = []; pending = [];
+    var out = [];
+    while ((n = w.nextNode())) {
+      var t = n.nodeValue.trim();
+      var tm = term(t);
+      if (!tm && properName(n)) continue; // nome próprio do mod: fica como está
+      nodes.push(n); orig.push(n.nodeValue);
+      fixed.push(tm);
+      if (!tm) { pending.push(nodes.length - 1); out.push(n.nodeValue); }
+    }
     if (nodes.length) render('working');
-    return orig;
+    if (!out.length && nodes.length) setTimeout(function () { window.__mtApply([]); }, 0);
+    return out;
   };
 
   window.__mtApply = function (list) {
-    if (!list || list.length !== nodes.length) { var b = document.getElementById('mt-bar'); if (b) b.remove(); return; }
+    if (!list || list.length !== pending.length) { var b = document.getElementById('mt-bar'); if (b) b.remove(); return; }
+    var got = {};
+    for (var j = 0; j < pending.length; j++) got[pending[j]] = list[j];
     trans = [];
-    for (var i = 0; i < list.length; i++) {
+    for (var i = 0; i < nodes.length; i++) {
       // mantém os espaços das pontas (o texto vizinho é outro nó)
       var o = orig[i], lead = o.match(/^\s*/)[0], tail = o.match(/\s*$/)[0];
-      trans.push(lead + String(list[i] == null ? o.trim() : list[i]).trim() + tail);
+      var v = fixed[i] != null ? fixed[i] : got[i];
+      trans.push(lead + String(v == null ? o.trim() : v).trim() + tail);
     }
     set(true);
   };

@@ -78,6 +78,17 @@ enum Glossary {
     static func initScript(_ s: Source, html: String) -> String {
         guard applies(s) else { return "" }
         let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
-        return "window.__glossInit={map:" + knownJSON(Lang.code, titles(html)) + ",base:" + base + "[0]};"
+        return "window.__glossInit={map:" + knownJSON(Lang.code, titles(html)) + ",base:" + base + "[0]};" +
+            "window.__terms=" + termsJSON(Lang.code) + ";"
+    }
+
+    /// Termos da wiki oficial (títulos de seção, rótulos) para o idioma — terms.json, o mesmo do Android.
+    static func termsJSON(_ lang: String) -> String {
+        guard let url = Bundle.main.url(forResource: "terms", withExtension: "json"),
+              let d = try? Data(contentsOf: url),
+              let all = try? JSONSerialization.jsonObject(with: d) as? [String: Any],
+              let m = all[lang],
+              let out = try? JSONSerialization.data(withJSONObject: m) else { return "{}" }
+        return String(data: out, encoding: .utf8) ?? "{}"
     }
 }

@@ -79,4 +79,14 @@ object Glossary {
             }
         }
     }
+
+    private var terms: JSONObject? = null
+
+    /** Termos da wiki oficial (títulos de seção, rótulos), gerados por tools/gen_terms.py, para o idioma. */
+    @Synchronized
+    fun termsJson(ctx: Context, lang: String): String {
+        val all = terms ?: try { JSONObject(Assets.text(ctx, "terms.json").ifBlank { "{}" }) } catch (_: Exception) { JSONObject() }
+        terms = all
+        return all.optJSONObject(lang)?.toString() ?: "{}"
+    }
 }
