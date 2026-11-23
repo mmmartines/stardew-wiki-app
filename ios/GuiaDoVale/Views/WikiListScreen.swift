@@ -12,10 +12,12 @@ final class WikiListModel: ObservableObject {
 
     let mode: ListMode
     let category: String
+    let src: Source
 
-    init(mode: ListMode, category: String?) {
+    init(mode: ListMode, category: String?, src: Source) {
         self.mode = mode
         self.category = category ?? ""
+        self.src = src
     }
 
     /// Filtro no servidor (todas as páginas/categorias) ou local (categoria e páginas salvas).
@@ -35,10 +37,10 @@ final class WikiListModel: ObservableObject {
         do {
             let chunk: Chunk
             switch mode {
-            case .category: chunk = try await WikiApi.categoryMembers(category, next: next)
-            case .allPages: chunk = try await WikiApi.allPages(prefix: prefix, next: next)
-            case .allCategories: chunk = try await WikiApi.allCategories(prefix: prefix, next: next)
-            case .saved: chunk = Chunk(items: Store.shared.savedTitles().map { Hit(title: $0) }, next: nil)
+            case .category: chunk = try await WikiApi.categoryMembers(category, next: next, src: src)
+            case .allPages: chunk = try await WikiApi.allPages(prefix: prefix, next: next, src: src)
+            case .allCategories: chunk = try await WikiApi.allCategories(prefix: prefix, next: next, src: src)
+            case .saved: chunk = Chunk(items: Store.shared.savedTitles(w: src.key).map { Hit(title: $0) }, next: nil)
             }
             if gen != generation { return }
             hits += chunk.items
@@ -57,8 +59,8 @@ struct WikiListScreen: View {
     @StateObject private var list: WikiListModel
     @State private var filter = ""
 
-    init(mode: ListMode, category: String?) {
-        _list = StateObject(wrappedValue: WikiListModel(mode: mode, category: category))
+    init(mode: ListMode, category: String?, src: String? = nil) {
+        _list = StateObject(wrappedValue: WikiListModel(mode: mode, category: category, src: Sources.of(src)))
     }
 
     private var title: String {
@@ -104,6 +106,15 @@ struct WikiListScreen: View {
         .offlineBanner()
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 0) {
+                    Text(title).font(.headline).lineLimit(1)
+                    Text(list.src.label).font(.caption2).foregroundStyle(.secondary).lineLimit(1)
+                }
+                .accessibilityElement(children: .combine)
+            }
+        }
         .searchable(text: $filter, placement: .navigationBarDrawer(displayMode: .always),
                     prompt: t(list.localFilter ? "filter_category" : "filter_prefix"))
         .onValueChange(filter) { f in
@@ -129,6 +140,7 @@ struct WikiListScreen: View {
     }
 
     private func open(_ h: Hit) {
-        if h.ns == 14 { model.push(.list(.category, category: h.title)) } else { model.push(.article(h.title)) }
+        let k = list.src.key
+        if h.ns == 14 { model.push(.list(.category, category: h.title, src: k)) } else { model.push(.article(h.title, src: k)) }
     }
 }

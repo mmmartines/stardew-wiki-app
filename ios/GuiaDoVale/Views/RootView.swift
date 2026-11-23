@@ -57,9 +57,11 @@ struct RootView: View {
         model.showLanguage = false
         model.firstRun = false
         let page = UserDefaults.standard.string(forKey: "page") ?? "Abigail"
+        let src = UserDefaults.standard.string(forKey: "src")
+        if let src, Sources.isMod(src) || src == Sources.baseChoice { model.homeChoice = src }
         switch screen {
         case "search": model.searchActive = true
-        case "article": model.homePath = [.article(page)]
+        case "article": model.homePath = [.article(page, src: Sources.isMod(src) ? src : nil)]
         case "favorites": Store.shared.toggleFavorite(page); model.tab = .favorites
         case "history": Store.shared.addHistory(page); model.tab = .history
         case "lang": model.showLanguage = true
@@ -97,8 +99,8 @@ extension View {
     func routes() -> some View {
         navigationDestination(for: Route.self) { r in
             switch r {
-            case .article(let title, let anchor): ArticleScreen(requested: title, anchor: anchor)
-            case .list(let mode, let cat): WikiListScreen(mode: mode, category: cat)
+            case .article(let title, let anchor, let src): ArticleScreen(requested: title, anchor: anchor, src: src)
+            case .list(let mode, let cat, let src): WikiListScreen(mode: mode, category: cat, src: src)
             case .credits: CreditsScreen()
             }
         }

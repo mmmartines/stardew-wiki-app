@@ -8,7 +8,8 @@ enum HTML {
 
     // MARK: Tela inicial
 
-    static func home(dark: Bool, recent: [String]) -> String {
+    /// `src` = wiki escolhida nos botões do topo; o menu e os recentes são só dela. A busca do topo é global.
+    static func home(dark: Bool, recent: [String], src: Source, menu: [(String, [Cat])]) -> String {
         var sb = "<!DOCTYPE html><html><head><meta charset='utf-8'>"
         sb += "<meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no'>"
         sb += "<style>" + SharedAssets.fontCSS + PageCSS.home + "</style></head><body class='\(dark ? "dark" : "")'>"
@@ -18,18 +19,35 @@ enum HTML {
         sb += "<div class='star s1'></div><div class='star s2'></div><div class='star s3'></div><div class='star s4'></div>"
         sb += "<div class='sign'><div class='post p1'></div><div class='post p2'></div>"
         sb += "<div class='board'><div class='t1'>" + e(t("home_title")) + "</div>"
-        sb += "<div class='t2'>" + e(t("home_tagline")) + "</div></div></div>"
+        sb += "<div class='t2'>" + e(src.mod ? src.emoji + " " + src.name : t("home_tagline")) + "</div></div></div>"
         sb += "<div class='grass'></div></div>"
 
         sb += "<div class='search' role='button' tabindex='0' onclick='Android.search()'><span class='lupa' aria-hidden='true'></span>"
-        sb += e(t("home_search")) + "</div>"
+        sb += e(t("home_search_all")) + "</div>"
+
+        // um botão por wiki: filtra o menu da tela inicial
+        sb += "<div class='srcs' role='tablist' aria-label='" + e(t("home_sources")) + "'>"
+        let all: [Source?] = [nil] + Sources.mods.map { Optional($0) }
+        for (i, w) in all.enumerated() {
+            let on = w == nil ? !src.mod : w!.key == src.key
+            let label = w == nil ? "⭐ " + t("src_base") : w!.emoji + " " + w!.short
+            let a11y = w == nil ? t("src_base") : t("src_mod_fmt", w!.name)
+            sb += "<span class='src" + (on ? " on" : "") + "' role='tab' tabindex='0' aria-selected='\(on)'"
+            sb += " aria-label='" + e(a11y) + "' onclick='Android.source(\(i))'>" + e(label) + "</span>"
+        }
+        sb += "</div>"
+        if src.mod {
+            sb += "<div class='modinfo'>" + e(t("src_mod_fmt", src.name))
+            if Lang.code != "en" { sb += " · " + e(t("mod_english_only")) }
+            sb += "</div>"
+        }
 
         sb += "<div id='recent'>" + recentHTML(recent) + "</div>"
 
         var idx = 0
-        for g in Categories.groups {
-            sb += "<div class='plank' role='heading' aria-level='2'>" + e(t(g.nameKey)) + "</div><div class='box'><div class='grid'>"
-            for c in g.items {
+        for (name, items) in menu {
+            sb += "<div class='plank' role='heading' aria-level='2'>" + e(name) + "</div><div class='box'><div class='grid'>"
+            for c in items {
                 sb += "<div class='cell' role='button' tabindex='0' aria-label='" + e(c.label) + "'"
                 sb += " onclick='Android.open(\(idx))'>"
                 sb += "<div class='slot' aria-hidden='true'><img alt='' src='" + c.icon + "'"
@@ -39,7 +57,8 @@ enum HTML {
             }
             sb += "</div></div>"
         }
-        sb += "<p class='foot' role='link' tabindex='0' onclick='Android.credits()'>" + e(t("home_footer"))
+        let foot = src.mod ? t("home_footer_mod_fmt", src.name, src.license) : t("home_footer")
+        sb += "<p class='foot' role='link' tabindex='0' onclick='Android.credits()'>" + e(foot)
         sb += "<br><u>" + e(t("about")) + "</u></p>"
         sb += "<script>window.__recent=function(h){document.getElementById('recent').innerHTML=h}</script>"
         sb += "</body></html>"
@@ -58,7 +77,7 @@ enum HTML {
 
     // MARK: Artigo
 
-    static func article(_ p: Page, dark: Bool) -> String {
+    static func article(_ p: Page, dark: Bool, src: Source = Sources.base()) -> String {
         var s = "<!DOCTYPE html><html><head><meta charset=\"utf-8\">"
         s += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
         s += "<style>" + SharedAssets.fontCSS
@@ -66,23 +85,35 @@ enum HTML {
         // o iOS ajusta o texto sozinho em paisagem; o tamanho escolhido no app é que vale
         s += "html{-webkit-text-size-adjust:100%}</style></head>"
         s += "<body class=\"" + (dark ? "dark" : "") + "\">"
+        if src.mod {
+            // faixa no topo: qual mod é e, fora do inglês, que a wiki do mod só existe em inglês
+            var txt = t("src_mod_fmt", src.name)
+            if Lang.code != "en" { txt += " · " + t("mod_english_only") }
+            s += "<div class='mod-badge'>" + src.emoji + " " + e(txt) + "</div>"
+        }
         s += "<h1 class=\"page-title\">" + e(p.title) + "</h1>"
         s += p.html
-        s += footer(p)
+        s += footer(p, src)
         s += "<script>window.__t=" + jsStrings() + ";</script>"
         s += "<script>" + SharedAssets.text("article", "js") + "</script></body></html>"
         return s
     }
 
     /// Crédito em toda página: contribuidores, licença, link para o original e para o histórico de autores.
-    private static func footer(_ p: Page) -> String {
-        let orig = e(WikiApi.pageURL(p.title).absoluteString + "?app_ext=1")
-        let hist = e(WikiApi.historyURL(p.title).absoluteString)
-        var s = "<div class='credit'><p>" + e(t("article_footer")) + "</p>"
-        s += "<p>" + e(t("article_footer_art")) + "</p><p>"
+    private static func footer(_ p: Page, _ src: Source) -> String {
+        let orig = e(WikiApi.pageURL(p.title, src: src).absoluteString + "?app_ext=1")
+        let hist = e(WikiApi.historyURL(p.title, src: src).absoluteString)
+        var s = "<div class='credit'><p>"
+        if src.mod {
+            s += e(t("article_footer_mod_fmt", src.name + " Wiki", src.license)) + "</p>"
+            s += "<p>" + e(t("article_footer_mod_art")) + "</p><p>"
+        } else {
+            s += e(t("article_footer")) + "</p>"
+            s += "<p>" + e(t("article_footer_art")) + "</p><p>"
+        }
         s += "<a class='ext' href='" + orig + "'>" + e(t("view_original")) + " ›</a> · "
         s += "<a class='ext' href='" + hist + "'>" + e(t("page_authors")) + " ›</a> · "
-        s += "<a class='ext' href='https://creativecommons.org/licenses/by-nc-sa/3.0/'>CC BY-NC-SA 3.0 ›</a></p></div>"
+        s += "<a class='ext' href='" + src.licenseURL + "'>" + src.license + " ›</a></p></div>"
         return s
     }
 
@@ -99,7 +130,7 @@ enum HTML {
     // MARK: Sobre e créditos
 
     static func credits(dark: Bool) -> String {
-        let wiki = WikiApi.base
+        let wiki = Lang.base()
         func link(_ url: String, _ label: String) -> String { "<p><a href='" + url + "'>" + e(t(label)) + " ›</a></p>" }
         func sec(_ h: String, _ body: String) -> String { "<div class='box'><h2>" + e(t(h)) + "</h2>" + body + "</div>" }
         var s = "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>"
@@ -118,6 +149,10 @@ enum HTML {
         var lic = "<p>" + e(t("credits_license")) + "</p>"
         lic += link("https://creativecommons.org/licenses/by-nc-sa/3.0/", "credits_license_link")
         s += sec("credits_license_h", lic)
+        var mods = "<p>" + e(t("credits_mods")) + "</p>"
+        for m in Sources.mods { mods += "<p><a href='" + m.base + "/'>" + m.emoji + " " + e(m.name) + " Wiki ›</a></p>" }
+        mods += "<p><a href='https://creativecommons.org/licenses/by-sa/4.0/'>CC BY-SA 4.0 ›</a></p>"
+        s += sec("credits_mods_h", mods)
         var app = "<p>" + e(t("credits_app")) + "</p>"
         app += link("https://github.com/mmmartines/stardew-wiki-app", "credits_source_link")
         app += "<p class='small'>" + e(t("credits_font")) + "</p>"

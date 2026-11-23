@@ -1,9 +1,10 @@
 import SwiftUI
 
 /// Destinos de navegação dentro de cada aba.
+/// `src` = wiki da página (código do mod, ou idioma da oficial); nil = oficial no idioma atual.
 enum Route: Hashable {
-    case article(String, anchor: String? = nil)
-    case list(ListMode, category: String? = nil)
+    case article(String, anchor: String? = nil, src: String? = nil)
+    case list(ListMode, category: String? = nil, src: String? = nil)
     case credits
 }
 
@@ -32,6 +33,10 @@ final class AppModel: ObservableObject {
     /// A pessoa escolheu "Ver páginas salvas" e fechou a tela de sem internet (volta quando a conexão cair de novo).
     @Published var offlineDismissed = false
     @Published var toast: String?
+    /// Wiki escolhida nos botões da tela inicial: "base" (jogo base) ou o código do mod.
+    /// O app abre na wiki marcada em "Wiki ao abrir o app".
+    @Published var homeChoice = Sources.startChoice
+    var homeSource: Source { Sources.fromChoice(homeChoice) }
 
     // Só para os testes automáticos (modo "tour"): busca pronta, sem internet simulado e modo escuro.
     @Published var presetQuery: String?
@@ -68,20 +73,23 @@ final class AppModel: ObservableObject {
         }
     }
 
-    func open(_ target: Target) {
+    func open(_ target: Target, in s: Source) {
+        let src = s.mod ? s.key : nil
         switch target {
-        case .article(let en): push(.article(Titles.of(en)))
-        case .allPages: push(.list(.allPages))
-        case .allCategories: push(.list(.allCategories))
+        // nos mods o título é o da wiki do mod (em inglês); na oficial, o do idioma atual
+        case .article(let en): push(.article(s.mod ? en : Titles.of(en), src: src))
+        case .allPages: push(.list(.allPages, src: src))
+        case .allCategories: push(.list(.allCategories, src: src))
         case .random:
             Task {
-                do { push(.article(try await WikiApi.random())) } catch { show(toast: t("no_connection")) }
+                do { push(.article(try await WikiApi.random(src: s), src: src)) } catch { show(toast: t("no_connection")) }
             }
         }
     }
 
     /// Abre um favorito/histórico; se for de outro idioma, procura a mesma página no idioma atual.
     func open(_ e: Entry, askSwitch: @escaping (Entry) -> Void) {
+        if Sources.isMod(e.lang) { push(.article(e.title, src: e.lang)); return }
         if e.lang == Lang.code { push(.article(e.title)); return }
         let to = Lang.code
         Task {

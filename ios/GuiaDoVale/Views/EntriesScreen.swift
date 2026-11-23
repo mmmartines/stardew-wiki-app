@@ -96,7 +96,16 @@ struct EntriesScreen: View {
         if !favorites && e.time > 0 {
             parts.append(Date(timeIntervalSince1970: e.time).formatted(date: .omitted, time: .shortened))
         }
-        if e.lang != Lang.code, let w = Lang.wiki(e.lang) { parts.append(w.flag + "  " + w.name) }
+        // com algum item de mod na lista, cada linha diz de onde é (jogo base ou qual mod)
+        let mixed = items.contains { Sources.isMod($0.lang) }
+        if Sources.isMod(e.lang) {
+            let m = Sources.of(e.lang)
+            parts.append(m.emoji + "  " + t("src_mod_fmt", m.short))
+        } else if e.lang != Lang.code, let w = Lang.wiki(e.lang) {
+            parts.append((mixed ? t("src_base") + "  ·  " : "") + w.flag + "  " + w.name)
+        } else if mixed {
+            parts.append("⭐  " + t("src_base"))
+        }
         return parts.joined(separator: "  ·  ")
     }
 
