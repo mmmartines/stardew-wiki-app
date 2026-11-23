@@ -67,15 +67,15 @@ class Store(ctx: Context) {
         prefs.edit().putString(key, toJson(l)).apply()
     }
 
-    private fun here(t: String) = Entry(Lang.code, t)
+    private fun here(t: String, w: String) = Entry(w, t)
 
     /** Favoritos de todos os idiomas, do mais recente para o mais antigo. */
     fun favorites(): MutableList<Entry> = entries(FAV)
-    fun isFavorite(t: String) = favorites().contains(here(t))
+    fun isFavorite(t: String, w: String = Lang.code) = favorites().contains(here(t, w))
 
-    fun toggleFavorite(t: String): Boolean {
+    fun toggleFavorite(t: String, w: String = Lang.code): Boolean {
         val l = favorites()
-        val e = here(t)
+        val e = here(t, w)
         e.time = System.currentTimeMillis()
         val nowFav = if (l.remove(e)) false else { l.add(0, e); true }
         save(FAV, l)
@@ -89,12 +89,12 @@ class Store(ctx: Context) {
     /** Histórico de todos os idiomas. */
     fun history(): MutableList<Entry> = entries(HIST)
 
-    /** Histórico só do idioma atual (atalhos da tela inicial). */
-    fun historyHere(): List<String> = history().filter { it.lang == Lang.code }.map { it.title }
+    /** Histórico só de uma wiki (por padrão a oficial no idioma atual) — atalhos da tela inicial. */
+    fun historyHere(w: String = Lang.code): List<String> = history().filter { it.lang == w }.map { it.title }
 
-    fun addHistory(t: String) {
+    fun addHistory(t: String, w: String = Lang.code) {
         val l = history()
-        val e = here(t).apply { time = System.currentTimeMillis() }
+        val e = here(t, w).apply { time = System.currentTimeMillis() }
         l.remove(e)
         l.add(0, e)
         while (l.size > 150) l.removeAt(l.size - 1)
@@ -125,14 +125,15 @@ class Store(ctx: Context) {
         get() = prefs.getInt("zoom", 100)
         set(v) = prefs.edit().putInt("zoom", v).apply()
 
-    private fun key(title: String) = Lang.code + ":" + title.replace('_', ' ').trim().lowercase()
+    /** Chave do cache: wiki + título (a oficial usa o código do idioma, como nas versões anteriores). */
+    private fun key(title: String, w: String) = w + ":" + title.replace('_', ' ').trim().lowercase()
 
-    private fun file(title: String): File {
-        val md = MessageDigest.getInstance("MD5").digest(key(title).toByteArray())
+    private fun file(title: String, w: String): File {
+        val md = MessageDigest.getInstance("MD5").digest(key(title, w).toByteArray())
         return File(dir, md.joinToString("") { "%02x".format(it) } + ".json")
     }
 
-    fun putPage(requested: String, page: Page) {
+    fun putPage(requested: String, page: Page, w: String = Lang.code) {
         val secs = JSONArray()
         page.sections.forEach {
             secs.put(JSONObject().put("line", it.line).put("anchor", it.anchor).put("level", it.level))
@@ -144,14 +145,14 @@ class Store(ctx: Context) {
             .put("sections", secs)
             .toString()
         try {
-            file(requested).writeText(s)
-            if (key(requested) != key(page.title)) file(page.title).writeText(s)
+            file(requested, w).writeText(s)
+            if (key(requested, w) != key(page.title, w)) file(page.title, w).writeText(s)
         } catch (_: Exception) {
         }
     }
 
-    fun getPage(title: String): Cached? = try {
-        val f = file(title)
+    fun getPage(title: String, w: String = Lang.code): Cached? = try {
+        val f = file(title, w)
         if (!f.exists()) null else {
             val o = JSONObject(f.readText())
             val a = o.getJSONArray("sections")
@@ -165,8 +166,8 @@ class Store(ctx: Context) {
         null
     }
 
-    /** Títulos das páginas salvas no aparelho para o idioma atual, em ordem alfabética. Ler fora da thread principal. */
-    fun savedTitles(): List<String> {
+    /** Títulos das páginas salvas no aparelho para uma wiki (padrão: oficial no idioma atual), em ordem alfabética. Ler fora da thread principal. */
+    fun savedTitles(w: String = Lang.code): List<String> {
         val files = dir.listFiles() ?: return emptyList()
         val out = sortedSetOf(String.CASE_INSENSITIVE_ORDER)
         for (f in files) {
@@ -175,7 +176,7 @@ class Store(ctx: Context) {
                 val head = f.bufferedReader().use { r -> CharArray(4096).let { b -> String(b, 0, r.read(b).coerceAtLeast(0)) } }
                 val t = Regex("\"title\":\"((?:[^\"\\\\]|\\\\.)*)\"").find(head)?.groupValues?.get(1) ?: continue
                 val title = JSONObject("{\"t\":\"$t\"}").getString("t")
-                if (file(title).name == f.name) out.add(title) // arquivo é deste idioma
+                if (file(title, w).name == f.name) out.add(title) // arquivo é desta wiki
             } catch (_: Exception) {
             }
         }
@@ -183,7 +184,7 @@ class Store(ctx: Context) {
     }
 
     /** Página salva no aparelho (só confere se o arquivo existe). */
-    fun isSaved(title: String): Boolean = file(title).exists()
+    fun isSaved(title: String, w: String = Lang.code): Boolean = file(title, w).exists()
 
     fun cacheBytes(): Long = dir.listFiles()?.sumOf { it.length() } ?: 0L
     fun cacheCount(): Int = dir.listFiles()?.size ?: 0

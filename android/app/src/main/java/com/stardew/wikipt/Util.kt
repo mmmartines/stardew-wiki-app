@@ -46,6 +46,23 @@ fun android.view.View.capWidth(maxDp: Int = 720) {
     }
 }
 
+/** Roda as tarefas ao mesmo tempo (ex.: uma por wiki na busca global) e devolve o resultado de cada uma, na mesma ordem. */
+fun <T> inParallel(tasks: List<() -> T>, timeoutSec: Long = 30): List<Result<T>> {
+    val fs = tasks.map { t ->
+        Bg.pool.submit(java.util.concurrent.Callable<Result<T>> {
+            try { Result.success(t()) } catch (e: Throwable) { Result.failure(e) }
+        })
+    }
+    return fs.map { f ->
+        try {
+            f.get(timeoutSec, java.util.concurrent.TimeUnit.SECONDS)
+        } catch (e: Exception) {
+            f.cancel(true)
+            Result.failure(e)
+        }
+    }
+}
+
 /** Executa [work] em segundo plano e entrega o resultado na thread principal. */
 fun <T> AppCompatActivity.runAsync(work: () -> T, done: (Result<T>) -> Unit) {
     Bg.pool.execute {

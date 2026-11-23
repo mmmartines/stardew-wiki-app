@@ -35,4 +35,18 @@
     <string name="removed_fmt">Удалено: %s</string>
     <string name="undo">Отменить</string>
     <string name="close">Закрыть</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">Основная игра</string>
+    <string name="src_mod_fmt">Мод: %s</string>
+    <string name="mod_english_only">Вики этого мода есть только на английском.</string>
+    <string name="home_search_all">Искать в игре и во всех модах…</string>
+    <string name="search_hint_all">Поиск по игре и модам…</string>
+    <string name="home_sources">Вики</string>
+    <string name="home_footer_mod_fmt">Материалы вики %1$s от её участников, %2$s. Неофициальное некоммерческое приложение, не связано с модом и ConcernedApe.</string>
+    <string name="article_footer_mod_fmt">Материалы из %1$s, авторы — её участники, лицензия %2$s. Адаптировано для чтения с телефона.</string>
+    <string name="article_footer_mod_art">Материалы мода принадлежат его авторам. Stardew Valley © ConcernedApe.</string>
+    <string name="start_wiki">Вики при запуске</string>
+    <string name="start_wiki_set_fmt">Приложение будет открываться с: %s</string>
+    <string name="credits_mods_h">Вики модов</string>
+    <string name="credits_mods">Вики модов-расширений ведут сообщества самих модов (на английском). Материалы доступны по CC BY-SA 4.0 и принадлежат авторам; приложение только показывает их, без редактирования, со ссылкой на оригинал.</string>
 </resources>

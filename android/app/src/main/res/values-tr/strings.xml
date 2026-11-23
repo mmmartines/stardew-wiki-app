@@ -35,4 +35,18 @@
     <string name="removed_fmt">Kaldırıldı: %s</string>
     <string name="undo">Geri al</string>
     <string name="close">Kapat</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">Ana oyun</string>
+    <string name="src_mod_fmt">Mod: %s</string>
+    <string name="mod_english_only">Bu modun vikisi yalnızca İngilizce.</string>
+    <string name="home_search_all">Oyunda ve tüm modlarda ara…</string>
+    <string name="search_hint_all">Oyunda ve modlarda ara…</string>
+    <string name="home_sources">Vikiler</string>
+    <string name="home_footer_mod_fmt">%1$s vikisinin içeriği, katkıda bulunanlardan, %2$s. Resmî olmayan, kâr amacı gütmeyen uygulama; mod veya ConcernedApe ile bağlantısı yoktur.</string>
+    <string name="article_footer_mod_fmt">İçerik %1$s kaynağından, katkıda bulunanlarca, %2$s lisansıyla. Telefonda okumaya uyarlandı.</string>
+    <string name="article_footer_mod_art">Mod içeriği yazarlarına aittir. Stardew Valley © ConcernedApe.</string>
+    <string name="start_wiki">Uygulama açılınca viki</string>
+    <string name="start_wiki_set_fmt">Uygulama şununla açılacak: %s</string>
+    <string name="credits_mods_h">Mod vikileri</string>
+    <string name="credits_mods">Genişleme modlarının vikilerini her modun topluluğu hazırlar (İngilizce). İçerik CC BY-SA 4.0 lisanslıdır ve yazarlarına aittir; bu uygulama yalnızca gösterir, salt okunur, orijinaline bağlantı ile.</string>
 </resources>

@@ -35,4 +35,18 @@
     <string name="removed_fmt">Retiré : %s</string>
     <string name="undo">Annuler</string>
     <string name="close">Fermer</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">Jeu de base</string>
+    <string name="src_mod_fmt">Mod : %s</string>
+    <string name="mod_english_only">Le wiki de ce mod n’existe qu’en anglais.</string>
+    <string name="home_search_all">Rechercher dans le jeu et tous les mods…</string>
+    <string name="search_hint_all">Rechercher jeu et mods…</string>
+    <string name="home_sources">Wikis</string>
+    <string name="home_footer_mod_fmt">Contenu du wiki de %1$s, par ses contributeurs, %2$s. Appli non officielle et sans but lucratif, sans lien avec le mod ni ConcernedApe.</string>
+    <string name="article_footer_mod_fmt">Contenu du %1$s, par ses contributeurs, sous %2$s. Adapté pour la lecture sur mobile.</string>
+    <string name="article_footer_mod_art">Le contenu du mod appartient à ses auteurs. Stardew Valley © ConcernedApe.</string>
+    <string name="start_wiki">Wiki à l’ouverture</string>
+    <string name="start_wiki_set_fmt">L’appli s’ouvrira sur : %s</string>
+    <string name="credits_mods_h">Wikis des mods</string>
+    <string name="credits_mods">Les wikis des mods d’extension sont faits par la communauté de chaque mod (en anglais). Leur contenu est sous CC BY-SA 4.0 et appartient à leurs auteurs ; cette appli ne fait que l’afficher, en lecture seule, avec un lien vers l’original.</string>
 </resources>
