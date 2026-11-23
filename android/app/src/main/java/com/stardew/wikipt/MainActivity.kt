@@ -77,6 +77,14 @@ class MainActivity : AppCompatActivity() {
             })
 
         if (!Lang.load(this)) firstRun()
+        shotSetup()
+    }
+
+    /** Só no APK de teste: atalhos para os prints automáticos do GitHub (sem efeito na versão da loja). */
+    private fun shotSetup() {
+        if (!BuildConfig.DEBUG) return
+        intent.getStringExtra("shot_src")?.let { homeChoice = it; homeKey = ""; showTab(R.id.nav_home) }
+        intent.getStringExtra("shot_page")?.let { ArticleActivity.start(this, it, src = intent.getStringExtra("shot_page_src")) }
     }
 
     override fun onSaveInstanceState(out: Bundle) {
@@ -387,6 +395,10 @@ class MainActivity : AppCompatActivity() {
         val item = menu.findItem(R.id.action_search)
         searchItem = item
         val sv = item.actionView as SearchView
+        if (BuildConfig.DEBUG) intent.getStringExtra("shot_q")?.let { q ->
+            intent.removeExtra("shot_q")
+            handler.post { item.expandActionView(); sv.setQuery(q, true) }
+        }
         sv.queryHint = getString(R.string.search_hint_all)
         sv.maxWidth = Int.MAX_VALUE
         sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
