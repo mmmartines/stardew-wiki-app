@@ -87,6 +87,9 @@ object Wikis {
         gg("rsv", "ridgesidevillage", "Ridgeside Village", "Ridgeside", "⛰️",
             "Villagers", "Quests", "Festivals", "All Letters", "Fish", "Foraging", "Fruit Trees", "Cooking",
             "Items", "Monsters", "Weapons", "Compatibility"),
+        gg("sbv", "sunberryvillage", "Sunberry Village", "Sunberry", "🫐",
+            "Villagers", "Locations", "Festivals", "Quests", "Special Orders", "Letters", "Crops", "Fish", "Cooking",
+            "Crafting", "Artisan Goods", "Shops", "Monsters", "Weapons", "Artifacts", "Compatibility"),
     )
 
     fun base(lang: String = Lang.code) = Wiki(
