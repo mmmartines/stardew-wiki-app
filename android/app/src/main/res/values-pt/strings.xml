@@ -166,4 +166,9 @@
     <string name="credits_mods_h">Wikis dos mods</string>
     <string name="credits_mods">As wikis dos mods de expansão são feitas pela comunidade de cada mod (em inglês). O conteúdo está sob CC BY-SA 4.0 e pertence aos seus autores; este app só o exibe, somente leitura, com link para o original.</string>
     <string name="mod_terms_translated">Nomes do jogo traduzidos pela Stardew Valley Wiki.</string>
+    <string name="mt_working">Traduzindo automaticamente…</string>
+    <string name="mt_notice">Tradução automática do inglês (pode conter erros)</string>
+    <string name="mt_original_shown">Original em inglês</string>
+    <string name="mt_see_original">Ver original</string>
+    <string name="mt_see_translation">Ver tradução</string>
 </resources>

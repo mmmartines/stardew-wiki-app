@@ -89,6 +89,7 @@ struct ArticleScreen: View {
     @StateObject private var article: ArticleModel
     @StateObject private var web = WebController()
     @State private var showDetails = false
+    @State private var mtRequest: MTRequest?
 
     init(requested: String, anchor: String?, src: String? = nil) {
         let s = Sources.of(src)
@@ -122,6 +123,13 @@ struct ArticleScreen: View {
                     .ignoresSafeArea(edges: .bottom)
             }
         }
+        .autoTranslate(mtRequest) { out in
+            if let out, let data = try? JSONSerialization.data(withJSONObject: out), let json = String(data: data, encoding: .utf8) {
+                web.js("window.__mtApply&&__mtApply(" + json + ")")
+            } else {
+                web.js("window.__mtFail&&__mtFail()")
+            }
+        }
         .offlineBanner()
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
@@ -147,16 +155,21 @@ struct ArticleScreen: View {
 
     /// Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda faltam no glossário.
     private func translateTerms(_ p: Page) {
-        guard Glossary.applies(src), Net.isOnline else { return }
+        guard Glossary.applies(src) else { return }
         let lang = Lang.code
         let titles = Glossary.titles(p.html)
-        let missing = Glossary.missing(lang, titles)
-        if missing.isEmpty { return }
+        let missing = Net.isOnline ? Glossary.missing(lang, titles) : []
         Task {
-            await Glossary.fetch(lang, missing)
-            guard article.page?.title == p.title, Lang.code == lang else { return }
-            let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
-            web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0])")
+            if !missing.isEmpty {
+                await Glossary.fetch(lang, missing)
+                guard article.page?.title == p.title, Lang.code == lang else { return }
+                let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
+                web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0])")
+            }
+            // depois dos nomes do jogo (que ficam como na wiki oficial), o resto do texto: tradução automática
+            guard AutoTranslateSupport.available, article.page?.title == p.title else { return }
+            let texts = (await web.evaluate("window.__mtCollect?__mtCollect():[]") as? [Any])?.map { "\($0)" } ?? []
+            if !texts.isEmpty { mtRequest = MTRequest(texts: texts) }
         }
     }
 

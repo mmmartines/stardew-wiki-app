@@ -37,11 +37,11 @@ shot 03-inicio-ridgeside 12 --es shot_src rsv
 shot 04-inicio-vapius 12 --es shot_src mtv
 shot 05-busca-global-sophia 20 --es shot_q Sophia
 shot 06-busca-global-parsnip 20 --es shot_q Parsnip
-shot 07-artigo-sve-sophia 16 --es shot_page Sophia --es shot_page_src sve
-shot 08-artigo-sunberry-maia 16 --es shot_page Maia --es shot_page_src sbv
+shot 07-artigo-sve-sophia 60 --es shot_page Sophia --es shot_page_src sve
+shot 08-artigo-sunberry-maia 30 --es shot_page Maia --es shot_page_src sbv
 shot 09-artigo-base-abigail 16 --es shot_page Abigail
 adb shell cmd uimode night yes
 shot 10-inicio-sve-escuro 12 --es shot_src sve
-shot 11-artigo-rsv-escuro 16 --es shot_page Lenny --es shot_page_src rsv
+shot 11-artigo-rsv-escuro 30 --es shot_page Lenny --es shot_page_src rsv
 adb logcat -d > $OUT/logcat.txt || true
 grep -E "FATAL|AndroidRuntime|GuiaDoVale|wikipt" $OUT/logcat.txt > $OUT/crash.txt || true

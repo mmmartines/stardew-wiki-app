@@ -515,3 +515,77 @@
 
   if (window.__glossInit) window.__gloss(window.__glossInit.map, window.__glossInit.base);
 })();
+
+/* Páginas dos mods: tradução automática do texto (feita no aparelho pelo app).
+   __mtCollect() devolve os textos da página; o app traduz e chama __mtApply(lista).
+   A faixa no topo avisa que é tradução automática e alterna com o original. */
+(function () {
+  var T = window.__t || {};
+  var nodes = [], orig = [], trans = null, showing = false;
+  var SKIP = { SCRIPT: 1, STYLE: 1, CODE: 1, PRE: 1, NOSCRIPT: 1 };
+
+  function bar() {
+    var b = document.getElementById('mt-bar');
+    if (b) return b;
+    b = document.createElement('div');
+    b.id = 'mt-bar';
+    b.className = 'mt-bar';
+    b.setAttribute('role', 'status');
+    var title = document.querySelector('.page-title');
+    if (title && title.parentNode) title.parentNode.insertBefore(b, title); else document.body.insertBefore(b, document.body.firstChild);
+    return b;
+  }
+
+  function render(state) {
+    var b = bar();
+    if (state === 'working') { b.innerHTML = '<span class="mt-ico">🌐</span> ' + (T.mtWorking || 'Translating…'); return; }
+    b.innerHTML = '';
+    var s = document.createElement('span');
+    s.innerHTML = '<span class="mt-ico">🌐</span> ' + (showing ? (T.mtNotice || 'Automatic translation') : (T.mtOriginalShown || 'Original (English)'));
+    var a = document.createElement('button');
+    a.className = 'mt-toggle';
+    a.textContent = showing ? (T.mtSeeOriginal || 'See original') : (T.mtSeeTranslation || 'Translate');
+    a.onclick = function () { set(!showing); };
+    b.appendChild(s); b.appendChild(document.createTextNode(' · ')); b.appendChild(a);
+  }
+
+  function set(on) {
+    if (!trans) return;
+    showing = on;
+    for (var i = 0; i < nodes.length; i++) nodes[i].nodeValue = on ? trans[i] : orig[i];
+    render('done');
+  }
+
+  window.__mtCollect = function () {
+    nodes = []; orig = [];
+    var root = document.body;
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!/[A-Za-z]{2}/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        for (var p = n.parentNode; p && p !== root; p = p.parentNode) {
+          if (SKIP[p.nodeName]) return NodeFilter.FILTER_REJECT;
+          if (p.id === 'mt-bar' || (p.classList && (p.classList.contains('credit') || p.classList.contains('mod-badge') || p.classList.contains('page-title')))) return NodeFilter.FILTER_REJECT;
+          if (p.getAttribute && p.getAttribute('data-gloss')) return NodeFilter.FILTER_REJECT; // nome já no idioma (glossário)
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n;
+    while ((n = w.nextNode())) { nodes.push(n); orig.push(n.nodeValue); }
+    if (nodes.length) render('working');
+    return orig;
+  };
+
+  window.__mtApply = function (list) {
+    if (!list || list.length !== nodes.length) { var b = document.getElementById('mt-bar'); if (b) b.remove(); return; }
+    trans = [];
+    for (var i = 0; i < list.length; i++) {
+      // mantém os espaços das pontas (o texto vizinho é outro nó)
+      var o = orig[i], lead = o.match(/^\s*/)[0], tail = o.match(/\s*$/)[0];
+      trans.push(lead + String(list[i] == null ? o.trim() : list[i]).trim() + tail);
+    }
+    set(true);
+  };
+
+  window.__mtFail = function () { var b = document.getElementById('mt-bar'); if (b) b.remove(); };
+})();

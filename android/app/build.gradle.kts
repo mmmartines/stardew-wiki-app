@@ -84,4 +84,6 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    // tradução automática das páginas dos mods, feita no próprio aparelho (sem servidor, sem custo)
+    implementation("com.google.mlkit:translate:17.0.3")
 }

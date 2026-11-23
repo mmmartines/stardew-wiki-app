@@ -158,3 +158,7 @@ body{max-width:760px;margin-left:auto;margin-right:auto}
 /* faixa "Mod: …" no topo das páginas das wikis de mods */
 .mod-badge{font-family:'Pixel',sans-serif;font-size:.95em;margin:0 0 10px;padding:6px 10px;border-radius:4px;
  background:var(--th);border:2px dashed var(--woodD);line-height:1.35}
+/* faixa da tradução automática */
+.mt-bar{font-size:.88em;margin:0 0 10px;padding:6px 10px;border-radius:4px;background:var(--card2);border:1px solid var(--border);line-height:1.4}
+.mt-ico{font-style:normal}
+.mt-toggle{font:inherit;font-weight:700;color:var(--link);background:none;border:0;padding:4px 2px;cursor:pointer;text-decoration:underline}

@@ -50,4 +50,9 @@
     <string name="credits_mods_h">Mod vikileri</string>
     <string name="credits_mods">Genişleme modlarının vikilerini her modun topluluğu hazırlar (İngilizce). İçerik CC BY-SA 4.0 lisanslıdır ve yazarlarına aittir; bu uygulama yalnızca gösterir, salt okunur, orijinaline bağlantı ile.</string>
     <string name="mod_terms_translated">Oyundaki adlar Stardew Valley Wiki ile çevrildi.</string>
+    <string name="mt_working">Otomatik çevriliyor…</string>
+    <string name="mt_notice">İngilizceden otomatik çeviri (hata içerebilir)</string>
+    <string name="mt_original_shown">İngilizce orijinal</string>
+    <string name="mt_see_original">Orijinali gör</string>
+    <string name="mt_see_translation">Çeviriyi gör</string>
 </resources>

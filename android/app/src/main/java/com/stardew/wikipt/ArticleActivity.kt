@@ -86,6 +86,8 @@ class ArticleActivity : AppCompatActivity() {
     private var triedFallback = false
     private var pendingAnchor: String? = null
     private var findSnack: Snackbar? = null
+    /** Página que já passou pela tradução (evita repetir se a página terminar de carregar de novo). */
+    private var translatedFor: Page? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         edgeToEdge()
@@ -144,6 +146,7 @@ class ArticleActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView, url: String?) {
                 pendingAnchor?.let { scrollToAnchor(it) }
                 pendingAnchor = null
+                page?.let { p -> if (translatedFor !== p) { translatedFor = p; translateTerms(p) } }
             }
         }
         web.setFindListener { active, count, done ->
@@ -235,20 +238,40 @@ class ArticleActivity : AppCompatActivity() {
         store.addHistory(p.title, wiki.key)
         web.loadDataWithBaseURL(WikiApi.pageUrl(p.title, wiki), buildHtml(p), "text/html", "utf-8", null)
         invalidateOptionsMenu()
-        translateTerms(p)
     }
 
     /** Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda não estão no glossário. */
     private fun translateTerms(p: Page) {
-        if (!Glossary.applies(wiki) || !Net.online()) return
+        if (!Glossary.applies(wiki)) return
         val lang = Lang.code
         val titles = Glossary.titles(p.html)
-        val missing = Glossary.missing(this, lang, titles)
-        if (missing.isEmpty()) return
+        val missing = if (Net.online()) Glossary.missing(this, lang, titles) else emptyList()
+        if (missing.isEmpty()) { autoTranslate(p); return }
         runAsync({ Glossary.fetch(this, lang, missing); Glossary.knownJson(this, lang, titles) }) { r ->
-            val json = r.getOrNull() ?: return@runAsync
             if (page !== p) return@runAsync // já abriu outra página
-            web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ")", null)
+            r.getOrNull()?.let { json ->
+                web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ")", null)
+            }
+            autoTranslate(p) // o texto é traduzido depois dos nomes do jogo, que ficam como na wiki oficial
+        }
+    }
+
+    /** Tradução automática do texto da página do mod, com aviso na própria página e opção de ver o original. */
+    private fun autoTranslate(p: Page) {
+        val lang = Lang.code
+        if (AutoTranslate.target(lang) == null) return
+        web.evaluateJavascript("window.__mtCollect?__mtCollect():[]") { res ->
+            val texts = try {
+                val a = org.json.JSONArray(res ?: "[]")
+                List(a.length()) { a.optString(it) }
+            } catch (_: Exception) { emptyList() }
+            if (texts.isEmpty() || page !== p) return@evaluateJavascript
+            runAsync({ AutoTranslate.translate(texts, lang) }) { r ->
+                if (page !== p) return@runAsync
+                val out = r.getOrNull()
+                if (out == null) web.evaluateJavascript("window.__mtFail&&__mtFail()", null)
+                else web.evaluateJavascript("window.__mtApply&&__mtApply(" + org.json.JSONArray(out) + ")", null)
+            }
         }
     }
 
@@ -310,6 +333,11 @@ class ArticleActivity : AppCompatActivity() {
         .put("show", getString(R.string.js_show))
         .put("zoomHint", getString(R.string.js_zoom_hint))
         .put("close", getString(R.string.close))
+        .put("mtWorking", getString(R.string.mt_working))
+        .put("mtNotice", getString(R.string.mt_notice))
+        .put("mtOriginalShown", getString(R.string.mt_original_shown))
+        .put("mtSeeOriginal", getString(R.string.mt_see_original))
+        .put("mtSeeTranslation", getString(R.string.mt_see_translation))
         .toString()
 
     // ---------- Links ----------

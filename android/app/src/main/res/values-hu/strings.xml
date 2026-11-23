@@ -50,4 +50,9 @@
     <string name="credits_mods_h">Modok wikijei</string>
     <string name="credits_mods">A bővítő modok wikijeit az adott mod közössége készíti (angolul). A tartalom CC BY-SA 4.0 licenc alatt áll és a szerzőké; ez az app csak megjeleníti, csak olvasásra, az eredetire mutató hivatkozással.</string>
     <string name="mod_terms_translated">Az alapjáték nevei a Stardew Valley Wiki alapján fordítva.</string>
+    <string name="mt_working">Automatikus fordítás…</string>
+    <string name="mt_notice">Automatikus fordítás angolból (hibákat tartalmazhat)</string>
+    <string name="mt_original_shown">Eredeti angolul</string>
+    <string name="mt_see_original">Eredeti megtekintése</string>
+    <string name="mt_see_translation">Fordítás megtekintése</string>
 </resources>

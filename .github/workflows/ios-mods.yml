@@ -83,8 +83,8 @@ jobs:
           shot 04-inicio-vapius 14 -lang pt -screen home -src mtv
           shot 05-busca-global-sophia 18 -lang pt -screen search -q Sophia -src base
           shot 06-busca-global-parsnip 18 -lang pt -screen search -q Parsnip -src base
-          shot 07-artigo-sve-sophia 16 -lang pt -screen article -page Sophia -src sve
-          shot 08-artigo-sunberry-maia 16 -lang pt -screen article -page Maia -src sbv
+          shot 07-artigo-sve-sophia 40 -lang pt -screen article -page Sophia -src sve
+          shot 08-artigo-sunberry-maia 30 -lang pt -screen article -page Maia -src sbv
           shot 09-artigo-base-abigail 16 -lang pt -screen article -page Abigail -src base
           shot 10-favoritos-misturados 8 -lang pt -screen favorites -page Abigail -src base
           xcrun simctl ui "$UDID" appearance dark

@@ -50,4 +50,9 @@
     <string name="credits_mods_h">Вики модов</string>
     <string name="credits_mods">Вики модов-расширений ведут сообщества самих модов (на английском). Материалы доступны по CC BY-SA 4.0 и принадлежат авторам; приложение только показывает их, без редактирования, со ссылкой на оригинал.</string>
     <string name="mod_terms_translated">Названия из основной игры переведены по Stardew Valley Wiki.</string>
+    <string name="mt_working">Автоматический перевод…</string>
+    <string name="mt_notice">Автоматический перевод с английского (возможны ошибки)</string>
+    <string name="mt_original_shown">Оригинал на английском</string>
+    <string name="mt_see_original">Показать оригинал</string>
+    <string name="mt_see_translation">Показать перевод</string>
 </resources>

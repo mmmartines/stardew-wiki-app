@@ -122,6 +122,8 @@ enum HTML {
             "more": t("js_more_details"), "showAll": t("js_show_all"), "filter": t("js_filter"),
             "onPage": t("js_on_this_page"), "readIntro": t("js_read_intro"), "seeAlso": t("js_see_also"),
             "showTable": t("js_show_table"), "show": t("js_show"), "zoomHint": t("js_zoom_hint"), "close": t("close"),
+            "mtWorking": t("mt_working"), "mtNotice": t("mt_notice"), "mtOriginalShown": t("mt_original_shown"),
+            "mtSeeOriginal": t("mt_see_original"), "mtSeeTranslation": t("mt_see_translation"),
         ]
         let d = (try? JSONSerialization.data(withJSONObject: m)) ?? Data("{}".utf8)
         return String(data: d, encoding: .utf8) ?? "{}"

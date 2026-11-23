@@ -50,4 +50,9 @@
     <string name="credits_mods_h">모드 위키</string>
     <string name="credits_mods">확장 모드 위키는 각 모드의 커뮤니티가 만듭니다(영어). 콘텐츠는 CC BY-SA 4.0이며 제작자에게 권리가 있고, 이 앱은 읽기 전용으로 보여 주며 원문 링크를 제공합니다.</string>
     <string name="mod_terms_translated">기본 게임 이름은 Stardew Valley Wiki를 바탕으로 번역했습니다.</string>
+    <string name="mt_working">자동 번역 중…</string>
+    <string name="mt_notice">영어 자동 번역(오류가 있을 수 있음)</string>
+    <string name="mt_original_shown">영어 원문</string>
+    <string name="mt_see_original">원문 보기</string>
+    <string name="mt_see_translation">번역 보기</string>
 </resources>
