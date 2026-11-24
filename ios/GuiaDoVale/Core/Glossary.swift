@@ -99,12 +99,24 @@ enum Glossary {
 
     /// Termos já salvos para o idioma, como JSON para a página ("{}" se ainda não buscou).
     static func termsJSON(_ lang: String) -> String {
-        lock.lock(); defer { lock.unlock() }
-        if let t = terms[lang] { return t }
-        let t = (try? String(contentsOf: termsFile(lang), encoding: .utf8)) ?? "{}"
-        terms[lang] = t
-        return t
+        lock.lock()
+        let raw = terms[lang] ?? ((try? String(contentsOf: termsFile(lang), encoding: .utf8)) ?? "{}")
+        terms[lang] = raw
+        lock.unlock()
+        // + lista fixa (modterms.json) para valores comuns nas wikis dos mods que a wiki base não tem
+        // ("Marriageable", "Yes"…); ela vale por cima da buscada
+        var out = (try? JSONSerialization.jsonObject(with: Data(raw.utf8))) as? [String: Any] ?? [:]
+        if let f = fixed[lang] as? [String: Any] { out.merge(f) { _, new in new } }
+        let d = (try? JSONSerialization.data(withJSONObject: out)) ?? Data("{}".utf8)
+        return String(data: d, encoding: .utf8) ?? "{}"
     }
+
+    private static let fixed: [String: Any] = {
+        guard let url = Bundle.main.url(forResource: "modterms", withExtension: "json"),
+              let d = try? Data(contentsOf: url),
+              let o = try? JSONSerialization.jsonObject(with: d) as? [String: Any] else { return [:] }
+        return o
+    }()
 
     private static func groups(_ re: NSRegularExpression, _ s: String) -> [String] {
         re.matches(in: s, range: NSRange(s.startIndex..., in: s)).compactMap { m in

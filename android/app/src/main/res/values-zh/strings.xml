@@ -58,4 +58,5 @@
     <string name="my_mods">我的模组</string>
     <string name="my_mods_hint">勾选你在玩的模组。主页和搜索中只会显示它们。</string>
     <string name="my_mods_add">添加模组</string>
+    <string name="credits_mods_mt">模组页面的自动翻译在你的设备上完成，并以相同的 CC BY-SA 4.0 许可展示，标明为自动翻译并附原文链接。</string>
 </resources>

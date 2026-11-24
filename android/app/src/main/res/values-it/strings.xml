@@ -58,4 +58,5 @@
     <string name="my_mods">Le mie mod</string>
     <string name="my_mods_hint">Seleziona le mod che usi. Solo quelle compaiono nella schermata iniziale e nella ricerca.</string>
     <string name="my_mods_add">Aggiungi mod</string>
+    <string name="credits_mods_mt">Le traduzioni automatiche delle pagine delle mod sono fatte sul tuo dispositivo e mostrate con la stessa licenza CC BY-SA 4.0, segnalate come automatiche e con un link all’originale.</string>
 </resources>

@@ -174,4 +174,5 @@
     <string name="my_mods">Meus mods</string>
     <string name="my_mods_hint">Marque os mods que você joga. Só eles aparecem na tela inicial e na busca.</string>
     <string name="my_mods_add">Adicionar mods</string>
+    <string name="credits_mods_mt">As traduções automáticas das páginas dos mods são feitas no seu aparelho e mostradas sob a mesma licença CC BY-SA 4.0, marcadas como automáticas e com link para o original.</string>
 </resources>

@@ -95,9 +95,22 @@ object Glossary {
 
     /** Termos já salvos para o idioma, como JSON para a página ("{}" se ainda não buscou). */
     @Synchronized
-    fun termsJson(ctx: Context, lang: String): String = terms.getOrPut(lang) {
-        try { termsFile(ctx, lang).takeIf { it.exists() }?.readText() ?: "{}" } catch (_: Exception) { "{}" }
+    fun termsJson(ctx: Context, lang: String): String {
+        val raw = terms.getOrPut(lang) {
+            try { termsFile(ctx, lang).takeIf { it.exists() }?.readText() ?: "{}" } catch (_: Exception) { "{}" }
+        }
+        // + lista fixa (modterms.json) para valores comuns nas wikis dos mods que a wiki base não tem
+        // ("Marriageable", "Yes"…); ela vale por cima da buscada
+        val out = try { JSONObject(raw) } catch (_: Exception) { JSONObject() }
+        fixed(ctx).optJSONObject(lang)?.let { f -> f.keys().forEach { k -> out.put(k, f.optString(k)) } }
+        return out.toString()
     }
+
+    private var fixedAll: JSONObject? = null
+
+    private fun fixed(ctx: Context): JSONObject = fixedAll ?: (
+        try { JSONObject(Assets.text(ctx, "modterms.json").ifBlank { "{}" }) } catch (_: Exception) { JSONObject() }
+        ).also { fixedAll = it }
 
     private fun clean(h: String) = stripHtml(h).replace(Regex("\\s+"), " ").trim().trimEnd(':').trim()
 

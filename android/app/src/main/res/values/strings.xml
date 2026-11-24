@@ -176,4 +176,5 @@
     <string name="my_mods">My mods</string>
     <string name="my_mods_hint">Tick the mods you play. Only they show on the home screen and in search.</string>
     <string name="my_mods_add">Add mods</string>
+    <string name="credits_mods_mt">Automatic translations of mod pages are made on your device and shown under the same CC BY-SA 4.0 license, marked as automatic, with a link to the original.</string>
 </resources>

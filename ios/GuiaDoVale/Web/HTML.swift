@@ -155,7 +155,7 @@ enum HTML {
         var lic = "<p>" + e(t("credits_license")) + "</p>"
         lic += link("https://creativecommons.org/licenses/by-nc-sa/3.0/", "credits_license_link")
         s += sec("credits_license_h", lic)
-        var mods = "<p>" + e(t("credits_mods")) + "</p>"
+        var mods = "<p>" + e(t("credits_mods")) + "</p><p>" + e(t("credits_mods_mt")) + "</p>"
         for m in Sources.mods { mods += "<p><a href='" + m.base + "/'>" + m.emoji + " " + e(m.name) + " Wiki ›</a></p>" }
         mods += "<p><a href='https://creativecommons.org/licenses/by-sa/4.0/'>CC BY-SA 4.0 ›</a></p>"
         s += sec("credits_mods_h", mods)

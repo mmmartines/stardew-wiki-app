@@ -58,4 +58,5 @@
     <string name="my_mods">Mes mods</string>
     <string name="my_mods_hint">Cochez les mods auxquels vous jouez. Seuls eux apparaissent à l’accueil et dans la recherche.</string>
     <string name="my_mods_add">Ajouter des mods</string>
+    <string name="credits_mods_mt">Les traductions automatiques des pages des mods sont faites sur votre appareil et affichées sous la même licence CC BY-SA 4.0, signalées comme automatiques, avec un lien vers l’original.</string>
 </resources>

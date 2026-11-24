@@ -58,4 +58,5 @@
     <string name="my_mods">Meine Mods</string>
     <string name="my_mods_hint">Wähle die Mods, die du spielst. Nur sie erscheinen auf dem Startbildschirm und in der Suche.</string>
     <string name="my_mods_add">Mods hinzufügen</string>
+    <string name="credits_mods_mt">Automatische Übersetzungen der Mod-Seiten entstehen auf deinem Gerät und werden unter derselben Lizenz CC BY-SA 4.0 angezeigt, als automatisch gekennzeichnet und mit Link zum Original.</string>
 </resources>

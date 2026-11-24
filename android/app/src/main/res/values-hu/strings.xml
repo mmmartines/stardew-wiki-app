@@ -58,4 +58,5 @@
     <string name="my_mods">Saját modok</string>
     <string name="my_mods_hint">Jelöld be a modokat, amelyekkel játszol. Csak ezek jelennek meg a kezdőképernyőn és a keresésben.</string>
     <string name="my_mods_add">Modok hozzáadása</string>
+    <string name="credits_mods_mt">A modoldalak automatikus fordításai a készülékeden készülnek, és ugyanazzal a CC BY-SA 4.0 licenccel jelennek meg, automatikusként jelölve, az eredetire mutató hivatkozással.</string>
 </resources>

@@ -58,4 +58,5 @@
     <string name="my_mods">Modlarım</string>
     <string name="my_mods_hint">Oynadığın modları işaretle. Ana ekranda ve aramada yalnızca bunlar görünür.</string>
     <string name="my_mods_add">Mod ekle</string>
+    <string name="credits_mods_mt">Mod sayfalarının otomatik çevirileri cihazında yapılır ve aynı CC BY-SA 4.0 lisansıyla, otomatik olarak işaretlenmiş ve orijinaline bağlantıyla gösterilir.</string>
 </resources>

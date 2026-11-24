@@ -60,7 +60,7 @@ class CreditsActivity : AppCompatActivity() {
             sec(R.string.credits_wiki_h, "<p>" + s(R.string.credits_wiki) + "</p>" +
                 link("$wiki/", R.string.credits_wiki_link) +
                 link("$wiki/Special:ActiveUsers", R.string.credits_contrib_link)) +
-            sec(R.string.credits_mods_h, "<p>" + s(R.string.credits_mods) + "</p>" +
+            sec(R.string.credits_mods_h, "<p>" + s(R.string.credits_mods) + "</p><p>" + s(R.string.credits_mods_mt) + "</p>" +
                 Wikis.mods.joinToString("") { m ->
                     "<p><a href='" + m.base + "/'>" + m.emoji + " " + TextUtils.htmlEncode(m.name) + " Wiki ›</a></p>"
                 } + "<p><a href='https://creativecommons.org/licenses/by-sa/4.0/'>CC BY-SA 4.0 ›</a></p>") +
