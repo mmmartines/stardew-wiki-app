@@ -55,13 +55,13 @@ jobs:
         run: |
           set -o pipefail
           cd ios
+          # gera sem assinar (assinar aqui exigiria um iPhone cadastrado para o perfil de desenvolvimento);
+          # a assinatura de distribuição é feita no passo seguinte, na nuvem da Apple
           xcodebuild archive -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Release \
             -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/GuiaDoVale.xcarchive" \
-            DEVELOPMENT_TEAM="$TEAM" CODE_SIGN_STYLE=Automatic \
+            DEVELOPMENT_TEAM="$TEAM" CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
             MARKETING_VERSION="${{ inputs.version }}" CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$RUNNER_TEMP/keys/AuthKey.p8" -authenticationKeyID "$KID" -authenticationKeyIssuerID "$ISS" \
-            2>&1 | tee archive.log | grep -E "error:|ARCHIVE|Signing" || true
+            2>&1 | tee archive.log | grep -E "error:|ARCHIVE" || true
           grep -q "ARCHIVE SUCCEEDED" archive.log
 
       - name: Assinar e enviar para o App Store Connect
@@ -93,11 +93,18 @@ jobs:
         if: always()
         run: rm -rf "$RUNNER_TEMP/keys"
 
+      - name: Limpar os registros
+        if: failure()
+        run: |
+          # o repositório é público: tira dos registros as linhas com dados da chave
+          for f in ios/archive.log export.log; do [ -f "$f" ] && sed -i '' -E '/authenticationKey|AuthKey|Issuer/d' "$f"; done; true
+
       - name: Guardar os registros (se der erro)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: registros-testflight
+          retention-days: 3
           path: |
             ios/archive.log
             export.log
