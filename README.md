@@ -22,6 +22,17 @@ never monetized and is clearly unofficial.
 - Favorites, history and offline reading of pages you've opened
 - Full credits: first launch, "About & credits" screen and a footer on every page
 
+### Expansion mod wikis — in development, not released (`mods` branch)
+This branch is a prototype that adds optional sections for the wikis of five expansion mods, hosted on wiki.gg:
+Stardew Valley Expanded, Ridgeside Village, Sunberry Village, East Scarp and Visit Mount Vapius.
+**It has not been released.** The version on Google Play has no mod content.
+
+- **Asking first:** each mod's authors are being contacted before any release. Mods whose authors prefer not to be included will be removed. The list lives in [`Wikis.kt`](android/app/src/main/java/com/stardew/wikipt/Wikis.kt) (Android) and [`Sources.swift`](ios/GuiaDoVale/Core/Sources.swift) (iOS); removing a mod is a one-line change.
+- **Live and read-only:** pages are loaded from each mod's wiki through the standard MediaWiki API, with a small delay between requests. Nothing is copied to a server; pages a player opens are cached only on their own phone for offline reading.
+- **Credit and license:** every mod page says which mod it belongs to ("Mod: East Scarp"), credits the mod's wiki and its contributors, shows the wiki's license (CC BY-SA 4.0) and links to the original page and its edit history. The About screen links to each mod wiki.
+- **Players choose:** a "My mods" screen lets players pick the mods they play; only those appear on the home screen and in search.
+- **Non-English players:** names of base-game things (items, villagers, seasons) come from the official wiki in the player's language. The rest of the text can be machine-translated **on the device** (Google ML Kit on Android, Apple Translation on iOS 18+), always marked "automatic translation" with a "see original" button. Translations stay under CC BY-SA 4.0.
+
 ### Repository layout
 - `android/` — Android app (Kotlin), published on Google Play
 - `ios/` — iOS app (SwiftUI), reusing the page CSS/JS and texts from Android
@@ -41,6 +52,11 @@ Somente leitura: o app nunca edita a wiki.
 Stardew Valley foi criado por **Eric Barone (ConcernedApe)**. Todo o conteúdo vem da Stardew Valley Wiki, escrita pelos
 seus contribuidores, sob [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) (exceto imagens, arte e
 lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação nem endosso da ConcernedApe.
+
+## Wikis dos mods (em desenvolvimento, branch `mods`, não lançado)
+Protótipo com seções opcionais para as wikis de cinco mods de expansão (SVE, Ridgeside, Sunberry, East Scarp e Mount Vapius).
+Os autores de cada mod estão sendo consultados antes de qualquer lançamento; quem preferir não participar é retirado.
+As páginas são lidas ao vivo, com crédito, licença (CC BY-SA 4.0), link para o original e tradução automática sempre identificada.
 
 ## Recursos
 - 12 idiomas, os mesmos da wiki: pt, en, es, fr, de, it, hu, ru, tr, ja, ko, zh (interface completa em pt, en e es; tela de boas-vindas nos 12)

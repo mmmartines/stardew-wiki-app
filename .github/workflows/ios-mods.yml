@@ -93,16 +93,14 @@ jobs:
           xcrun simctl list runtimes > shots/runtimes.txt 2>&1 || true
           xcrun simctl spawn "$UDID" log show --last 20m --predicate 'process == "GuiaDoVale"' --style compact > shots/app-log.txt 2>/dev/null || true
 
-      - name: Publicar prints no branch "ios-shots-mods"
+      - name: Guardar prints (arquivo do build, não público)
         if: always()
         run: |
-          mkdir -p /tmp/out && cp -R shots/. /tmp/out/ 2>/dev/null || true
-          cp ios/build.log /tmp/out/build.log 2>/dev/null || true
-          grep -E "error:" -A3 ios/build.log > /tmp/out/erros.txt 2>/dev/null || true
-          cd /tmp/out
-          git init -q -b ios-shots-mods
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git add -A
-          git commit -qm "iOS ${GITHUB_SHA::7} (${{ job.status }})"
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ios-shots-mods
+          mkdir -p shots && cp ios/build.log shots/build.log 2>/dev/null || true
+          grep -E "error:" -A3 ios/build.log > shots/erros.txt 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-shots-mods
+          path: shots
+          retention-days: 7

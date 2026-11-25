@@ -1,6 +1,6 @@
 name: Gerar APK (mods)
 
-# Só para o branch "mods": gera o APK de teste e publica no branch "apk-mods".
+# Só para o branch "mods": gera o APK de teste (guardado como arquivo do build, não público).
 # Não gera o pacote da loja e não mexe no branch "apk" da versão em produção.
 on:
   push:
@@ -33,21 +33,12 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon 2>&1 | tee build.log
 
+      # o APK de teste dos mods não fica público: só como arquivo do build (precisa entrar no GitHub), por 7 dias
       - uses: actions/upload-artifact@v4
         with:
           name: apk-mods
           path: android/app/build/outputs/apk/debug/app-debug.apk
-
-      - name: Publicar APK no branch "apk-mods"
-        run: |
-          mkdir -p /tmp/out && cp app/build/outputs/apk/debug/app-debug.apk /tmp/out/GuiaDoVale-mods-teste.apk
-          cd /tmp/out
-          git init -q -b apk-mods
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git add .
-          git commit -qm "Build mods de ${GITHUB_SHA::7}"
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" apk-mods
+          retention-days: 7
 
       - name: Publicar log de erro
         if: failure()
@@ -57,7 +48,7 @@ jobs:
           cd /tmp/l && git init -q -b log-mods && git config user.name a && git config user.email a@b.c && git add . && git commit -qm log
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" log-mods
 
-  # Roda o APK num emulador Android e tira prints das telas novas (publicados no branch "android-shots-mods").
+  # Roda o APK num emulador Android e tira prints das telas novas (guardados como arquivo do build, não públicos).
   shots:
     needs: build
     runs-on: ubuntu-latest
@@ -82,12 +73,10 @@ jobs:
           disable-animations: true
           working-directory: android
           script: bash scripts/shots.sh
-      - name: Publicar prints
+      - name: Guardar prints (arquivo do build, não público)
         if: always()
-        run: |
-          mkdir -p /tmp/s && cp -R android/shots/. /tmp/s/ 2>/dev/null || true
-          cd /tmp/s && git init -q -b android-shots-mods
-          git config user.name "github-actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git add -A && git commit -qm "Prints mods ${GITHUB_SHA::7}" --allow-empty
-          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" android-shots-mods
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-shots-mods
+          path: android/shots
+          retention-days: 7
