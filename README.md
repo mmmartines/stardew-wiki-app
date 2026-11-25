@@ -1,4 +1,39 @@
-# Guia do Vale / Valley Guide / Guía del Valle
+# Valley Guide / Guia do Vale / Guía del Valle
+
+*[Português abaixo](#português)*
+
+An **unofficial, free and non-profit** reader for the [Stardew Valley Wiki](https://stardewvalleywiki.com), made for phones.
+Read-only: the app never edits the wiki.
+
+Stardew Valley was created by **Eric Barone (ConcernedApe)**. All content comes from the Stardew Valley Wiki, written by
+its contributors, under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/) (except the developer's
+images, art and lore, which belong to ConcernedApe). This app is not affiliated with or endorsed by ConcernedApe.
+ConcernedApe's team gave permission for this app (including the game item icons in the menu) on the condition that it is
+never monetized and is clearly unofficial.
+
+- **No ads, no purchases, no accounts, no data collection.** See the [privacy policy](docs/privacy.html).
+- Pages are loaded live from the wiki and shown with a link to the original page and its edit history; nothing is re-hosted.
+- [Google Play](https://play.google.com/store/apps/details?id=io.github.mmmartines.guiadovale) (Android). An iOS version is in testing.
+
+### Features
+- The wiki's 12 languages: pt, en, es, fr, de, it, hu, ru, tr, ja, ko, zh
+- Menu by topic, instant and full-text search (including by English name, e.g. "Parsnip" finds the Portuguese page)
+- Pages adapted for phones: tables become cards, collapsible sections, filters on long lists
+- Favorites, history and offline reading of pages you've opened
+- Full credits: first launch, "About & credits" screen and a footer on every page
+
+### Repository layout
+- `android/` — Android app (Kotlin), published on Google Play
+- `ios/` — iOS app (SwiftUI), reusing the page CSS/JS and texts from Android
+- `docs/` — privacy policy (GitHub Pages)
+
+### Contact
+Questions, requests or removal requests: [open an issue](https://github.com/mmmartines/stardew-wiki-app/issues).
+The app will be changed or taken down if the content owners ask.
+
+---
+
+## Português
 
 Leitor **não oficial, gratuito e sem fins lucrativos** da [Stardew Valley Wiki](https://stardewvalleywiki.com) para Android.
 Somente leitura: o app nunca edita a wiki.
@@ -17,7 +52,7 @@ lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação ne
 
 ## Estrutura
 - `android/` — app Android (Kotlin), publicado no Google Play
-- `ios/` — app iOS (SwiftUI), em desenvolvimento; reaproveita o CSS/JS das páginas e os textos do Android
+- `ios/` — app iOS (SwiftUI), em teste; reaproveita o CSS/JS das páginas e os textos do Android
 
 ## Builds
 Cada envio para `main` compila no GitHub Actions e publica no branch `apk`:
