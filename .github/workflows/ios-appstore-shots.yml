@@ -1,0 +1,100 @@
+name: Prints para a App Store (iOS)
+
+# Tira os prints nos tamanhos exigidos pela App Store: iPhone 6,9" (Pro Max) e iPad 13", em português e inglês.
+# Roda sob demanda; os prints ficam como arquivo do build ("Artifacts" na página da execução).
+on:
+  workflow_dispatch:
+
+jobs:
+  shots:
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ferramentas e projeto
+        run: |
+          brew install xcodegen
+          python3 ios/scripts/gen_strings.py
+          cd ios && xcodegen generate
+
+      - name: Escolher simuladores (iPhone Pro Max e iPad 13")
+        id: sim
+        run: |
+          xcrun simctl list devices available -j > devices.json
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, re
+          d = json.load(open("devices.json"))["devices"]
+          def best(pred):
+              out = None
+              for rt, devs in d.items():
+                  if "iOS" not in rt: continue
+                  v = tuple(int(x) for x in re.findall(r"\d+", rt.split("iOS")[-1])[:2])
+                  for x in devs:
+                      if pred(x["name"]):
+                          k = (v, x["name"])
+                          if out is None or k > out[0]: out = (k, x["udid"], x["name"])
+              return out
+          p = best(lambda n: n.startswith("iPhone") and "Pro Max" in n)
+          t = best(lambda n: n.startswith("iPad Pro") and "13" in n)
+          print(f"phone={p[1]}"); print(f"phone_name={p[2]}")
+          print(f"pad={t[1]}"); print(f"pad_name={t[2]}")
+          PY
+          cat "$GITHUB_OUTPUT"
+
+      - name: Compilar para o simulador
+        run: |
+          set -o pipefail
+          cd ios
+          xcodebuild -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Release \
+            -destination "id=${{ steps.sim.outputs.phone }}" -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO build 2>&1 | tee build.log | grep -E "error:|BUILD" || true
+          grep -q "BUILD SUCCEEDED" build.log
+
+      - name: Tirar os prints
+        run: |
+          APP=ios/build/Build/Products/Release-iphonesimulator/GuiaDoVale.app
+          BID=io.github.mmmartines.guiadovale
+          for dev in "${{ steps.sim.outputs.phone }}:iphone-6.9" "${{ steps.sim.outputs.pad }}:ipad-13"; do
+            UDID=${dev%%:*}; KIND=${dev##*:}
+            xcrun simctl boot "$UDID" || true
+            xcrun simctl bootstatus "$UDID" -b
+            xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3
+            xcrun simctl install "$UDID" "$APP"
+            for L in pt en; do
+              OUT="shots/$KIND/$L"; mkdir -p "$OUT"
+              shot() { # nome, espera, argumentos...
+                name=$1; wait=$2; shift 2
+                xcrun simctl terminate "$UDID" $BID 2>/dev/null || true
+                xcrun simctl launch "$UDID" $BID -lang $L "$@"
+                sleep "$wait"
+                xcrun simctl io "$UDID" screenshot "$OUT/$name.png"
+              }
+              xcrun simctl ui "$UDID" appearance light
+              if [ $L = pt ]; then PAGE=Abigail; Q=Parsnip; else PAGE=Abigail; Q=Parsnip; fi
+              shot 01-inicio 16 -screen home
+              shot 02-artigo 18 -screen article -page "$PAGE"
+              shot 03-busca 18 -screen search -q "$Q"
+              shot 04-categorias 14 -screen list
+              shot 05-idiomas 8 -screen lang
+              shot 06-favoritos 8 -screen favorites -page "$PAGE"
+              xcrun simctl ui "$UDID" appearance dark
+              shot 07-escuro 16 -screen home
+              xcrun simctl ui "$UDID" appearance light
+            done
+            xcrun simctl shutdown "$UDID" || true
+          done
+          echo "iPhone: ${{ steps.sim.outputs.phone_name }} | iPad: ${{ steps.sim.outputs.pad_name }}" > shots/aparelhos.txt
+          python3 - <<'PY' >> shots/aparelhos.txt
+          import struct, glob
+          for f in sorted(glob.glob("shots/*/*/*.png"))[:1] + sorted(glob.glob("shots/ipad-13/*/*.png"))[:1]:
+              w, h = struct.unpack(">II", open(f, "rb").read()[16:24])
+              print(f, w, "x", h)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: prints-app-store
+          path: shots
+          retention-days: 14
