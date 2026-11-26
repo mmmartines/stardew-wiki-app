@@ -60,8 +60,13 @@ jobs:
             xcrun simctl boot "$UDID" || true
             xcrun simctl bootstatus "$UDID" -b
             xcrun simctl status_bar "$UDID" override --time 9:41 --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3
-            xcrun simctl install "$UDID" "$APP"
+            # sem a dica de "deslizar para digitar" do teclado por cima da busca
+            xcrun simctl spawn "$UDID" defaults write com.apple.keyboard.preferences DidShowContinuousPathIntroduction -bool true || true
+            xcrun simctl spawn "$UDID" defaults write com.apple.Preferences DidShowContinuousPathIntroduction -bool true || true
             for L in pt en; do
+              # app limpo em cada idioma (favoritos e histórico não passam de um idioma para o outro)
+              xcrun simctl uninstall "$UDID" $BID 2>/dev/null || true
+              xcrun simctl install "$UDID" "$APP"
               OUT="shots/$KIND/$L"; mkdir -p "$OUT"
               shot() { # nome, espera, argumentos...
                 name=$1; wait=$2; shift 2
@@ -75,7 +80,8 @@ jobs:
               shot 01-inicio 16 -screen home
               shot 02-artigo 18 -screen article -page "$PAGE"
               shot 03-busca 18 -screen search -q "$Q"
-              shot 04-categorias 14 -screen list
+              shot 03-busca 14 -screen search -q "$Q"   # de novo: se o teclado mostrou alguma dica na primeira vez, já sumiu
+              shot 04-categorias 28 -screen list
               shot 05-idiomas 8 -screen lang
               shot 06-favoritos 8 -screen favorites -page "$PAGE"
               xcrun simctl ui "$UDID" appearance dark
