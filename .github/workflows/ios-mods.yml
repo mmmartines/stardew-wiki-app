@@ -79,7 +79,7 @@ jobs:
           }
           shot 01-inicio-jogo-base 14 -lang pt -screen home -src base
           shot 02-inicio-sunberry 14 -lang pt -screen home -src sbv
-          shot 03-inicio-eastscarp 14 -lang pt -screen home -src esc
+          shot 03-inicio-eastscarp 30 -lang pt -screen home -src esc
           shot 04-meus-mods 14 -lang pt -screen home -src base
           shot 05-busca-global-maia 18 -lang pt -screen search -q Maia -src base
           shot 06-busca-global-parsnip 18 -lang pt -screen search -q Parsnip -src base
