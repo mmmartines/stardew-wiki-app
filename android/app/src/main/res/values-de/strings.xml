@@ -35,4 +35,28 @@
     <string name="removed_fmt">Entfernt: %s</string>
     <string name="undo">Rückgängig</string>
     <string name="close">Schließen</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">Hauptspiel</string>
+    <string name="src_mod_fmt">Mod: %s</string>
+    <string name="mod_english_only">Das Wiki dieses Mods gibt es nur auf Englisch.</string>
+    <string name="home_search_all">Im Spiel und allen Mods suchen…</string>
+    <string name="search_hint_all">Spiel und Mods durchsuchen…</string>
+    <string name="home_sources">Wikis</string>
+    <string name="home_footer_mod_fmt">Inhalte aus dem %1$s-Wiki von seinen Mitwirkenden, %2$s. Inoffizielle, nicht kommerzielle App, ohne Verbindung zum Mod oder zu ConcernedApe.</string>
+    <string name="article_footer_mod_fmt">Inhalt aus dem %1$s, von seinen Mitwirkenden, unter %2$s. Für das Lesen auf dem Handy angepasst.</string>
+    <string name="article_footer_mod_art">Die Mod-Inhalte gehören ihren Autoren. Stardew Valley © ConcernedApe.</string>
+    <string name="start_wiki">Wiki beim App-Start</string>
+    <string name="start_wiki_set_fmt">Die App öffnet sich mit: %s</string>
+    <string name="credits_mods_h">Mod-Wikis</string>
+    <string name="credits_mods">Die Wikis der Erweiterungs-Mods werden von der Community des jeweiligen Mods erstellt (auf Englisch). Ihr Inhalt steht unter CC BY-SA 4.0 und gehört den Autoren; diese App zeigt ihn nur an, schreibgeschützt, mit Link zum Original.</string>
+    <string name="mod_terms_translated">Namen aus dem Hauptspiel sind über das Stardew Valley Wiki übersetzt.</string>
+    <string name="mt_working">Wird automatisch übersetzt…</string>
+    <string name="mt_notice">Automatische Übersetzung aus dem Englischen (kann Fehler enthalten)</string>
+    <string name="mt_original_shown">Original auf Englisch</string>
+    <string name="mt_see_original">Original anzeigen</string>
+    <string name="mt_see_translation">Übersetzung anzeigen</string>
+    <string name="my_mods">Meine Mods</string>
+    <string name="my_mods_hint">Wähle die Mods, die du spielst. Nur sie erscheinen auf dem Startbildschirm und in der Suche.</string>
+    <string name="my_mods_add">Mods hinzufügen</string>
+    <string name="credits_mods_mt">Automatische Übersetzungen der Mod-Seiten entstehen auf deinem Gerät und werden unter derselben Lizenz CC BY-SA 4.0 angezeigt, als automatisch gekennzeichnet und mit Link zum Original.</string>
 </resources>

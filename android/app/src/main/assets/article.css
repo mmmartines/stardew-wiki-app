@@ -140,3 +140,25 @@ th,td{overflow-wrap:normal;word-break:normal}
 
 /* telas grandes (tablet, dobrável aberto): linha de leitura confortável */
 body{max-width:760px;margin-left:auto;margin-right:auto}
+
+/* infobox das wikis de mods no wiki.gg (extensão Druid): mesmo cartão da wiki oficial */
+.druid-infobox{background:var(--card);border:4px solid var(--woodD);border-radius:6px;margin:0 0 14px;overflow:hidden;
+ box-shadow:inset 0 0 0 3px var(--woodL),0 4px 0 rgba(0,0,0,.15)}
+.druid-title{font-family:'Pixel',sans-serif;font-weight:700;font-size:1.25em;text-align:center;padding:8px;color:#ffe9b8;background:var(--wood)}
+.druid-main-image,.druid-main-images{text-align:center;padding:8px 10px 4px}
+.druid-main-image img,.druid-main-images img{max-width:128px;height:auto}
+.druid-main-images-labels,.druid-toggle-group{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;padding:2px 8px 6px;font-size:.85em}
+.druid-section{font-family:'Pixel',sans-serif;font-weight:700;background:var(--th);padding:4px 10px;margin-top:4px}
+.druid-row{display:flex;gap:10px;padding:6px 10px;border-top:1px dashed var(--border)}
+.druid-label{flex:0 0 36%;font-weight:600;color:var(--muted);font-size:.92em}
+.druid-data{flex:1;min-width:0}
+.druid-data img{max-height:28px;width:auto}
+.druid-row-wide,.druid-row.druid-row-wide{display:block}
+.druid-data span{white-space:normal!important}
+/* faixa "Mod: …" no topo das páginas das wikis de mods */
+.mod-badge{font-family:'Pixel',sans-serif;font-size:.95em;margin:0 0 10px;padding:6px 10px;border-radius:4px;
+ background:var(--th);border:2px dashed var(--woodD);line-height:1.35}
+/* faixa da tradução automática */
+.mt-bar{font-size:.88em;margin:0 0 10px;padding:6px 10px;border-radius:4px;background:var(--card2);border:1px solid var(--border);line-height:1.4}
+.mt-ico{font-style:normal}
+.mt-toggle{font:inherit;font-weight:700;color:var(--link);background:none;border:0;padding:4px 2px;cursor:pointer;text-decoration:underline}

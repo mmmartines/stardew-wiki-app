@@ -29,13 +29,16 @@ class ArticleActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_TITLE = "title"
         private const val EXTRA_ANCHOR = "anchor"
+        const val EXTRA_SRC = "src"
         private const val WEEK = 7L * 24 * 3600 * 1000
 
-        fun start(ctx: Context, title: String, anchor: String? = null) {
+        /** [src] = wiki da página (código do mod, ou idioma da oficial); null = oficial no idioma atual. */
+        fun start(ctx: Context, title: String, anchor: String? = null, src: String? = null) {
             ctx.startActivity(
                 Intent(ctx, ArticleActivity::class.java)
                     .putExtra(EXTRA_TITLE, title)
                     .putExtra(EXTRA_ANCHOR, anchor)
+                    .putExtra(EXTRA_SRC, src)
             )
         }
 
@@ -45,6 +48,8 @@ class ArticleActivity : AppCompatActivity() {
             val path = uri.path ?: return null
             val raw = if (path.startsWith("/mediawiki/index.php") || path == "/index.php") {
                 uri.getQueryParameter("title")
+            } else if (path.startsWith("/wiki/")) {
+                path.removePrefix("/wiki/") // wikis dos mods (wiki.gg)
             } else {
                 path.removePrefix("/")
             }
@@ -74,12 +79,15 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var errorBox: View
     private lateinit var errorText: TextView
 
+    private lateinit var wiki: Wiki
     private lateinit var requested: String
     private var current = ""
     private var page: Page? = null
     private var triedFallback = false
     private var pendingAnchor: String? = null
     private var findSnack: Snackbar? = null
+    /** Página que já passou pela tradução (evita repetir se a página terminar de carregar de novo). */
+    private var translatedFor: Page? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         edgeToEdge()
@@ -98,10 +106,13 @@ class ArticleActivity : AppCompatActivity() {
         errorText = findViewById(R.id.error_text)
         findViewById<View>(R.id.retry).setOnClickListener { load(force = true) }
 
-        requested = intent.getStringExtra(EXTRA_TITLE) ?: "Stardew Valley Wiki"
+        wiki = Wikis.of(intent.getStringExtra(EXTRA_SRC))
+        requested = intent.getStringExtra(EXTRA_TITLE) ?: wiki.mainPage
         current = requested
         pendingAnchor = intent.getStringExtra(EXTRA_ANCHOR)
         supportActionBar?.title = current
+        // deixa claro de onde é a página: jogo base ou mod (e qual)
+        supportActionBar?.subtitle = wiki.label(this)
 
         setupWeb()
         // botão voltar fecha a imagem ampliada antes de sair da página
@@ -135,6 +146,7 @@ class ArticleActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView, url: String?) {
                 pendingAnchor?.let { scrollToAnchor(it) }
                 pendingAnchor = null
+                page?.let { p -> if (translatedFor !== p) { translatedFor = p; translateTerms(p) } }
             }
         }
         web.setFindListener { active, count, done ->
@@ -145,7 +157,7 @@ class ArticleActivity : AppCompatActivity() {
     // ---------- Carregamento ----------
 
     private fun load(force: Boolean) {
-        val cached = store.getPage(current)
+        val cached = store.getPage(current, wiki.key)
         val fresh = cached != null && System.currentTimeMillis() - cached.time < WEEK
         if (!force && cached != null && fresh) {
             show(cached.page)
@@ -158,9 +170,9 @@ class ArticleActivity : AppCompatActivity() {
         }
         showLoading()
         val title = current
-        runAsync({ WikiApi.parse(title) }) { r ->
+        runAsync({ WikiApi.parse(title, wiki) }) { r ->
             r.onSuccess { p ->
-                store.putPage(requested, p)
+                store.putPage(requested, p, wiki.key)
                 show(p)
                 if (force) toast(getString(R.string.page_updated))
             }.onFailure { e ->
@@ -181,7 +193,7 @@ class ArticleActivity : AppCompatActivity() {
     private fun fallback() {
         triedFallback = true
         val q = current
-        runAsync({ WikiApi.search(q) }) { r ->
+        runAsync({ WikiApi.search(q, wiki) }) { r ->
             val first = r.getOrNull()?.firstOrNull()
             if (first == null) {
                 showError(getString(R.string.page_not_found_fmt, q), null)
@@ -223,9 +235,51 @@ class ArticleActivity : AppCompatActivity() {
         progress.isVisible = false
         errorBox.isVisible = false
         web.isVisible = true
-        store.addHistory(p.title)
-        web.loadDataWithBaseURL(WikiApi.pageUrl(p.title), buildHtml(p), "text/html", "utf-8", null)
+        store.addHistory(p.title, wiki.key)
+        web.loadDataWithBaseURL(WikiApi.pageUrl(p.title, wiki), buildHtml(p), "text/html", "utf-8", null)
         invalidateOptionsMenu()
+    }
+
+    /** Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda não estão no glossário. */
+    private fun translateTerms(p: Page) {
+        if (!Glossary.applies(wiki)) return
+        val lang = Lang.code
+        val titles = Glossary.titles(p.html)
+        val missing = if (Net.online()) Glossary.missing(this, lang, titles) else emptyList()
+        val needTerms = Net.online() && !Glossary.hasTerms(this, lang)
+        if (missing.isEmpty() && !needTerms) { autoTranslate(p); return }
+        runAsync({
+            // termos da wiki (uma vez por idioma) e nomes do jogo citados na página; um erro não impede o outro
+            if (needTerms) try { Glossary.fetchTerms(this, lang) } catch (_: Exception) {}
+            if (missing.isNotEmpty()) try { Glossary.fetch(this, lang, missing) } catch (_: Exception) {}
+            Glossary.knownJson(this, lang, titles)
+        }) { r ->
+            if (page !== p) return@runAsync // já abriu outra página
+            r.getOrNull()?.let { json ->
+                web.evaluateJavascript("window.__gloss&&__gloss(" + json + "," + JSONObject.quote(Lang.base()) + ");" +
+                    "window.__setTerms&&__setTerms(" + Glossary.termsJson(this, lang) + ")", null)
+            }
+            autoTranslate(p) // o texto é traduzido depois dos nomes e termos do jogo, que ficam como na wiki oficial
+        }
+    }
+
+    /** Tradução automática do texto da página do mod, com aviso na própria página e opção de ver o original. */
+    private fun autoTranslate(p: Page) {
+        val lang = Lang.code
+        if (AutoTranslate.target(lang) == null) return
+        web.evaluateJavascript("window.__mtCollect?__mtCollect():[]") { res ->
+            val texts = try {
+                val a = org.json.JSONArray(res ?: "[]")
+                List(a.length()) { a.optString(it) }
+            } catch (_: Exception) { emptyList() }
+            if (texts.isEmpty() || page !== p) return@evaluateJavascript
+            runAsync({ AutoTranslate.translate(texts, lang) }) { r ->
+                if (page !== p) return@runAsync
+                val out = r.getOrNull()
+                if (out == null) web.evaluateJavascript("window.__mtFail&&__mtFail()", null)
+                else web.evaluateJavascript("window.__mtApply&&__mtApply(" + org.json.JSONArray(out) + ")", null)
+            }
+        }
     }
 
     private fun isDark(): Boolean =
@@ -236,21 +290,44 @@ class ArticleActivity : AppCompatActivity() {
         return "<!DOCTYPE html><html><head><meta charset=\"utf-8\">" +
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">" +
             "<style>" + Fonts.css(this) + Assets.text(this, "article.css") + "</style></head><body class=\"" + bodyClass + "\">" +
+            modNotice() +
             "<h1 class=\"page-title\">" + TextUtils.htmlEncode(p.title) + "</h1>" +
             p.html + footer(p) +
-            "<script>window.__t=" + jsStrings() + ";</script>" +
+            "<script>window.__t=" + jsStrings() + ";" + glossInit(p) + "</script>" +
             "<script>" + Assets.text(this, "article.js") + "</script></body></html>"
+    }
+
+    /** Nomes do jogo já conhecidos, aplicados assim que a página abre (sem esperar a internet). */
+    private fun glossInit(p: Page): String {
+        if (!Glossary.applies(wiki)) return ""
+        val json = Glossary.knownJson(this, Lang.code, Glossary.titles(p.html))
+        return "window.__glossInit={map:" + json + ",base:" + JSONObject.quote(Lang.base()) + "};" +
+            "window.__terms=" + Glossary.termsJson(this, Lang.code) + ";"
+    }
+
+    /** Faixa no topo das páginas de mod: qual mod é e, fora do inglês, que a wiki do mod só existe em inglês. */
+    private fun modNotice(): String {
+        if (!wiki.mod) return ""
+        val txt = getString(R.string.src_mod_fmt, wiki.name) +
+            (if (Lang.code != "en") " · " + getString(R.string.mod_english_only) + " " + getString(R.string.mod_terms_translated) else "")
+        return "<div class='mod-badge'>" + wiki.emoji + " " + TextUtils.htmlEncode(txt) + "</div>"
     }
 
     /** Crédito em toda página: contribuidores, licença, link para o original e para o histórico de autores. */
     private fun footer(p: Page): String {
         fun e(id: Int) = TextUtils.htmlEncode(getString(id))
-        val orig = TextUtils.htmlEncode(WikiApi.pageUrl(p.title) + "?app_ext=1")
-        val hist = TextUtils.htmlEncode(WikiApi.historyUrl(p.title))
-        return "<div class='credit'><p>" + e(R.string.article_footer) + "</p><p>" + e(R.string.article_footer_art) +
+        val orig = TextUtils.htmlEncode(WikiApi.pageUrl(p.title, wiki) + "?app_ext=1")
+        val hist = TextUtils.htmlEncode(WikiApi.historyUrl(p.title, wiki))
+        val credit = if (wiki.mod) {
+            TextUtils.htmlEncode(getString(R.string.article_footer_mod_fmt, wiki.name + " Wiki", wiki.license)) +
+                "</p><p>" + e(R.string.article_footer_mod_art)
+        } else {
+            e(R.string.article_footer) + "</p><p>" + e(R.string.article_footer_art)
+        }
+        return "<div class='credit'><p>" + credit +
             "</p><p><a class='ext' href='" + orig + "'>" + e(R.string.view_original) + " ›</a> · " +
             "<a class='ext' href='" + hist + "'>" + e(R.string.page_authors) + " ›</a> · " +
-            "<a class='ext' href='https://creativecommons.org/licenses/by-nc-sa/3.0/'>CC BY-NC-SA 3.0 ›</a></p></div>"
+            "<a class='ext' href='" + wiki.licenseUrl + "'>" + wiki.license + " ›</a></p></div>"
     }
 
     private fun jsStrings(): String = JSONObject()
@@ -264,6 +341,11 @@ class ArticleActivity : AppCompatActivity() {
         .put("show", getString(R.string.js_show))
         .put("zoomHint", getString(R.string.js_zoom_hint))
         .put("close", getString(R.string.close))
+        .put("mtWorking", getString(R.string.mt_working))
+        .put("mtNotice", getString(R.string.mt_notice))
+        .put("mtOriginalShown", getString(R.string.mt_original_shown))
+        .put("mtSeeOriginal", getString(R.string.mt_see_original))
+        .put("mtSeeTranslation", getString(R.string.mt_see_translation))
         .toString()
 
     // ---------- Links ----------
@@ -275,8 +357,17 @@ class ArticleActivity : AppCompatActivity() {
         if (uri.getQueryParameter("app_ext") != null) {
             openExternal(Uri.parse(uri.toString().replace("?app_ext=1", ""))); return true
         }
-        if (host != Lang.host() || uri.getQueryParameter("action") == "history") {
+        if (uri.getQueryParameter("action") == "history") {
             openExternal(uri); return true
+        }
+        if (host != wiki.host) {
+            // link para outra wiki conhecida (ex.: página de mod que cita a wiki oficial): abre aqui mesmo
+            val other = Wikis.byHost(host)
+            val t = if (other != null && uri.getQueryParameter("redlink") == null) titleFromUri(uri) else null
+            if (other != null && t != null && !hasNs(t, NS_CATEGORY) && !hasNs(t, NS_FILE) && !hasNs(t, NS_EXTERNAL)) {
+                start(this, t, uri.fragment, other.key)
+            } else openExternal(uri)
+            return true
         }
         if (uri.getQueryParameter("redlink") != null) {
             toast(getString(R.string.page_missing_on_wiki)); return true
@@ -292,10 +383,10 @@ class ArticleActivity : AppCompatActivity() {
             return true
         }
         when {
-            hasNs(t, NS_CATEGORY) -> ListActivity.start(this, ListActivity.MODE_CATEGORY, t)
+            hasNs(t, NS_CATEGORY) -> ListActivity.start(this, ListActivity.MODE_CATEGORY, t, wiki.key)
             hasNs(t, NS_FILE) -> { /* imagem: ignora */ }
             hasNs(t, NS_EXTERNAL) -> openExternal(uri)
-            else -> start(this, t, frag)
+            else -> start(this, t, frag, wiki.key)
         }
         return true
     }
@@ -324,7 +415,7 @@ class ArticleActivity : AppCompatActivity() {
         val loaded = page != null
         menu.findItem(R.id.action_fav)?.apply {
             isEnabled = loaded
-            val fav = loaded && store.isFavorite(current)
+            val fav = loaded && store.isFavorite(current, wiki.key)
             setIcon(if (fav) R.drawable.ic_star else R.drawable.ic_star_border)
             title = getString(if (fav) R.string.fav_remove else R.string.fav_add)
         }
@@ -349,7 +440,7 @@ class ArticleActivity : AppCompatActivity() {
         val p = page
         when (item.itemId) {
             R.id.action_fav -> if (p != null) {
-                val now = store.toggleFavorite(p.title)
+                val now = store.toggleFavorite(p.title, wiki.key)
                 toast(getString(if (now) R.string.fav_added else R.string.fav_removed))
                 invalidateOptionsMenu()
             }
@@ -360,11 +451,11 @@ class ArticleActivity : AppCompatActivity() {
             R.id.action_text -> chooseTextSize()
             R.id.action_share -> if (p != null) {
                 val send = Intent(Intent.ACTION_SEND).setType("text/plain")
-                    .putExtra(Intent.EXTRA_TEXT, p.title + " — " + WikiApi.pageUrl(p.title))
+                    .putExtra(Intent.EXTRA_TEXT, p.title + " — " + WikiApi.pageUrl(p.title, wiki))
                 startActivity(Intent.createChooser(send, getString(R.string.share)))
             }
-            R.id.action_browser -> openExternal(Uri.parse(WikiApi.pageUrl(current)))
-            R.id.action_authors -> openExternal(Uri.parse(WikiApi.historyUrl(current)))
+            R.id.action_browser -> openExternal(Uri.parse(WikiApi.pageUrl(current, wiki)))
+            R.id.action_authors -> openExternal(Uri.parse(WikiApi.historyUrl(current, wiki)))
             else -> return super.onOptionsItemSelected(item)
         }
         return true

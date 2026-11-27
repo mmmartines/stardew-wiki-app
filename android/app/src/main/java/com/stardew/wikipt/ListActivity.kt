@@ -26,17 +26,20 @@ class ListActivity : AppCompatActivity() {
         private const val EXTRA_MODE = "mode"
         private const val EXTRA_CAT = "cat"
 
-        fun start(ctx: Context, mode: Int, category: String?) {
+        /** [src] = wiki da lista (código do mod, ou idioma da oficial); null = oficial no idioma atual. */
+        fun start(ctx: Context, mode: Int, category: String?, src: String? = null) {
             ctx.startActivity(
                 Intent(ctx, ListActivity::class.java)
                     .putExtra(EXTRA_MODE, mode)
                     .putExtra(EXTRA_CAT, category)
+                    .putExtra(ArticleActivity.EXTRA_SRC, src)
             )
         }
     }
 
     private var mode = MODE_ALL
     private var category = ""
+    private lateinit var wiki: Wiki
     private lateinit var list: RecyclerView
     private lateinit var progress: View
     private lateinit var empty: TextView
@@ -63,6 +66,7 @@ class ListActivity : AppCompatActivity() {
 
         WebBridge.init(this)
         mode = intent.getIntExtra(EXTRA_MODE, MODE_ALL)
+        wiki = Wikis.of(intent.getStringExtra(ArticleActivity.EXTRA_SRC))
         category = intent.getStringExtra(EXTRA_CAT) ?: ""
         supportActionBar?.title = when (mode) {
             MODE_CATEGORY -> category.substringAfter(':')
@@ -70,7 +74,7 @@ class ListActivity : AppCompatActivity() {
             MODE_SAVED -> getString(R.string.offline_pages)
             else -> getString(R.string.cat_all_pages)
         }
-        if (mode == MODE_CATEGORY) supportActionBar?.subtitle = getString(R.string.category)
+        supportActionBar?.subtitle = if (mode == MODE_CATEGORY) getString(R.string.category) + " · " + wiki.label(this) else wiki.label(this)
 
         list = findViewById(R.id.list)
         list.capWidth()
@@ -125,10 +129,10 @@ class ListActivity : AppCompatActivity() {
         val pre = filter
         runAsync({
             when (mode) {
-                MODE_CATEGORY -> WikiApi.categoryMembers(category, cont)
-                MODE_CATS -> WikiApi.allCategories(pre, cont)
-                MODE_SAVED -> Chunk(Store(this).savedTitles().map { Hit(it) }, null)
-                else -> WikiApi.allPages(pre, cont)
+                MODE_CATEGORY -> WikiApi.categoryMembers(category, cont, wiki)
+                MODE_CATS -> WikiApi.allCategories(pre, cont, wiki)
+                MODE_SAVED -> Chunk(Store(this).savedTitles(wiki.key).map { Hit(it) }, null)
+                else -> WikiApi.allPages(pre, cont, wiki)
             }
         }) { r ->
             if (gen != generation) return@runAsync
@@ -155,9 +159,9 @@ class ListActivity : AppCompatActivity() {
         } else hits
         adapter.items = shown.map { h ->
             if (h.ns == 14) {
-                Row("📁  " + h.title.substringAfter(':'), getString(R.string.category), { start(this, MODE_CATEGORY, h.title) })
+                Row("📁  " + h.title.substringAfter(':'), getString(R.string.category), { start(this, MODE_CATEGORY, h.title, wiki.key) })
             } else {
-                Row(h.title, null, { ArticleActivity.start(this, h.title) })
+                Row(h.title, null, { ArticleActivity.start(this, h.title, src = wiki.key) })
             }
         }
         if (shown.isEmpty() && done) {

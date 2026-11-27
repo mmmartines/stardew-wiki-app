@@ -38,6 +38,16 @@ class MainActivity : AppCompatActivity() {
     @Volatile private var requestId = 0
     private var searching = false
 
+    /** Wiki escolhida nos botões da tela inicial: "base" (jogo base) ou o código do mod. */
+    private var homeChoice = Wikis.BASE
+    private fun homeWiki(): Wiki {
+        // mod tirado de "Meus mods": volta para o jogo base
+        if (Wikis.isMod(homeChoice) && Wikis.myMods(this).none { it.key == homeChoice }) homeChoice = Wikis.BASE
+        return Wikis.fromChoice(homeChoice)
+    }
+    /** Itens do menu mostrado na tela inicial (o índice vem da página). */
+    private var menuItems: List<Cat> = Categories.all
+
     override fun onCreate(savedInstanceState: Bundle?) {
         edgeToEdge()
         super.onCreate(savedInstanceState)
@@ -45,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         store = Store(this)
+        // o app abre na wiki marcada em "Wiki ao abrir o app" (jogo base ou um mod)
+        homeChoice = savedInstanceState?.getString("home_src") ?: Wikis.startChoice(this)
         list = findViewById(R.id.list)
         list.capWidth()
         empty = findViewById(R.id.empty)
@@ -58,9 +70,9 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, closeSearch)
         rows.attachSwipe(list)
         Offline.attach(this, toolbar, full = true,
-            onSeeSaved = { ListActivity.start(this, ListActivity.MODE_SAVED, null) },
-            recents = { store.historyHere().filter { store.isSaved(it) }.take(4) },
-            onOpenPage = { ArticleActivity.start(this, it) },
+            onSeeSaved = { ListActivity.start(this, ListActivity.MODE_SAVED, null, homeWiki().key) },
+            recents = { homeWiki().key.let { k -> store.historyHere(k).filter { store.isSaved(it, k) }.take(4) } },
+            onOpenPage = { ArticleActivity.start(this, it, src = homeWiki().key) },
             onSeeFavorites = { bottomNav.selectedItemId = R.id.nav_fav },
             savedCount = { store.cacheCount() },
             onOnline = {
@@ -69,6 +81,22 @@ class MainActivity : AppCompatActivity() {
             })
 
         if (!Lang.load(this)) firstRun()
+        shotSetup()
+    }
+
+    /** Só no APK de teste: atalhos para os prints automáticos do GitHub (sem efeito na versão da loja). */
+    private fun shotSetup() {
+        if (!BuildConfig.DEBUG) return
+        intent.getStringExtra("shot_lang")?.let {
+            androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags(it))
+        }
+        intent.getStringExtra("shot_src")?.let { homeChoice = it; homeKey = ""; showTab(R.id.nav_home) }
+        intent.getStringExtra("shot_page")?.let { ArticleActivity.start(this, it, src = intent.getStringExtra("shot_page_src")) }
+    }
+
+    override fun onSaveInstanceState(out: Bundle) {
+        super.onSaveInstanceState(out)
+        out.putString("home_src", homeChoice)
     }
 
     override fun onResume() {
@@ -124,6 +152,11 @@ class MainActivity : AppCompatActivity() {
         if (prefs.getBoolean("pending_welcome", false) && !isFinishing) {
             prefs.edit().putBoolean("pending_welcome", false).apply()
             welcome()
+        } else if (!isFinishing && prefs.contains("lang") && !Wikis.myModsAsked(this) && !myModsShowing &&
+            intent.extras?.keySet()?.any { it.startsWith("shot_") } != true) {
+            myModsShowing = true
+            // pergunta uma vez quais mods a pessoa joga (depois da primeira abertura ou ao atualizar o app)
+            handler.postDelayed({ if (!isFinishing && !Wikis.myModsAsked(this)) chooseMyMods() else myModsShowing = false }, 600)
         }
     }
 
@@ -173,6 +206,8 @@ class MainActivity : AppCompatActivity() {
         if (items.isNotEmpty() && !store.swipeLearned) out.add(Row(getString(R.string.swipe_hint), null, {}, header = true))
         val timeFmt = android.text.format.DateFormat.getTimeFormat(this)
         var group: String? = null
+        // com algum item de mod na lista, cada linha diz de onde é (jogo base ou qual mod)
+        val mixed = items.any { Wikis.isMod(it.lang) }
         items.forEachIndexed { index, e ->
             if (!fav) {
                 val g = dayLabel(e.time)
@@ -181,7 +216,12 @@ class MainActivity : AppCompatActivity() {
             val w = Lang.all.firstOrNull { it.code == e.lang }
             val parts = mutableListOf<String>()
             if (!fav && e.time > 0) parts.add(timeFmt.format(java.util.Date(e.time)))
-            if (e.lang != Lang.code && w != null) parts.add(w.flag + "  " + w.name)
+            if (Wikis.isMod(e.lang)) {
+                val m = Wikis.of(e.lang)
+                parts.add(m.emoji + "  " + getString(R.string.src_mod_fmt, m.short))
+            } else if (e.lang != Lang.code && w != null) {
+                parts.add((if (mixed) getString(R.string.src_base) + "  ·  " else "") + w.flag + "  " + w.name)
+            } else if (mixed) parts.add("⭐  " + getString(R.string.src_base))
             out.add(Row(e.title, parts.joinToString("  ·  ").ifEmpty { null }, { openEntry(e) }, { confirmRemove(e, fav) },
                 onSwipe = { removeWithUndo(e, index, fav) }))
         }
@@ -227,6 +267,9 @@ class MainActivity : AppCompatActivity() {
 
     /** Abre um favorito/histórico; se for de outro idioma, procura a mesma página no idioma atual. */
     private fun openEntry(e: Store.Entry) {
+        if (Wikis.isMod(e.lang)) {
+            ArticleActivity.start(this, e.title, src = e.lang); return
+        }
         if (e.lang == Lang.code) {
             ArticleActivity.start(this, e.title); return
         }
@@ -278,23 +321,39 @@ class MainActivity : AppCompatActivity() {
         homeWeb.settings.cacheMode = android.webkit.WebSettings.LOAD_CACHE_ELSE_NETWORK
         homeWeb.addJavascriptInterface(object {
             @JavascriptInterface
-            fun open(i: Int) = runOnUiThread { Categories.all.getOrNull(i)?.let { this@MainActivity.open(it.target) } }
+            fun open(i: Int) = runOnUiThread { menuItems.getOrNull(i)?.let { this@MainActivity.open(it.target, homeWiki()) } }
 
             @JavascriptInterface
-            fun recent(i: Int) = runOnUiThread { recent.getOrNull(i)?.let { ArticleActivity.start(this@MainActivity, it) } }
+            fun recent(i: Int) = runOnUiThread { recent.getOrNull(i)?.let { ArticleActivity.start(this@MainActivity, it, src = homeWiki().key) } }
+
+            /** Botões de wiki no topo: 0 = jogo base, 1… = mods. */
+            @JavascriptInterface
+            fun source(i: Int) = runOnUiThread {
+                val c = if (i <= 0) Wikis.BASE else Wikis.myMods(this@MainActivity).getOrNull(i - 1)?.key ?: Wikis.BASE
+                if (c != homeChoice) {
+                    homeChoice = c
+                    homeKey = ""
+                    if (!searching) showTab(R.id.nav_home)
+                }
+            }
 
             @JavascriptInterface
             fun search() = runOnUiThread { searchItem?.expandActionView() }
 
             @JavascriptInterface
             fun credits() = runOnUiThread { openCredits() }
+
+            @JavascriptInterface
+            fun myMods() = runOnUiThread { chooseMyMods() }
         }, "Android")
     }
 
     private fun renderHome() {
-        val r = store.historyHere().take(6)
+        val wiki = homeWiki()
+        val r = store.historyHere(wiki.key).take(6)
         val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-        val base = Lang.code + "|" + dark
+        val mine = Wikis.myMods(this)
+        val base = Lang.code + "|" + homeChoice + "|" + dark + "|" + mine.joinToString(",") { it.key }
         val key = base + "|" + r.joinToString("|")
         if (key == homeKey && homeWeb.url != null) return
         recent = r
@@ -306,7 +365,10 @@ class MainActivity : AppCompatActivity() {
         }
         homeKey = key
         // monta o HTML (com a fonte embutida) fora da thread principal, para não travar a abertura
-        runAsync({ Home.html(this, Fonts.css(this), dark, r) }) { res ->
+        val menu = if (wiki.mod) listOf(wiki.name to wiki.menu)
+            else Categories.groups.map { getString(it.nameRes) to it.items }
+        menuItems = menu.flatMap { it.second }
+        runAsync({ Home.html(this, Fonts.css(this), dark, r, wiki, menu, mine) }) { res ->
             if (homeKey != key) return@runAsync // já mudou de novo
             res.onSuccess { homeWeb.loadDataWithBaseURL(WikiApi.BASE + "/", it, "text/html", "utf-8", null) }
         }
@@ -314,16 +376,18 @@ class MainActivity : AppCompatActivity() {
 
     // ---------- Navegação ----------
 
-    private fun open(target: Target) {
+    private fun open(target: Target, w: Wiki) {
+        val src = if (w.mod) w.key else null
         when (target) {
-            is Target.Article -> ArticleActivity.start(this, Titles.of(this, target.en))
-            Target.AllPages -> ListActivity.start(this, ListActivity.MODE_ALL, null)
-            Target.AllCategories -> ListActivity.start(this, ListActivity.MODE_CATS, null)
+            // nos mods o título é o da wiki do mod (em inglês); na oficial, o do idioma atual
+            is Target.Article -> ArticleActivity.start(this, if (w.mod) target.en else Titles.of(this, target.en), src = src)
+            Target.AllPages -> ListActivity.start(this, ListActivity.MODE_ALL, null, src)
+            Target.AllCategories -> ListActivity.start(this, ListActivity.MODE_CATS, null, src)
             Target.Random -> {
                 progress.isVisible = true
-                runAsync({ WikiApi.random() }) { r ->
+                runAsync({ WikiApi.random(w) }) { r ->
                     progress.isVisible = false
-                    r.onSuccess { ArticleActivity.start(this, it) }
+                    r.onSuccess { ArticleActivity.start(this, it, src = src) }
                         .onFailure { toast(getString(R.string.no_connection)) }
                 }
             }
@@ -347,7 +411,11 @@ class MainActivity : AppCompatActivity() {
         val item = menu.findItem(R.id.action_search)
         searchItem = item
         val sv = item.actionView as SearchView
-        sv.queryHint = getString(R.string.search_hint)
+        if (BuildConfig.DEBUG) intent.getStringExtra("shot_q")?.let { q ->
+            intent.removeExtra("shot_q")
+            handler.post { item.expandActionView(); sv.setQuery(q, true) }
+        }
+        sv.queryHint = getString(R.string.search_hint_all)
         sv.maxWidth = Int.MAX_VALUE
         sv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -364,6 +432,7 @@ class MainActivity : AppCompatActivity() {
                 if (q.isEmpty()) {
                     requestId++
                     progress.isVisible = false
+                    parts = emptyList()
                     rows.items = emptyList()
                     showEmpty(getString(R.string.type_to_search))
                 } else {
@@ -402,60 +471,127 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun localMatches(q: String): List<String> =
-        (store.favorites() + store.history()).filter { it.lang == Lang.code }.map { it.title }.distinct()
-            .filter { it.contains(q, ignoreCase = true) }
+    // ---------- Busca global (jogo base + todos os mods) ----------
+
+    /** Resultado de uma wiki na busca global. */
+    private class Part(val wiki: Wiki, var rows: List<Row>, val failed: Boolean)
+
+    /** Seções da busca em andamento e a linha "Pesquisar … em todas as páginas" do topo. */
+    private var parts: List<Part> = emptyList()
+    private var searchTop: List<Row> = emptyList()
+
+    /** Ordem das seções: a wiki aberta na tela inicial primeiro, depois as outras. */
+    private fun searchOrder(): List<Wiki> {
+        val cur = homeWiki()
+        return listOf(cur) + (listOf(Wikis.base()) + Wikis.myMods(this)).filter { it.key != cur.key }
+    }
+
+    private fun sectionTitle(w: Wiki): String =
+        if (w.mod) w.emoji + "  " + getString(R.string.src_mod_fmt, w.name)
+        else "⭐  " + getString(R.string.src_base) + " · " + Lang.current().flag + " " + Lang.current().name
+
+    private fun openHit(title: String, w: Wiki) =
+        ArticleActivity.start(this, title, src = if (w.mod) w.key else null)
+
+    /** Monta a lista: cada wiki com resultados ganha um cabeçalho com o nome (jogo base ou qual mod). */
+    private fun renderSearch(q: String, full: Boolean) {
+        val out = searchTop.toMutableList()
+        parts.forEach { p ->
+            if (p.rows.isNotEmpty()) {
+                out.add(Row(sectionTitle(p.wiki), null, {}, header = true))
+                out.addAll(p.rows)
+            }
+        }
+        if (parts.isNotEmpty() && parts.all { it.failed }) {
+            if (!Net.online()) out.add(Row(getString(R.string.offline_title), getString(R.string.offline_sub), {}))
+            else out.add(Row("⚠️  " + getString(R.string.search_failed), null, {}))
+            localMatches(q).forEach { out.add(it) }
+        } else {
+            // alguma wiki não respondeu: avisa em vez de parecer que não há nada nela
+            val failed = parts.filter { it.failed }
+            if (failed.isNotEmpty()) {
+                out.add(Row("⚠️  " + getString(R.string.search_failed),
+                    failed.joinToString("  ·  ") { if (it.wiki.mod) it.wiki.short else getString(R.string.src_base) }, {}))
+            }
+        }
+        empty.isVisible = false
+        rows.items = out
+        if (full && out.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
+    }
+
+    /** Páginas já vistas ou favoritas (jogo base no idioma atual e mods) que contêm o texto — usado sem internet. */
+    private fun localMatches(q: String): List<Row> =
+        (store.favorites() + store.history())
+            .filter { it.lang == Lang.code || Wikis.isMod(it.lang) }
+            .distinctBy { it.lang + "\u0000" + it.title }
+            .filter { it.title.contains(q, ignoreCase = true) }
+            .map { e ->
+                val w = Wikis.of(e.lang)
+                val where = if (w.mod) w.emoji + "  " + getString(R.string.src_mod_fmt, w.short) else "⭐  " + getString(R.string.src_base)
+                Row(e.title, getString(R.string.saved_on_device) + "  ·  " + where, { openHit(e.title, w) })
+            }
+
+    private fun searchEverywhere(q: String, id: Int, full: Boolean, done: (List<Part>) -> Unit) {
+        val order = searchOrder()
+        runAsync({
+            if (id != requestId) throw java.util.concurrent.CancellationException()
+            inParallel(order.map { w ->
+                {
+                    // pesquisa velha (a pessoa já digitou outra coisa): nem chega a consultar a wiki
+                    if (id != requestId) throw java.util.concurrent.CancellationException()
+                    if (full) WikiApi.search(q, w, if (w.mod) 15 else 40) else WikiApi.prefix(q, w, if (w.mod) 6 else 12)
+                }
+            })
+        }) { r ->
+            if (id != requestId) return@runAsync
+            val res = r.getOrNull() ?: order.map { Result.failure(r.exceptionOrNull() ?: Exception()) }
+            done(order.zip(res).map { (w, x) ->
+                val hits = x.getOrNull().orEmpty()
+                Part(w, hits.map { h -> Row(h.title, h.snippet.ifBlank { null }, { openHit(h.title, w) }) }, x.isFailure)
+            })
+        }
+    }
 
     private fun suggest(q: String) {
         val id = ++requestId
         progress.isVisible = true
-        runAsync({ if (id != requestId) throw java.util.concurrent.CancellationException(); WikiApi.prefix(q) }) { r ->
-            if (id != requestId) return@runAsync
+        searchEverywhere(q, id, full = false) { p ->
             progress.isVisible = false
-            empty.isVisible = false
-            val out = mutableListOf(Row(getString(R.string.search_all_fmt, q), null, { fullSearch(q) }))
-            r.onSuccess { hits ->
-                hits.forEach { h -> out.add(Row(h.title, null, { ArticleActivity.start(this, h.title) })) }
-            }.onFailure { e ->
-                if (e is OfflineException || !Net.online()) {
-                    out.add(Row(getString(R.string.offline_title), getString(R.string.offline_sub), {}))
-                } else {
-                    out.add(Row("⚠️  " + getString(R.string.search_failed), null, {}))
-                }
-                localMatches(q).forEach { t -> out.add(Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) })) }
-            }
-            rows.items = out
-            val few = (r.getOrNull()?.size ?: 99) < 3
-            if (few && Lang.code != "en") crossLanguage(q, id, out)
+            parts = p
+            searchTop = listOf(Row(getString(R.string.search_all_fmt, q), null, { fullSearch(q) }))
+            renderSearch(q, full = false)
+            val base = p.first { !it.wiki.mod }
+            if (!base.failed && base.rows.size < 3 && Lang.code != "en") crossLanguage(q, id, full = false)
         }
     }
 
     /**
-     * Poucos resultados no idioma atual: procura o termo na wiki em inglês e sugere a página equivalente
+     * Poucos resultados no jogo base: procura o termo na wiki em inglês e sugere a página equivalente
      * ("Parsnip" na wiki PT → Chirívia). Sem equivalente, oferece abrir na wiki em inglês.
      */
-    private fun crossLanguage(q: String, id: Int, base: List<Row>, onNone: (() -> Unit)? = null) {
+    private fun crossLanguage(q: String, id: Int, full: Boolean, onDone: (() -> Unit)? = null) {
         val here = Lang.code
+        progress.isVisible = true
         runAsync({
             if (id != requestId) throw java.util.concurrent.CancellationException()
             crossLookup(q, here, id)
         }) { r ->
             if (id != requestId || Lang.code != here) return@runAsync
             progress.isVisible = false
+            val base = parts.firstOrNull { !it.wiki.mod }
             val pairs = r.getOrNull().orEmpty()
-            val shown = base.map { it.title.lowercase() }.toSet()
-            val extra = mutableListOf<Row>()
-            pairs.forEach { (en, t) ->
-                if (t != null) {
-                    if (t.lowercase() !in shown) extra.add(Row(t, getString(R.string.did_you_mean_fmt, en), { ArticleActivity.start(this, t) }))
-                } else {
-                    extra.add(Row(en, getString(R.string.only_in_english), { offerEnglish(en) }))
+            if (base != null && pairs.isNotEmpty()) {
+                val shown = base.rows.map { it.title.lowercase() }.toMutableSet()
+                val extra = mutableListOf<Row>()
+                pairs.forEach { (en, t) ->
+                    val row = if (t != null) Row(t, getString(R.string.did_you_mean_fmt, en), { ArticleActivity.start(this, t) })
+                    else Row(en, getString(R.string.only_in_english), { offerEnglish(en) })
+                    if (shown.add(row.title.lowercase())) extra.add(row)
                 }
+                base.rows = base.rows + extra
             }
-            if (extra.isNotEmpty()) {
-                empty.isVisible = false
-                rows.items = base + extra.distinctBy { it.title.lowercase() }
-            } else onNone?.invoke()
+            renderSearch(q, full)
+            onDone?.invoke()
         }
     }
 
@@ -476,7 +612,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (id != requestId) throw java.util.concurrent.CancellationException()
         return try {
-            val en = WikiApi.prefix(q, "en", 3).map { it.title }
+            val en = WikiApi.prefix(q, Wikis.base("en"), 3).map { it.title }
             WikiApi.translateMany(en, "en", here)
         } catch (e: java.io.IOException) {
             emptyList()
@@ -503,24 +639,18 @@ class MainActivity : AppCompatActivity() {
         val id = ++requestId
         progress.isVisible = true
         empty.isVisible = false
-        runAsync({ if (id != requestId) throw java.util.concurrent.CancellationException(); WikiApi.search(q) }) { r ->
-            if (id != requestId) return@runAsync
+        searchEverywhere(q, id, full = true) { p ->
             progress.isVisible = false
-            r.onSuccess { hits ->
-                val base = hits.map { h -> Row(h.title, h.snippet, { ArticleActivity.start(this, h.title) }) }
-                rows.items = base
-                if (hits.size < 3 && Lang.code != "en") {
-                    // poucos resultados: tenta o nome em inglês antes de dizer "nada encontrado"
-                    progress.isVisible = true
-                    crossLanguage(q, id, base) {
-                        progress.isVisible = false
-                        if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
-                    }
-                } else if (hits.isEmpty()) showEmpty(getString(R.string.nothing_found_fmt, q))
-            }.onFailure { e ->
-                val local = localMatches(q)
-                rows.items = local.map { t -> Row(t, getString(R.string.saved_on_device), { ArticleActivity.start(this, t) }) }
-                if (local.isEmpty()) showEmpty(friendlyError(e, page = false))
+            parts = p
+            searchTop = emptyList()
+            val base = p.first { !it.wiki.mod }
+            if (!base.failed && base.rows.size < 3 && Lang.code != "en") {
+                // poucos resultados no jogo base: tenta o nome em inglês antes de dizer "nada encontrado"
+                renderSearch(q, full = false)
+                if (rows.items.isEmpty()) showEmpty(getString(R.string.searching))
+                crossLanguage(q, id, full = true)
+            } else {
+                renderSearch(q, full = true)
             }
         }
     }
@@ -555,11 +685,61 @@ class MainActivity : AppCompatActivity() {
                 dlg.show()
             }
 
+            R.id.action_my_mods -> chooseMyMods()
+            R.id.action_start_wiki -> chooseStartWiki()
             R.id.action_about -> openCredits()
             R.id.action_fan -> startActivity(Intent(this, FanActivity::class.java))
 
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    /** "Meus mods": marcar os mods que a pessoa joga (só eles aparecem na tela inicial e na busca). */
+    private var myModsShowing = false
+
+    private fun chooseMyMods() {
+        val all = Wikis.mods
+        val mine = Wikis.myMods(this).map { it.key }.toSet()
+        val checked = BooleanArray(all.size) { all[it].key in mine }
+        val labels = all.map { it.emoji + "  " + it.name }.toTypedArray()
+        wikiDialog()
+            .setTitle(R.string.my_mods)
+            .setMultiChoiceItems(labels, checked) { _, i, on -> checked[i] = on }
+            .setPositiveButton(R.string.ok) { _, _ ->
+                Wikis.setMyMods(this, all.filterIndexed { i, _ -> checked[i] }.map { it.key }.toSet())
+                homeKey = ""
+                if (!searching) showTab(bottomNav.selectedItemId)
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                if (!Wikis.myModsAsked(this)) Wikis.setMyMods(this, mine) // não pergunta de novo
+            }
+            .setOnDismissListener { myModsShowing = false }
+            .show().framed()
+        toast(getString(R.string.my_mods_hint))
+    }
+
+    /** "Wiki ao abrir o app": jogo base ou um mod. A busca do topo continua procurando em todas. */
+    private fun chooseStartWiki() {
+        val choices = listOf(Wikis.BASE) + Wikis.myMods(this).map { it.key }
+        val names = choices.map { c -> if (c == Wikis.BASE) getString(R.string.src_base) else Wikis.of(c).name }
+        val labels = choices.mapIndexed { i, c -> (if (c == Wikis.BASE) "⭐" else Wikis.of(c).emoji) + "  " + names[i] }.toTypedArray()
+        val cur = choices.indexOf(Wikis.startChoice(this)).coerceAtLeast(0)
+        wikiDialog()
+            .setTitle(R.string.start_wiki)
+            .setSingleChoiceItems(labels, cur) { d, i ->
+                val c = choices[i]
+                Wikis.setStartChoice(this, c)
+                d.dismiss()
+                toast(getString(R.string.start_wiki_set_fmt, names[i]))
+                // já mostra a wiki escolhida
+                if (c != homeChoice) {
+                    homeChoice = c
+                    homeKey = ""
+                    if (!searching) showTab(bottomNav.selectedItemId)
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show().framed()
     }
 }

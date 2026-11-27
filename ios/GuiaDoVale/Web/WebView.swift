@@ -10,6 +10,12 @@ final class WebController: ObservableObject {
         web?.evaluateJavaScript(code, completionHandler: nil)
     }
 
+    /// Roda JS e devolve o resultado (nil se a página não respondeu).
+    func evaluate(_ code: String) async -> Any? {
+        guard let web else { return nil }
+        do { return try await web.evaluateJavaScript(code) } catch { NSLog("GDV-JS error \(error)"); return nil }
+    }
+
     func scrollTo(anchor: String) {
         let q = (try? JSONSerialization.data(withJSONObject: [anchor])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
         js("window.__goto && window.__goto(\(q)[0])")
@@ -49,7 +55,7 @@ struct WebView: UIViewRepresentable {
         (function(){
           function post(a,v){ try { window.webkit.messageHandlers.app.postMessage({a:a, v:v}); } catch(e) {} }
           window.Android = {
-            open: function(i){ post('open', i); }, recent: function(i){ post('recent', i); },
+            open: function(i){ post('open', i); }, recent: function(i){ post('recent', i); }, source: function(i){ post('source', i); }, myMods: function(){ post('mymods', 0); },
             search: function(){ post('search', 0); }, credits: function(){ post('credits', 0); },
             done: function(){ post('done', 0); }
           };

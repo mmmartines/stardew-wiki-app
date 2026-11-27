@@ -12,6 +12,8 @@
         android:title="@string/language"
         app:actionLayout="@layout/menu_flag"
         app:showAsAction="always" />
+    <item android:id="@+id/action_my_mods" android:title="@string/my_mods" app:showAsAction="never" />
+    <item android:id="@+id/action_start_wiki" android:title="@string/start_wiki" app:showAsAction="never" />
     <item android:id="@+id/action_clear_history" android:title="@string/clear_history" app:showAsAction="never" />
     <item android:id="@+id/action_clear_cache" android:title="@string/offline_pages" app:showAsAction="never" />
     <item android:id="@+id/action_fan" android:title="@string/fan_menu" app:showAsAction="never" />

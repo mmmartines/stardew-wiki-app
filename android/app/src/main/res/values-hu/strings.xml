@@ -35,4 +35,28 @@
     <string name="removed_fmt">Eltávolítva: %s</string>
     <string name="undo">Visszavonás</string>
     <string name="close">Bezárás</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">Alapjáték</string>
+    <string name="src_mod_fmt">Mod: %s</string>
+    <string name="mod_english_only">Ennek a modnak a wikije csak angolul érhető el.</string>
+    <string name="home_search_all">Keresés a játékban és az összes modban…</string>
+    <string name="search_hint_all">Keresés a játékban és a modokban…</string>
+    <string name="home_sources">Wikik</string>
+    <string name="home_footer_mod_fmt">A(z) %1$s wiki tartalma a közreműködőitől, %2$s. Nem hivatalos, nonprofit alkalmazás, nem kapcsolódik a modhoz és a ConcernedApe-hez.</string>
+    <string name="article_footer_mod_fmt">Tartalom: %1$s, a közreműködőitől, %2$s licenc alatt. Mobilos olvasásra igazítva.</string>
+    <string name="article_footer_mod_art">A mod tartalma a szerzőié. Stardew Valley © ConcernedApe.</string>
+    <string name="start_wiki">Wiki az app indításakor</string>
+    <string name="start_wiki_set_fmt">Az app ezzel indul: %s</string>
+    <string name="credits_mods_h">Modok wikijei</string>
+    <string name="credits_mods">A bővítő modok wikijeit az adott mod közössége készíti (angolul). A tartalom CC BY-SA 4.0 licenc alatt áll és a szerzőké; ez az app csak megjeleníti, csak olvasásra, az eredetire mutató hivatkozással.</string>
+    <string name="mod_terms_translated">Az alapjáték nevei a Stardew Valley Wiki alapján fordítva.</string>
+    <string name="mt_working">Automatikus fordítás…</string>
+    <string name="mt_notice">Automatikus fordítás angolból (hibákat tartalmazhat)</string>
+    <string name="mt_original_shown">Eredeti angolul</string>
+    <string name="mt_see_original">Eredeti megtekintése</string>
+    <string name="mt_see_translation">Fordítás megtekintése</string>
+    <string name="my_mods">Saját modok</string>
+    <string name="my_mods_hint">Jelöld be a modokat, amelyekkel játszol. Csak ezek jelennek meg a kezdőképernyőn és a keresésben.</string>
+    <string name="my_mods_add">Modok hozzáadása</string>
+    <string name="credits_mods_mt">A modoldalak automatikus fordításai a készülékeden készülnek, és ugyanazzal a CC BY-SA 4.0 licenccel jelennek meg, automatikusként jelölve, az eredetire mutató hivatkozással.</string>
 </resources>

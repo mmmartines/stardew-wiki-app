@@ -7,11 +7,14 @@ final class ArticleModel: ObservableObject {
 
     @Published var state: State = .loading
     let requested: String
+    /// Wiki da página: oficial (idioma) ou um mod.
+    let src: Source
     private(set) var current: String
     private var triedFallback = false
 
-    init(requested: String) {
+    init(requested: String, src: Source) {
         self.requested = requested
+        self.src = src
         current = requested
     }
 
@@ -19,7 +22,7 @@ final class ArticleModel: ObservableObject {
 
     func load(force: Bool = false) async -> Bool {
         let store = Store.shared
-        let cached = store.getPage(current)
+        let cached = store.getPage(current, w: src.key)
         let fresh = cached.map { Date().timeIntervalSince1970 - $0.time < 7 * 24 * 3600 } ?? false
         if !force, let cached, fresh { show(cached.page); return false }
         if !Net.isOnline && cached == nil {
@@ -29,8 +32,8 @@ final class ArticleModel: ObservableObject {
         }
         state = .loading
         do {
-            let p = try await WikiApi.parse(current)
-            store.putPage(requested: requested, p)
+            let p = try await WikiApi.parse(current, src: src)
+            store.putPage(requested: requested, p, w: src.key)
             show(p)
             return force
         } catch is MissingPageError where !triedFallback {
@@ -51,7 +54,7 @@ final class ArticleModel: ObservableObject {
     /// Título não existe com esse nome: abre o melhor resultado da busca.
     private func fallback() async -> Bool {
         triedFallback = true
-        if let first = try? await WikiApi.search(current).first {
+        if let first = try? await WikiApi.search(current, src: src).first {
             current = first.title
             return await load()
         }
@@ -62,7 +65,7 @@ final class ArticleModel: ObservableObject {
     private func show(_ p: Page) {
         current = p.title
         state = .page(p)
-        Store.shared.addHistory(p.title)
+        Store.shared.addHistory(p.title, w: src.key)
     }
 }
 
@@ -76,6 +79,7 @@ enum AppToast {
 struct ArticleScreen: View {
     let requested: String
     let anchor: String?
+    let src: Source
 
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var store: Store
@@ -85,11 +89,14 @@ struct ArticleScreen: View {
     @StateObject private var article: ArticleModel
     @StateObject private var web = WebController()
     @State private var showDetails = false
+    @State private var mtRequest: MTRequest?
 
-    init(requested: String, anchor: String?) {
+    init(requested: String, anchor: String?, src: String? = nil) {
+        let s = Sources.of(src)
         self.requested = requested
         self.anchor = anchor
-        _article = StateObject(wrappedValue: ArticleModel(requested: requested))
+        self.src = s
+        _article = StateObject(wrappedValue: ArticleModel(requested: requested, src: s))
     }
 
     private var title: String { article.page?.title ?? requested }
@@ -103,21 +110,39 @@ struct ArticleScreen: View {
             case .error(let msg, let detail):
                 errorView(msg, detail)
             case .page(let p):
-                WebView(html: HTML.article(p, dark: scheme == .dark),
-                        baseURL: WikiApi.pageURL(p.title),
+                WebView(html: HTML.article(p, dark: scheme == .dark, src: src),
+                        baseURL: WikiApi.pageURL(p.title, src: src),
                         key: p.title + "|\(scheme == .dark)|\(p.html.count)",
                         controller: web,
                         onLink: handleLink,
                         onLoaded: {
                             web.setTextZoom(store.textZoom)
                             if let anchor { web.scrollTo(anchor: anchor) }
+                            translateTerms(p)
                         })
                     .ignoresSafeArea(edges: .bottom)
+            }
+        }
+        .autoTranslate(mtRequest) { out in
+            if let out, let data = try? JSONSerialization.data(withJSONObject: out), let json = String(data: data, encoding: .utf8) {
+                web.js("window.__mtApply&&__mtApply(" + json + ")")
+            } else {
+                web.js("window.__mtFail&&__mtFail()")
             }
         }
         .offlineBanner()
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // deixa claro de onde é a página: jogo base ou mod (e qual)
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 0) {
+                    Text(title).font(.headline).lineLimit(1)
+                    Text(src.label).font(.caption2).foregroundStyle(.secondary).lineLimit(1)
+                }
+                .accessibilityElement(children: .combine)
+            }
+        }
         .toolbar { toolbar }
         .task {
             AppToast.model = model
@@ -128,14 +153,39 @@ struct ArticleScreen: View {
         }
     }
 
+    /// Página de mod em outro idioma: busca na wiki oficial os nomes do jogo que ainda faltam no glossário.
+    private func translateTerms(_ p: Page) {
+        guard Glossary.applies(src) else { return }
+        let lang = Lang.code
+        let titles = Glossary.titles(p.html)
+        let missing = Net.isOnline ? Glossary.missing(lang, titles) : []
+        let needTerms = Net.isOnline && !Glossary.hasTerms(lang)
+        Task {
+            if !missing.isEmpty || needTerms {
+                // termos da wiki (uma vez por idioma) e nomes do jogo citados na página
+                if needTerms { await Glossary.fetchTerms(lang) }
+                if !missing.isEmpty { await Glossary.fetch(lang, missing) }
+                guard article.page?.title == p.title, Lang.code == lang else { return }
+                let base = (try? JSONSerialization.data(withJSONObject: [Lang.base()])).flatMap { String(data: $0, encoding: .utf8) } ?? "[\"\"]"
+                web.js("window.__gloss&&__gloss(" + Glossary.knownJSON(lang, titles) + "," + base + "[0]);" +
+                       "window.__setTerms&&__setTerms(" + Glossary.termsJSON(lang) + ")")
+            }
+            // depois dos nomes do jogo (que ficam como na wiki oficial), o resto do texto: tradução automática
+            guard AutoTranslateSupport.available, article.page?.title == p.title else { return }
+            let raw = await web.evaluate("window.__mtCollect?__mtCollect():[]")
+            let texts = (raw as? [Any])?.map { "\($0)" } ?? []
+            if !texts.isEmpty { mtRequest = MTRequest(texts: texts) }
+        }
+    }
+
     // MARK: Barra superior
 
     @ToolbarContentBuilder private var toolbar: some ToolbarContent {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             if let p = article.page {
-                let fav = store.isFavorite(p.title)
+                let fav = store.isFavorite(p.title, w: src.key)
                 Button {
-                    let now = store.toggleFavorite(p.title)
+                    let now = store.toggleFavorite(p.title, w: src.key)
                     model.show(toast: t(now ? "fav_added" : "fav_removed"))
                 } label: {
                     Image(systemName: fav ? "star.fill" : "star")
@@ -170,12 +220,12 @@ struct ArticleScreen: View {
                     Button {
                         Task { if await article.load(force: true) { model.show(toast: t("page_updated")) } }
                     } label: { Label(t("refresh"), systemImage: "arrow.clockwise") }
-                    ShareLink(item: WikiApi.pageURL(p.title), subject: Text(p.title)) {
+                    ShareLink(item: WikiApi.pageURL(p.title, src: src), subject: Text(p.title)) {
                         Label(t("share"), systemImage: "square.and.arrow.up")
                     }
                     Divider()
-                    Button { openURL(WikiApi.pageURL(p.title)) } label: { Label(t("view_original"), systemImage: "safari") }
-                    Button { openURL(WikiApi.historyURL(p.title)) } label: { Label(t("page_authors"), systemImage: "person.2") }
+                    Button { openURL(WikiApi.pageURL(p.title, src: src)) } label: { Label(t("view_original"), systemImage: "safari") }
+                    Button { openURL(WikiApi.historyURL(p.title, src: src)) } label: { Label(t("page_authors"), systemImage: "person.2") }
                 }
                 Button { model.tab = .home; model.homePath = [] } label: { Label(t("tab_home"), systemImage: "house") }
             } label: {
@@ -221,7 +271,17 @@ struct ArticleScreen: View {
             }
             return
         }
-        if host != Lang.host() || q("action") == "history" { openURL(url); return }
+        if q("action") == "history" { openURL(url); return }
+        if host != src.host {
+            // link para outra wiki conhecida (ex.: página de mod que cita a wiki oficial): abre aqui mesmo
+            if let other = Sources.byHost(host), q("redlink") == nil, let tt = Self.title(from: url),
+               !Self.hasNamespace(tt, Self.nsCategory), !Self.hasNamespace(tt, Self.nsFile), !Self.hasNamespace(tt, Self.nsExternal) {
+                model.push(.article(tt, anchor: url.fragment, src: other.key))
+            } else {
+                openURL(url)
+            }
+            return
+        }
         if q("redlink") != nil { model.show(toast: t("page_missing_on_wiki")); return }
         if q("action") == "edit" || q("action") == "submit" || q("veaction") != nil {
             model.show(toast: t("read_only")) // o app nunca edita a wiki
@@ -236,13 +296,13 @@ struct ArticleScreen: View {
             return
         }
         if Self.hasNamespace(target, Self.nsCategory) {
-            model.push(.list(.category, category: target))
+            model.push(.list(.category, category: target, src: src.key))
         } else if Self.hasNamespace(target, Self.nsFile) {
             // imagem: a ampliação é feita pela própria página
         } else if Self.hasNamespace(target, Self.nsExternal) {
             openURL(url)
         } else {
-            model.push(.article(target, anchor: url.fragment))
+            model.push(.article(target, anchor: url.fragment, src: src.key))
         }
     }
 
@@ -252,6 +312,8 @@ struct ArticleScreen: View {
         var raw: String?
         if path.hasPrefix("/mediawiki/index.php") || path == "/index.php" {
             raw = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first { $0.name == "title" }?.value
+        } else if path.hasPrefix("/wiki/") {
+            raw = String(path.dropFirst(6)) // wikis dos mods (wiki.gg)
         } else {
             raw = String(path.dropFirst())
         }

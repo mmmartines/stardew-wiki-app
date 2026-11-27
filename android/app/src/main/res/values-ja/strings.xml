@@ -35,4 +35,28 @@
     <string name="removed_fmt">削除しました：%s</string>
     <string name="undo">元に戻す</string>
     <string name="close">閉じる</string>
+    <!-- wikis dos mods -->
+    <string name="src_base">本編</string>
+    <string name="src_mod_fmt">MOD：%s</string>
+    <string name="mod_english_only">このMODのWikiは英語のみです。</string>
+    <string name="home_search_all">本編とすべてのMODを検索…</string>
+    <string name="search_hint_all">本編とMODを検索…</string>
+    <string name="home_sources">Wiki</string>
+    <string name="home_footer_mod_fmt">%1$s Wikiの内容（投稿者による、%2$s）。非公式・非営利のアプリで、MODおよびConcernedApeとは無関係です。</string>
+    <string name="article_footer_mod_fmt">%1$sの内容（投稿者による、%2$s）。スマートフォンで読みやすく調整しています。</string>
+    <string name="article_footer_mod_art">MODの内容は作者に帰属します。Stardew Valley © ConcernedApe。</string>
+    <string name="start_wiki">起動時のWiki</string>
+    <string name="start_wiki_set_fmt">アプリ起動時に開くWiki：%s</string>
+    <string name="credits_mods_h">MODのWiki</string>
+    <string name="credits_mods">拡張MODのWikiは各MODのコミュニティが作成しています（英語）。内容はCC BY-SA 4.0で作者に帰属し、このアプリは閲覧専用で表示し、元ページへのリンクを付けています。</string>
+    <string name="mod_terms_translated">本編の名称はStardew Valley Wikiをもとに翻訳しています。</string>
+    <string name="mt_working">自動翻訳中…</string>
+    <string name="mt_notice">英語からの自動翻訳（誤りを含む場合があります）</string>
+    <string name="mt_original_shown">英語の原文</string>
+    <string name="mt_see_original">原文を見る</string>
+    <string name="mt_see_translation">翻訳を見る</string>
+    <string name="my_mods">マイMOD</string>
+    <string name="my_mods_hint">遊んでいるMODを選んでください。ホーム画面と検索には選んだMODだけが表示されます。</string>
+    <string name="my_mods_add">MODを追加</string>
+    <string name="credits_mods_mt">MODページの自動翻訳はお使いの端末上で行われ、同じCC BY-SA 4.0ライセンスのもと、自動翻訳であることを明記し原文へのリンク付きで表示されます。</string>
 </resources>
