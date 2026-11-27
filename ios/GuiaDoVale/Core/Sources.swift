@@ -62,7 +62,15 @@ enum Sources {
     }
 
     /// Mods de expansão com wiki própria (os mesmos do Android, em inglês, no wiki.gg).
-    static let mods: [Source] = [
+    /// Mods com autorização dos autores para aparecer no app (igual ao Android). Os outros ficam prontos no código,
+    /// mas só entram quando o autor autorizar.
+    ///  - sbv Sunberry Village: skellady, 25/11/2026 · esc East Scarp: Lemurkat, 25/11/2026
+    ///  - aguardando: sve (FlashShifter), rsv (Rafseazz), mtv (Lumisteria pediu para falar de novo em dez/2026)
+    private static let approved: Set<String> = ["sbv", "esc"]
+
+    static let mods: [Source] = allMods.filter { approved.contains($0.key) }
+
+    private static let allMods: [Source] = [
         gg("sve", "stardewvalleyexpanded", "Stardew Valley Expanded", "SVE", "🌲",
            ["Villagers", "Locations", "Festivals", "Quests", "Letters", "Crops", "Trees", "Fish", "Crafting",
             "Buildings", "Furniture", "Shops", "Bundles", "Monsters", "Weapons", "Artifacts"]),

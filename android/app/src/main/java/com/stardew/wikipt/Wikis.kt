@@ -80,7 +80,17 @@ object Wikis {
     }
 
     /** Mods de expansão com wiki própria (todas em inglês, no wiki.gg, licença CC BY-SA 4.0). */
-    val mods: List<Wiki> = listOf(
+    /**
+     * Mods com autorização dos autores para aparecer no app. Os outros ficam prontos no código,
+     * mas só entram quando o autor autorizar (é só acrescentar o código aqui).
+     *  - sbv Sunberry Village: skellady, 25/11/2026 · esc East Scarp: Lemurkat, 25/11/2026
+     *  - aguardando: sve (FlashShifter), rsv (Rafseazz), mtv (Lumisteria pediu para falar de novo em dez/2026)
+     */
+    private val APPROVED = setOf("sbv", "esc")
+
+    val mods: List<Wiki> by lazy { allMods.filter { it.key in APPROVED } }
+
+    private val allMods: List<Wiki> = listOf(
         gg("sve", "stardewvalleyexpanded", "Stardew Valley Expanded", "SVE", "🌲",
             "Villagers", "Locations", "Festivals", "Quests", "Letters", "Crops", "Trees", "Fish", "Crafting",
             "Buildings", "Furniture", "Shops", "Bundles", "Monsters", "Weapons", "Artifacts"),

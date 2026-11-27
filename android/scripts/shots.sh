@@ -32,16 +32,16 @@ shot() { # nome, espera, extras...
   adb exec-out screencap -p > "$OUT/$name.png"
 }
 shot 01-inicio-jogo-base 12
-shot 02-inicio-sve 12 --es shot_src sve
-shot 03-inicio-ridgeside 12 --es shot_src rsv
-shot 04-inicio-vapius 12 --es shot_src mtv
-shot 05-busca-global-sophia 20 --es shot_q Sophia
+shot 02-inicio-sunberry 12 --es shot_src sbv
+shot 03-inicio-eastscarp 12 --es shot_src esc
+shot 04-inicio-base-de-novo 12 --es shot_src base
+shot 05-busca-global-maia 20 --es shot_q Maia
 shot 06-busca-global-parsnip 20 --es shot_q Parsnip
-shot 07-artigo-sve-sophia 60 --es shot_page Sophia --es shot_page_src sve
+shot 07-artigo-eastscarp 60 --es shot_page Villagers --es shot_page_src esc
 shot 08-artigo-sunberry-maia 30 --es shot_page Maia --es shot_page_src sbv
 shot 09-artigo-base-abigail 16 --es shot_page Abigail
 adb shell cmd uimode night yes
-shot 10-inicio-sve-escuro 12 --es shot_src sve
-shot 11-artigo-rsv-escuro 30 --es shot_page Lenny --es shot_page_src rsv
+shot 10-inicio-sunberry-escuro 12 --es shot_src sbv
+shot 11-artigo-sunberry-escuro 30 --es shot_page Maia --es shot_page_src sbv
 adb logcat -d > $OUT/logcat.txt || true
 grep -E "FATAL|AndroidRuntime|GuiaDoVale|wikipt" $OUT/logcat.txt > $OUT/crash.txt || true
