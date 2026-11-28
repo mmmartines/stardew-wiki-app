@@ -30,7 +30,7 @@ currently **Sunberry Village**. Other mods are ready in the code but stay off un
 [`Sources.swift`](ios/GuiaDoVale/Core/Sources.swift) (iOS); adding or removing a mod is a one-line change.
 
 - **Live and read-only:** pages are loaded from each mod's wiki through the standard MediaWiki API, with a small delay between requests. Nothing is copied to a server; pages a player opens are cached only on their own phone for offline reading.
-- **Credit and license:** every mod page says which mod it belongs to ("Mod: East Scarp"), credits the mod's wiki and its contributors, shows the wiki's license (CC BY-SA 4.0) and links to the original page and its edit history. The About screen links to each mod wiki.
+- **Credit and license:** every mod page says which mod it belongs to ("Mod: Sunberry Village"), credits the mod's wiki and its contributors, shows the wiki's license (CC BY-SA 4.0) and links to the original page and its edit history. The About screen links to each mod wiki.
 - **Players choose:** a "My mods" screen lets players pick the mods they play; only those appear on the home screen and in search.
 - **Non-English players:** names of base-game things (items, villagers, seasons) come from the official wiki in the player's language. The rest of the text can be machine-translated **on the device** (Google ML Kit on Android, Apple Translation on iOS 18+), always marked "automatic translation" with a "see original" button. Translations stay under CC BY-SA 4.0.
 - **Mod authors:** if you'd like your mod added, changed or removed, [open an issue](https://github.com/mmmartines/stardew-wiki-app/issues).
