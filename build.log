@@ -1,0 +1,622 @@
+Command line invocation:
+    /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/xcodebuild -project GuiaDoVale.xcodeproj -scheme GuiaDoVale -configuration Debug -destination id=FFF4304F-174A-4299-AB37-0A7CD761512F -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+2026-11-28 13:51:08.535 xcodebuild[1639:8964] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:FFF4304F-174A-4299-AB37-0A7CD761512F, OS:26.5, name:iPhone Air }
+{ platform:iOS Simulator, arch:x86_64, id:FFF4304F-174A-4299-AB37-0A7CD761512F, OS:26.5, name:iPhone Air }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'GuiaDoVale' in project 'GuiaDoVale' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: ed47db3f7e988ae6246e2fffbb0cc651
+Build description path: /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/XCBuildData/ed47db3f7e988ae6246e2fffbb0cc651.xcbuilddata
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products
+
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex
+
+ClangStatCache /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-688ef53f1462e2c8f657fdc38a81448ff45c64a1807a658693f2a61704f17a36.sdkstatcache
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-688ef53f1462e2c8f657fdc38a81448ff45c64a1807a658693f2a61704f17a36.sdkstatcache
+
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale-a55218b7b3aa423146f9fb25272eaa8c-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale-a55218b7b3aa423146f9fb25272eaa8c-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale.xcodeproj
+    builtin-create-build-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_const_extract_protocols.json (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftConstValuesFileList (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.LinkFileList (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.LinkFileList
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-OutputFileMap.json (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyStaticMetadataFileList (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyMetadataFileList (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-project-headers.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-project-headers.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-own-target-headers.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-generated-files.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-generated-files.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-target-headers.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-non-framework-target-headers.hmap (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibPath-normal-arm64.txt (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibInstallName-normal-arm64.txt (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    write-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibInstallName-normal-arm64.txt
+
+MkDir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /bin/mkdir -p /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+Ld /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/__preview.dylib normal (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios16.0-simulator -dynamiclib -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -install_name @rpath/GuiaDoVale.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_dependency_info.dat -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/__preview.dylib
+
+MkDir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/unthinned (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /bin/mkdir -p /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/unthinned
+
+MkDir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /bin/mkdir -p /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned
+
+GenerateAssetSymbols /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/actool /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets --compile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_dependencies --output-partial-info-plist /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 16.0 --platform iphonesimulator --bundle-identifier io.github.mmmartines.guiadovale --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/titles.json /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/titles.json (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/titles.json /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pixelify-sans-latin-700-normal.woff2 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/fonts/pixelify-sans-latin-700-normal.woff2 (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/fonts/pixelify-sans-latin-700-normal.woff2 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pixelify-sans-latin-400-normal.woff2 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/fonts/pixelify-sans-latin-400-normal.woff2 (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/fonts/pixelify-sans-latin-400-normal.woff2 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pixel.ttf /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/res/font/pixel.ttf (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/res/font/pixel.ttf /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/article.js /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/article.js (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/article.js /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/article.css /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/article.css (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/android/app/src/main/assets/article.css /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CpResource /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/PrivacyInfo.xcprivacy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/PrivacyInfo.xcprivacy (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/PrivacyInfo.xcprivacy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/zh-Hans.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/zh-Hans.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/zh-Hans.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/zh-Hans.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/zh-Hans.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/zh-Hans.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/zh-Hans.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/zh-Hans.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/zh-Hans.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/tr.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/tr.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/tr.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/tr.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/tr.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/tr.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/tr.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/tr.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/tr.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ru.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ru.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ru.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ru.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ru.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ru.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ru.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ru.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ru.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pt.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pt.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pt.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/pt.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/InfoPlist.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/pt.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ko.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ko.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ko.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ko.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ko.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ko.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ko.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ko.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ko.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ja.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ja.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ja.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ja.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ja.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ja.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ja.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/ja.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/ja.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/it.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/it.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/it.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/it.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/it.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/it.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/it.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/it.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/it.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/hu.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/hu.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/hu.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/hu.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/hu.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/hu.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/hu.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/hu.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/hu.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/fr.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/fr.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/fr.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/fr.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/fr.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/fr.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/fr.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/fr.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/fr.lproj/InfoPlist.strings
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/es.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/es.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/es.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/es.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/InfoPlist.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/es.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/en.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/en.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/en.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/en.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/InfoPlist.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/en.lproj/InfoPlist.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/de.lproj/Localizable.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/de.lproj/Localizable.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename Localizable.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/de.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/de.lproj/Localizable.strings
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/de.lproj/Localizable.strings:1:1: note: detected encoding of input file as Unicode (UTF-8) (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+CopyStringsFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/de.lproj/InfoPlist.strings /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/de.lproj/InfoPlist.strings (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copyStrings --validate --outputencoding binary --outfilename InfoPlist.strings --outdir /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/de.lproj -- /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Resources/de.lproj/InfoPlist.strings
+
+CompileAssetCatalogVariant thinned /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/usr/bin/actool /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets --compile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone18,4 --filter-for-device-os-version 26.5 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 16.0 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist_thinned
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver GuiaDoVale normal arm64 com.apple.xcode.tools.swift.compiler (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-SwiftDriver -- /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name GuiaDoVale -Onone @/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios16.0-simulator -g -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-688ef53f1462e2c8f657fdc38a81448ff45c64a1807a658693f2a61704f17a36.sdkstatcache -output-file-map /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -sdk-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_const_extract_protocols.json -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-generated-files.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-own-target-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-target-headers.hmap -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-project-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-Swift.h -working-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_stdbool-9ZWEC5O97MYIOUE12SSQED3LU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/ptrauth-2TEWSGQAS7VWAOTZJJ45RSH4N.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_stdarg-39MKW8MSOE379WRU3BLN2VK9R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_stddef-CG6RUFT6VS79KS96K6PZ68SJQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_SwiftConcurrencyShims-BE22YJDSW6S0C6VVHA41TT9DJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_AvailabilityInternal-4OAL0UTYZTD1EGET212RRCH4O.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_float-EG049XGI6AQ6DLSNDE53H6IDA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/ptrcheck-3LSSIVW6BY5HIQ8NMA9UQMOG9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/SwiftShims-59GFY8YAMW8HZVU3SMFG0F6LP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/DeveloperToolsSupport-6QKKEWOMAVWAZQXC8BYE1M83G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_DarwinFoundation1-2M46C51OIQ897Q0G6PJQJHQ5T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_limits-UD4AZPSPPIONVHNW5SY2Q0UW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_DarwinFoundation2-DLD9EPN3GTH5BPAHASKKSKGWP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_stdint-DS1R013IQO1TMPI201M00IPPX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_tgmath-MMFDJF9SKCDM2KU3TTK3YOP0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/sys_types-8NNMW8T3ZQS1DD7AOJX6QLEE6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_stdatomic-4ZJPAPW4FBON70XZKC24HOBLQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_intrinsics-ADNZNE88I840ZRW0KWX9QLGH4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_DarwinFoundation3-DEE38KTGENSD5SN3F1CEOO9RV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/_Builtin_inttypes-3XWW96LYMVFO62D7HA2VNWUDO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Darwin-8QBJCNURM7HL8W9L00V2S75DM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/simd-E609W6H1FTRPH0NQZYYC4VI1M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/MachO-4CBKOE8LI4Q3DUZ86AKOMNBMV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/ObjectiveC-ASSFSJS5D9X3NULS8S1HVI7SH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/os_object-ATXNMNL7VMF57VANBZD40EDLV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Spatial-E63HTI1W047EXL7UK7Q2ET4OC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/os_workgroup-5KZY6TABGSN7ALKPNWIZNA3TR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Dispatch-E60KA0PO6O9IEZUB9YZ4NUHYJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/XPC-65OZVJ50FCK18OTSEM9OFJV6B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/dnssd-1W5EVG16UKGJZR6E37RC484HK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreFoundation-85GTAXXOK9UB1P2T9SMYK05DF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/os-A7OXPLBIW1DN168D0BLUAO47O.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Security-DBUBEAKUVPJ1J37AOCPMXRNAJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CFNetwork-8TR0PO6GKNYLEPPP6AE4IP3MP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreGraphics-ACUF4OCQVVN0CTRL1EIAQ1Y5P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Foundation-ECKJ0TT8MG6YY3U3BXOCAWDJW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreText-CI5PG4ROYG9BOKL8CPBT0EDCI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/ImageIO-D4Y41377FZIJWKH8VDF95DFB8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Network-48LBUJVH0VGR3X7LAOFBFA96M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/OpenGLES-1Q2J379L3D69NPOLTT46MJUQ4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/UniformTypeIdentifiers-ELY4RD08O54OYERWQMGE216MC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Accessibility-5E3LV50PQPFGPDK6AGNWGUJSE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/LocalAuthentication-5WOXMZ2NCFZLV317NVVPD3SQP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/IOSurface-3IWDV6S0TQG5PKCX9MPLPUGGX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/UIUtilities-1YNCV93RHK5Z7MDJBCAS5CNQ1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreData-E57URGOVJFNV0DDN0XHPPCOQY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Metal-DU6T7Z2ZBRRNHHBDRHH7YFCLH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreTransferable-9FMUFX4XUVUQE00RT5P7CHEDT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/UserNotifications-CLP6NYHD2TN7VK1KDBXBAIH0B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/OSLog-4OHPD1N99MG0WZ758JUGWFCCH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreVideo-3N3XALEZBTW24IV8W5R5SHE7B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Symbols-5WS2X7NFR2ALSTKUP246N8OT9.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/FileProvider-7C33QUCQOK3M02AA1HPMJULV6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/CoreImage-D1QVCX6XE0Z4WCBY7BTPN8NZ2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/QuartzCore-BNHENT6LZJZOBYJE5O35JTC6C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/DataDetection-9QJPARVFU9ZMAE592Z2I2YDOL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/SwiftUICore-C754WDK8AQIN3ZA44TXMXSMJP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/UIKit-2CAV232FD7BQXUUHYILDFLB8Z.pcm
+
+LinkAssetCatalog /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Assets.xcassets (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-linkAssetCatalog --thinned /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/thinned --thinned-dependencies /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist_unthinned --output /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app --plist-output /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/AppIcon76x76@2x~ipad.png (in target 'GuiaDoVale' from project 'GuiaDoVale')
+note: Emplaced /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/AppIcon60x60@2x.png (in target 'GuiaDoVale' from project 'GuiaDoVale')
+note: Emplaced /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Assets.car (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+ProcessInfoPlistFile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Info.plist /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Info.plist (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-infoPlistUtility /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Info.plist -producttype com.apple.product-type.application -genpkginfo /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/assetcatalog_generated_info.plist -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Info.plist
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/SwiftUI-57LRQNZ4HPP0NB05CVMK7PR4B.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/WebKit-1SGLSKKKU3PDVYTOAXPJK1Z1J.pcm
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ GuiaDoVale (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+EmitSwiftModule normal arm64 (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 Compiling\ AppModel.swift,\ ArticleScreen.swift,\ Bridge.swift,\ Categories.swift,\ Compat.swift,\ EntriesScreen.swift,\ GuiaDoValeApp.swift,\ HTML.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/App/AppModel.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/ArticleScreen.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Bridge.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Categories.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/Compat.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/EntriesScreen.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/App/GuiaDoValeApp.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/HTML.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/App/AppModel.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/ArticleScreen.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Bridge.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Categories.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/Compat.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/EntriesScreen.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/App/GuiaDoValeApp.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/HTML.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 Compiling\ SearchResultsView.swift,\ SheetsAndPages.swift,\ Store.swift,\ WebView.swift,\ WikiApi.swift,\ WikiListScreen.swift,\ GeneratedAssetSymbols.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/SearchResultsView.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/SheetsAndPages.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Store.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/WebView.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/WikiApi.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/WikiListScreen.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/SearchResultsView.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/SheetsAndPages.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Store.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/WebView.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/WikiApi.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/WikiListScreen.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 Compiling\ HomeScreen.swift,\ L10n.swift,\ Lang.swift,\ Net.swift,\ OfflineViews.swift,\ PageCSS.swift,\ RootView.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/HomeScreen.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/L10n.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Lang.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Net.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/OfflineViews.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/PageCSS.swift /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/RootView.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/HomeScreen.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/L10n.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Lang.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Core/Net.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/OfflineViews.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Web/PageCSS.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftCompile normal arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/GuiaDoVale/Views/RootView.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for GuiaDoVale (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftDriver\ Compilation\ Requirements GuiaDoVale normal arm64 com.apple.xcode.tools.swift.compiler (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name GuiaDoVale -Onone @/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios16.0-simulator -g -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-688ef53f1462e2c8f657fdc38a81448ff45c64a1807a658693f2a61704f17a36.sdkstatcache -output-file-map /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -sdk-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_const_extract_protocols.json -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-generated-files.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-own-target-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-target-headers.hmap -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-project-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-Swift.h -working-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling HomeScreen.swift, L10n.swift, Lang.swift, Net.swift, OfflineViews.swift, PageCSS.swift, RootView.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SearchResultsView.swift, SheetsAndPages.swift, Store.swift, WebView.swift, WikiApi.swift, WikiListScreen.swift, GeneratedAssetSymbols.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppModel.swift, ArticleScreen.swift, Bridge.swift, Categories.swift, Compat.swift, EntriesScreen.swift, GuiaDoValeApp.swift, HTML.swift (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+SwiftDriver\ Compilation GuiaDoVale normal arm64 com.apple.xcode.tools.swift.compiler (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-Swift-Compilation -- /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name GuiaDoVale -Onone @/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios16.0-simulator -g -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-688ef53f1462e2c8f657fdc38a81448ff45c64a1807a658693f2a61704f17a36.sdkstatcache -output-file-map /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -sdk-module-cache-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_const_extract_protocols.json -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-generated-files.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-own-target-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-all-target-headers.hmap -Xcc -iquote -Xcc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-project-headers.hmap -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources-normal/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/arm64 -Xcc -I/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-Swift.h -working-directory /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GuiaDoVale-Swift.h /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-Swift.h (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-swiftHeaderTool -arch arm64 /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-Swift.h -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/DerivedSources/GuiaDoVale-Swift.h
+
+Copy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftdoc (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftdoc /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.abi.json (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.abi.json /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftsourceinfo (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftsourceinfo /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+Ld /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale.debug.dylib normal (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios16.0-simulator -dynamiclib -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -filelist /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.LinkFileList -install_name @rpath/GuiaDoVale.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.swiftmodule @/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale-linker-args.resp -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-ExecutorLinkFileList-normal-arm64.txt (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    construct-stub-executor-link-file-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale.debug.dylib /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'GuiaDoVale' from project 'GuiaDoVale')
+
+Ld /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale normal (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios16.0-simulator -isysroot /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -F/Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale-ExecutorLinkFileList-normal-arm64.txt /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale.debug.dylib -o /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale
+
+ExtractAppIntentsMetadata (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.QBtEjk/Metal.xctoolchain --module-name GuiaDoVale --sdk-root /Applications/Xcode_26.6.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk --xcode-version 17F113 --platform-family iOS --deployment-target 16.0 --bundle-identifier io.github.mmmartines.guiadovale --output /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app --target-triple arm64-apple-ios16.0-simulator --binary-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale --dependency-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale_dependency_info.dat --stringsdata-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftFileList --metadata-file-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyMetadataFileList --static-metadata-file-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyStaticMetadataFileList --swift-const-vals-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/Objects-normal/arm64/GuiaDoVale.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-11-28 13:51:27.649 appintentsmetadataprocessor[1964:9963] Starting appintentsmetadataprocessor export
+2026-11-28 13:51:27.656 appintentsmetadataprocessor[1964:9963] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+CopySwiftLibs /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/GuiaDoVale.debug.dylib --scan-folder /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Frameworks --scan-folder /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/PlugIns --scan-folder /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/SystemExtensions --scan-folder /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Extensions --platform iphonesimulator --toolchain /var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.6.109.0.QBtEjk/Metal.xctoolchain --toolchain /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /Applications/Xcode_26.6.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Info.plist --temp-dir-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/ssu --bundle-id io.github.mmmartines.guiadovale --product-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app --extracted-metadata-path /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Metadata.appintents --metadata-file-list /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Intermediates.noindex/GuiaDoVale.build/Debug-iphonesimulator/GuiaDoVale.build/GuiaDoVale.DependencyMetadataFileList --source-file /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app/Info.plist --archive-ssu-assets
+2026-11-28 13:51:27.694 appintentsnltrainingprocessor[1965:9965] Parsing options for appintentsnltrainingprocessor
+2026-11-28 13:51:27.694 appintentsnltrainingprocessor[1965:9965] Starting AppIntents SSU YAML Generation
+2026-11-28 13:51:27.698 appintentsnltrainingprocessor[1965:9965] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-RegisterExecutionPolicyException /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+Validate /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    builtin-validationUtility /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app (in target 'GuiaDoVale' from project 'GuiaDoVale')
+    cd /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios
+    /usr/bin/touch -c /Users/runner/work/stardew-wiki-app/stardew-wiki-app/ios/build/Build/Products/Debug-iphonesimulator/GuiaDoVale.app
+
+** BUILD SUCCEEDED **
+
