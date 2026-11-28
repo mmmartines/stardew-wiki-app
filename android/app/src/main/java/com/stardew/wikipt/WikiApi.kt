@@ -16,53 +16,48 @@ class MissingPageException : Exception("missing page")
 /** Acesso somente leitura à API MediaWiki da Stardew Valley Wiki, no idioma escolhido. */
 object WikiApi {
     val BASE: String get() = Lang.base()
+    private val API: String get() = "$BASE/mediawiki/api.php"
     private val UA = "Mozilla/5.0 (Linux; Android) GuiaDoVale/" + BuildConfig.VERSION_NAME +
         " (unofficial read-only reader; https://github.com/mmmartines/stardew-wiki-app)"
 
-    /** Intervalo mínimo entre requisições ao mesmo site, para não sobrecarregar o servidor de cada wiki. */
+    /** Intervalo mínimo entre requisições, para não sobrecarregar o servidor da wiki. */
     private const val MIN_GAP_MS = 250L
-    private val lastRequest = HashMap<String, Long>()
+    private var lastRequest = 0L
 
-    private fun throttle(host: String) {
-        val wait: Long
-        synchronized(lastRequest) {
-            val now = System.currentTimeMillis()
-            val slot = maxOf(now, (lastRequest[host] ?: 0L) + MIN_GAP_MS)
-            lastRequest[host] = slot
-            wait = slot - now
-        }
+    @Synchronized
+    private fun throttle() {
+        val wait = lastRequest + MIN_GAP_MS - System.currentTimeMillis()
         if (wait > 0) Thread.sleep(wait)
+        lastRequest = System.currentTimeMillis()
     }
 
-    fun historyUrl(title: String, w: Wiki = Wikis.base()): String =
-        w.base + w.indexPath + "?title=" + enc(title.replace(' ', '_')) + "&action=history"
+    fun historyUrl(title: String): String =
+        "$BASE/mediawiki/index.php?title=" + enc(title.replace(' ', '_')) + "&action=history"
 
     private fun enc(s: String) = URLEncoder.encode(s, "UTF-8")
 
-    fun pageUrl(title: String, w: Wiki = Wikis.base()): String =
-        w.base + w.pagePath + enc(title.replace(' ', '_'))
+    fun pageUrl(title: String): String =
+        "$BASE/" + enc(title.replace(' ', '_'))
             .replace("%2F", "/")
             .replace("%3A", ":")
 
-    private fun get(params: Map<String, String>, w: Wiki = Wikis.base()): JSONObject {
-        val other = w.base != BASE
+    private fun get(params: Map<String, String>, base: String = BASE): JSONObject {
+        val other = base != BASE
         val all = params + mapOf("format" to "json", "formatversion" to "2", "utf8" to "1") +
             (if (other) mapOf("origin" to "*") else emptyMap())
-        val api = w.base + w.apiPath
+        val api = "$base/mediawiki/api.php"
         val query = all.entries.joinToString("&") { enc(it.key) + "=" + enc(it.value) }
         if (!Net.online()) throw OfflineException()
-        throttle(w.host)
+        throttle()
         // de tempos em tempos tenta de novo a conexão direta (o bloqueio anti-robô costuma ser passageiro)
-        // (cada wiki tem o seu controle: o bloqueio de um site não afeta os outros)
-        val since = bridgeSince[w.host]
-        if (since != null && android.os.SystemClock.elapsedRealtime() - since > 180_000) bridgeSince.remove(w.host)
-        if (!bridgeSince.containsKey(w.host)) {
+        if (useBridge && android.os.SystemClock.elapsedRealtime() - bridgeSince > 180_000) useBridge = false
+        if (!useBridge) {
             try {
                 return JSONObject(direct("$api?$query"))
             } catch (e: Exception) {
                 lastDirectError = e.toString()
-                // a partir daqui usa o navegador interno para este site
-                bridgeSince[w.host] = android.os.SystemClock.elapsedRealtime()
+                useBridge = true // a partir daqui usa o navegador interno
+                bridgeSince = android.os.SystemClock.elapsedRealtime()
             }
         }
         try {
@@ -78,7 +73,8 @@ object WikiApi {
     /** Categorias internas da wiki, sem interesse para quem joga. */
     private val MAINTENANCE = Regex("(?i)archived|user pages|maintenance|candidates for|pages with|pages using|hidden categor|tracking|templates?$")
 
-    private val bridgeSince = java.util.concurrent.ConcurrentHashMap<String, Long>()
+    @Volatile private var useBridge = false
+    @Volatile private var bridgeSince = 0L
     @Volatile private var lastDirectError = "-"
 
     private fun direct(url: String): String {
@@ -110,7 +106,7 @@ object WikiApi {
     private fun cont(j: JSONObject, key: String): String? =
         j.optJSONObject("continue")?.optString(key)?.takeIf { it.isNotEmpty() }
 
-    fun parse(title: String, w: Wiki = Wikis.base()): Page {
+    fun parse(title: String): Page {
         val j = get(
             mapOf(
                 "action" to "parse",
@@ -120,7 +116,7 @@ object WikiApi {
                 "disableeditsection" to "1",
                 "disabletoc" to "1",
                 "disablelimitreport" to "1"
-            ), w
+            )
         )
         j.optJSONObject("error")?.let {
             val code = it.optString("code")
@@ -139,60 +135,60 @@ object WikiApi {
     }
 
     /** Sugestões rápidas pelo começo do título. */
-    fun prefix(q: String, w: Wiki = Wikis.base(), limit: Int = 20): List<Hit> {
+    fun prefix(q: String, lang: String = Lang.code, limit: Int = 20): List<Hit> {
         val j = get(
             mapOf(
                 "action" to "query", "list" to "prefixsearch",
                 "pssearch" to q, "pslimit" to limit.toString(), "psnamespace" to "0"
             ),
-            w
+            Lang.base(lang)
         )
         return queryList(j, "prefixsearch").map { Hit(it.getString("title")) }
             .distinctBy { it.title.lowercase() } // redirecionamentos que só mudam maiúsculas
     }
 
     /** Busca no texto completo de todas as páginas. */
-    fun search(q: String, w: Wiki = Wikis.base(), limit: Int = 40): List<Hit> {
+    fun search(q: String): List<Hit> {
         val j = get(
             mapOf(
                 "action" to "query", "list" to "search", "srsearch" to q,
-                "srlimit" to limit.toString(), "srprop" to "snippet", "srnamespace" to "0"
-            ), w
+                "srlimit" to "40", "srprop" to "snippet", "srnamespace" to "0"
+            )
         )
         return queryList(j, "search").map { Hit(it.getString("title"), stripHtml(it.optString("snippet"))) }
             .distinctBy { it.title.lowercase() }
     }
 
-    fun categoryMembers(category: String, next: String?, w: Wiki = Wikis.base()): Chunk {
+    fun categoryMembers(category: String, next: String?): Chunk {
         val p = mutableMapOf(
             "action" to "query", "list" to "categorymembers", "cmtitle" to category,
             "cmlimit" to "200", "cmtype" to "subcat|page"
         )
         if (next != null) p["cmcontinue"] = next
-        val j = get(p, w)
+        val j = get(p)
         val items = queryList(j, "categorymembers").map { Hit(it.getString("title"), "", it.optInt("ns")) }
         return Chunk(items, cont(j, "cmcontinue"))
     }
 
-    fun allPages(prefix: String, next: String?, w: Wiki = Wikis.base()): Chunk {
+    fun allPages(prefix: String, next: String?): Chunk {
         val p = mutableMapOf(
             "action" to "query", "list" to "allpages", "apnamespace" to "0",
             "aplimit" to "200", "apfilterredir" to "nonredirects"
         )
         if (prefix.isNotBlank()) p["apprefix"] = prefix
         if (next != null) p["apcontinue"] = next
-        val j = get(p, w)
+        val j = get(p)
         val items = queryList(j, "allpages").map { Hit(it.getString("title")) }
         return Chunk(items, cont(j, "apcontinue"))
     }
 
-    fun allCategories(prefix: String, next: String?, w: Wiki = Wikis.base()): Chunk {
+    fun allCategories(prefix: String, next: String?): Chunk {
         val p = mutableMapOf(
             "action" to "query", "list" to "allcategories", "aclimit" to "200"
         )
         if (prefix.isNotBlank()) p["acprefix"] = prefix
         if (next != null) p["accontinue"] = next
-        val j = get(p, w)
+        val j = get(p)
         val items = queryList(j, "allcategories").map {
             val name = it.optString("category", it.optString("*"))
             Hit("Category:$name", "", 14)
@@ -205,7 +201,7 @@ object WikiApi {
         if (from == to) return title
         val j = get(
             mapOf("action" to "query", "titles" to title, "redirects" to "1", "prop" to "langlinks", "lllang" to to),
-            Wikis.base(from)
+            Lang.base(from)
         )
         val page = queryList(j, "pages").firstOrNull() ?: return null
         val ll = page.optJSONArray("langlinks") ?: return null
@@ -221,7 +217,7 @@ object WikiApi {
         val j = get(
             mapOf("action" to "query", "titles" to titles.joinToString("|"), "redirects" to "1",
                 "prop" to "langlinks", "lllang" to to, "lllimit" to "max"),
-            Wikis.base(from)
+            Lang.base(from)
         )
         // título pedido -> título final (normalizado/redirecionado)
         val alias = mutableMapOf<String, String>()
@@ -252,8 +248,8 @@ object WikiApi {
         return queryList(j, "langbacklinks").filter { it.optInt("ns") == 0 }.map { it.getString("title") }
     }
 
-    fun random(w: Wiki = Wikis.base()): String {
-        val j = get(mapOf("action" to "query", "list" to "random", "rnnamespace" to "0", "rnlimit" to "1"), w)
+    fun random(): String {
+        val j = get(mapOf("action" to "query", "list" to "random", "rnnamespace" to "0", "rnlimit" to "1"))
         return queryList(j, "random").firstOrNull()?.getString("title") ?: throw IOException("Sem resultado")
     }
 }

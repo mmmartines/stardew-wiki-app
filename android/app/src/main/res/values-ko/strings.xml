@@ -35,28 +35,4 @@
     <string name="removed_fmt">삭제됨: %s</string>
     <string name="undo">실행 취소</string>
     <string name="close">닫기</string>
-    <!-- wikis dos mods -->
-    <string name="src_base">기본 게임</string>
-    <string name="src_mod_fmt">모드: %s</string>
-    <string name="mod_english_only">이 모드의 위키는 영어로만 제공됩니다.</string>
-    <string name="home_search_all">게임과 모든 모드에서 검색…</string>
-    <string name="search_hint_all">게임과 모드에서 검색…</string>
-    <string name="home_sources">위키</string>
-    <string name="home_footer_mod_fmt">%1$s 위키의 콘텐츠, 기여자 작성, %2$s. 비공식 비영리 앱이며 모드 및 ConcernedApe와 관련이 없습니다.</string>
-    <string name="article_footer_mod_fmt">%1$s의 콘텐츠, 기여자 작성, %2$s. 휴대폰에서 읽기 좋게 바꿨습니다.</string>
-    <string name="article_footer_mod_art">모드 콘텐츠의 권리는 제작자에게 있습니다. Stardew Valley © ConcernedApe.</string>
-    <string name="start_wiki">앱을 열 때 표시할 위키</string>
-    <string name="start_wiki_set_fmt">앱이 다음으로 열립니다: %s</string>
-    <string name="credits_mods_h">모드 위키</string>
-    <string name="credits_mods">확장 모드 위키는 각 모드의 커뮤니티가 만듭니다(영어). 콘텐츠는 CC BY-SA 4.0이며 제작자에게 권리가 있고, 이 앱은 읽기 전용으로 보여 주며 원문 링크를 제공합니다.</string>
-    <string name="mod_terms_translated">기본 게임 이름은 Stardew Valley Wiki를 바탕으로 번역했습니다.</string>
-    <string name="mt_working">자동 번역 중…</string>
-    <string name="mt_notice">영어 자동 번역(오류가 있을 수 있음)</string>
-    <string name="mt_original_shown">영어 원문</string>
-    <string name="mt_see_original">원문 보기</string>
-    <string name="mt_see_translation">번역 보기</string>
-    <string name="my_mods">내 모드</string>
-    <string name="my_mods_hint">플레이하는 모드를 선택하세요. 홈 화면과 검색에는 선택한 모드만 나타납니다.</string>
-    <string name="my_mods_add">모드 추가</string>
-    <string name="credits_mods_mt">모드 페이지의 자동 번역은 기기에서 이루어지며, 같은 CC BY-SA 4.0 라이선스로 자동 번역임을 표시하고 원문 링크와 함께 보여 줍니다.</string>
 </resources>

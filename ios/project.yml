@@ -26,8 +26,6 @@ targets:
         buildPhase: resources
       - path: ../android/app/src/main/assets/titles.json
         buildPhase: resources
-      - path: ../android/app/src/main/assets/modterms.json
-        buildPhase: resources
       - path: ../android/app/src/main/assets/fonts/pixelify-sans-latin-400-normal.woff2
         buildPhase: resources
       - path: ../android/app/src/main/assets/fonts/pixelify-sans-latin-700-normal.woff2
@@ -50,8 +48,6 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         CODE_SIGN_STYLE: Automatic
-        # tradução automática (framework Translation, iOS 18+): ligação fraca para abrir também no iOS 16/17
-        OTHER_LDFLAGS: "$(inherited) -weak_framework Translation"
     info:
       path: GuiaDoVale/Info.plist
       properties:

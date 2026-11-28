@@ -36,8 +36,7 @@ struct OfflineScreen: View {
     @EnvironmentObject var model: AppModel
     @EnvironmentObject var store: Store
 
-    private var key: String { model.homeSource.key }
-    private var recents: [String] { store.history(of: key).filter { store.isSaved($0, w: key) }.prefix(4).map { $0 } }
+    private var recents: [String] { store.historyHere.filter { store.isSaved($0) }.prefix(4).map { $0 } }
 
     var body: some View {
         ScrollView {
@@ -67,7 +66,7 @@ struct OfflineScreen: View {
                     ForEach(recents, id: \.self) { title in
                         Button {
                             model.offlineDismissed = true
-                            model.push(.article(title, src: model.homeSource.mod ? key : nil))
+                            model.push(.article(title))
                         } label: {
                             HStack {
                                 Text(title).foregroundStyle(Color.ink)
@@ -84,7 +83,7 @@ struct OfflineScreen: View {
                 let hasSaved = !recents.isEmpty || store.cacheCount > 0
                 Button {
                     model.offlineDismissed = true
-                    if hasSaved { model.push(.list(.saved, src: model.homeSource.mod ? key : nil)) } else { model.tab = .favorites }
+                    if hasSaved { model.push(.list(.saved)) } else { model.tab = .favorites }
                 } label: {
                     Text(t(hasSaved ? "offline_see_saved" : "offline_see_favorites"))
                         .font(.pixel(17, relativeTo: .body))

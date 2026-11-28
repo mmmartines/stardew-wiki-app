@@ -153,28 +153,4 @@
     <string name="removed_fmt">Removed: %s</string>
     <string name="undo">Undo</string>
     <string name="close">Close</string>
-    <!-- wikis dos mods -->
-    <string name="src_base">Base game</string>
-    <string name="src_mod_fmt">Mod: %s</string>
-    <string name="mod_english_only">This mod\'s wiki is only in English.</string>
-    <string name="home_search_all">Search the game and all mods…</string>
-    <string name="search_hint_all">Search game and mods…</string>
-    <string name="home_sources">Wikis</string>
-    <string name="home_footer_mod_fmt">Content from the %1$s wiki by its contributors, %2$s. Unofficial, non-profit app, not affiliated with the mod or ConcernedApe.</string>
-    <string name="article_footer_mod_fmt">Content from the %1$s, by its contributors, under %2$s. Adapted for mobile reading.</string>
-    <string name="article_footer_mod_art">Mod content belongs to its authors. Stardew Valley © ConcernedApe.</string>
-    <string name="start_wiki">Wiki when the app opens</string>
-    <string name="start_wiki_set_fmt">The app will open in: %s</string>
-    <string name="credits_mods_h">Mod wikis</string>
-    <string name="credits_mods">Expansion mod wikis are made by each mod\'s community (in English). Their content is under CC BY-SA 4.0 and belongs to its authors; this app only displays it, read-only, with a link to the original.</string>
-    <string name="mod_terms_translated">Base-game names translated using the Stardew Valley Wiki.</string>
-    <string name="mt_working">Translating automatically…</string>
-    <string name="mt_notice">Automatic translation from English (may contain errors)</string>
-    <string name="mt_original_shown">Original in English</string>
-    <string name="mt_see_original">See original</string>
-    <string name="mt_see_translation">See translation</string>
-    <string name="my_mods">My mods</string>
-    <string name="my_mods_hint">Tick the mods you play. Only they show on the home screen and in search.</string>
-    <string name="my_mods_add">Add mods</string>
-    <string name="credits_mods_mt">Automatic translations of mod pages are made on your device and shown under the same CC BY-SA 4.0 license, marked as automatic, with a link to the original.</string>
 </resources>

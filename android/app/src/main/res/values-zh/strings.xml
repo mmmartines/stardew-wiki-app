@@ -35,28 +35,4 @@
     <string name="removed_fmt">已移除：%s</string>
     <string name="undo">撤销</string>
     <string name="close">关闭</string>
-    <!-- wikis dos mods -->
-    <string name="src_base">本体游戏</string>
-    <string name="src_mod_fmt">模组：%s</string>
-    <string name="mod_english_only">该模组的维基仅有英文版。</string>
-    <string name="home_search_all">在游戏和所有模组中搜索…</string>
-    <string name="search_hint_all">搜索游戏和模组…</string>
-    <string name="home_sources">维基</string>
-    <string name="home_footer_mod_fmt">内容来自 %1$s 维基的贡献者，%2$s。非官方、非营利应用，与该模组及 ConcernedApe 无关。</string>
-    <string name="article_footer_mod_fmt">内容来自 %1$s，由贡献者编写，采用 %2$s 许可。已为手机阅读调整。</string>
-    <string name="article_footer_mod_art">模组内容归其作者所有。Stardew Valley © ConcernedApe。</string>
-    <string name="start_wiki">打开应用时的维基</string>
-    <string name="start_wiki_set_fmt">应用将打开：%s</string>
-    <string name="credits_mods_h">模组维基</string>
-    <string name="credits_mods">扩展模组的维基由各模组社区编写（英文）。内容采用 CC BY-SA 4.0 许可并归作者所有；本应用仅以只读方式展示，并附原文链接。</string>
-    <string name="mod_terms_translated">本体游戏名称依据 Stardew Valley Wiki 翻译。</string>
-    <string name="mt_working">正在自动翻译…</string>
-    <string name="mt_notice">英文自动翻译（可能有误）</string>
-    <string name="mt_original_shown">英文原文</string>
-    <string name="mt_see_original">查看原文</string>
-    <string name="mt_see_translation">查看译文</string>
-    <string name="my_mods">我的模组</string>
-    <string name="my_mods_hint">勾选你在玩的模组。主页和搜索中只会显示它们。</string>
-    <string name="my_mods_add">添加模组</string>
-    <string name="credits_mods_mt">模组页面的自动翻译在你的设备上完成，并以相同的 CC BY-SA 4.0 许可展示，标明为自动翻译并附原文链接。</string>
 </resources>
