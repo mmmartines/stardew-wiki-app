@@ -83,10 +83,11 @@ object Wikis {
     /**
      * Mods com autorização dos autores para aparecer no app. Os outros ficam prontos no código,
      * mas só entram quando o autor autorizar (é só acrescentar o código aqui).
-     *  - sbv Sunberry Village: skellady, 25/11/2026 · esc East Scarp: Lemurkat, 25/11/2026
+     *  - sbv Sunberry Village: skellady, 25/11/2026
+     *  - fora a pedido: esc East Scarp (Lemurkat pediu em 28/11/2026 para não incluir por ora)
      *  - aguardando: sve (FlashShifter), rsv (Rafseazz), mtv (Lumisteria pediu para falar de novo em dez/2026)
      */
-    private val APPROVED = setOf("sbv", "esc")
+    private val APPROVED = setOf("sbv")
 
     val mods: List<Wiki> by lazy { allMods.filter { it.key in APPROVED } }
 

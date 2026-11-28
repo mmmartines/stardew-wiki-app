@@ -24,8 +24,8 @@ never monetized and is clearly unofficial.
 
 ### Expansion mod wikis
 Version 1.8.0 adds optional sections for expansion mod wikis hosted on wiki.gg, **only for mods whose authors agreed**:
-**Sunberry Village** and **East Scarp**. Other mods (Stardew Valley Expanded, Ridgeside Village, Visit Mount Vapius) are
-ready in the code but stay off until their authors say yes. The list lives in
+currently **Sunberry Village**. Other mods are ready in the code but stay off unless their authors say yes
+(East Scarp was removed at its authors' request). The list lives in
 [`Wikis.kt`](android/app/src/main/java/com/stardew/wikipt/Wikis.kt) (Android) and
 [`Sources.swift`](ios/GuiaDoVale/Core/Sources.swift) (iOS); adding or removing a mod is a one-line change.
 
@@ -56,8 +56,8 @@ seus contribuidores, sob [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/
 lore do desenvolvedor, que são da ConcernedApe). Este app não tem ligação nem endosso da ConcernedApe.
 
 ## Wikis dos mods (versão 1.8.0)
-Seções opcionais para as wikis de mods de expansão, **só dos mods cujos autores autorizaram**: Sunberry Village e East Scarp.
-SVE, Ridgeside e Mount Vapius estão prontos no código, mas só entram quando os autores autorizarem.
+Seções opcionais para as wikis de mods de expansão, **só dos mods cujos autores autorizaram**: por enquanto, Sunberry Village.
+Os outros estão prontos no código, mas só entram se os autores autorizarem (o East Scarp saiu a pedido da autora).
 As páginas são lidas ao vivo, com crédito, licença (CC BY-SA 4.0), link para o original e tradução automática sempre identificada.
 
 ## Recursos

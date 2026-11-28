@@ -64,9 +64,10 @@ enum Sources {
     /// Mods de expansão com wiki própria (os mesmos do Android, em inglês, no wiki.gg).
     /// Mods com autorização dos autores para aparecer no app (igual ao Android). Os outros ficam prontos no código,
     /// mas só entram quando o autor autorizar.
-    ///  - sbv Sunberry Village: skellady, 25/11/2026 · esc East Scarp: Lemurkat, 25/11/2026
+    ///  - sbv Sunberry Village: skellady, 25/11/2026
+    ///  - fora a pedido: esc East Scarp (Lemurkat pediu em 28/11/2026 para não incluir por ora)
     ///  - aguardando: sve (FlashShifter), rsv (Rafseazz), mtv (Lumisteria pediu para falar de novo em dez/2026)
-    private static let approved: Set<String> = ["sbv", "esc"]
+    private static let approved: Set<String> = ["sbv"]
 
     static let mods: [Source] = allMods.filter { approved.contains($0.key) }
 

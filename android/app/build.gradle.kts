@@ -24,7 +24,7 @@ android {
         applicationId = "io.github.mmmartines.guiadovale"
         minSdk = 24 // Android 7.0+: mínimo exigido pela Proteção Automática do Google Play
         targetSdk = 36
-        versionCode = 18
+        versionCode = 19
         versionName = "1.8.0"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("boolean", "GAME_ICONS", gameIcons.toString())
